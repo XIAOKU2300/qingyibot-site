@@ -6,6 +6,9 @@
   <meta name="description" content="青弋Bot 使用教程，提供详细的指令说明、软件下载和配置指南，帮助你轻松使用机器人查询游戏数据和进行自动签到。">
   <title>青弋Bot 使用教程</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura-js@1.0.2/dist/sakura.css">
+  
   <style>
     :root {
       --primary: #5e72e4;
@@ -55,7 +58,6 @@
       color: var(--dark-text);
     }
 
-    /* 新增背景图片层 */
     .background-image {
       position: fixed;
       top: 0;
@@ -66,12 +68,11 @@
       background-position: center;
       filter: blur(12px) brightness(0.7);
       z-index: -1;
-      transition: background-image 1s ease-in-out, filter 0.3s ease; /* Add transition for image change */
+      transition: background-image 1s ease-in-out, filter 0.3s ease;
     }
 
     body.dark-mode .background-image {
-      /* Adjust filter for dark mode if needed, e.g., slightly less blur or brightness */
-      filter: blur(12px) brightness(0.5); /* Slightly darker in dark mode */
+      filter: blur(12px) brightness(0.5);
     }
 
     .container {
@@ -82,7 +83,7 @@
       -webkit-backdrop-filter: blur(16px);
       border-radius: 20px;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-      padding: 40px; /* Default padding */
+      padding: 40px;
       position: relative;
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.25);
@@ -301,8 +302,8 @@
       display: inline-block;
       margin: 2px 0;
       transition: all 0.3s ease;
-      word-break: break-word; /* Added for mobile to prevent overflow */
-      white-space: normal; /* Added for mobile to prevent overflow */
+      word-break: break-word;
+      white-space: normal;
     }
 
     body.dark-mode code {
@@ -469,7 +470,7 @@
       height: 60px;
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       border-radius: 50%;
-      cursor: pointer; /* Add cursor pointer for clickability */
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -477,7 +478,7 @@
       font-size: 1.8rem;
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
       z-index: 10;
-      transition: transform 0.2s ease, box-shadow 0.2s ease; /* Add transition for click feedback */
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .bot-icon:hover {
@@ -489,7 +490,6 @@
       transform: scale(0.95);
     }
 
-    /* --- 新增的PDF备用下载样式 --- */
     .pdf-fallback {
       text-align: center;
       margin-top: 10px;
@@ -499,23 +499,27 @@
       border-radius: 12px;
       border: 1px dashed var(--tips-border-light);
     }
+
     body.dark-mode .pdf-fallback {
       background: rgba(255,255,255,0.03);
       border-color: var(--dark-tips-border);
     }
+
     .pdf-fallback p {
       margin: 0;
       margin-bottom: 15px;
       font-size: 0.95rem;
       color: var(--text-light);
     }
+
     body.dark-mode .pdf-fallback p {
       color: #b0b0b0;
     }
+
     .download-button {
       display: inline-block;
       background: var(--primary);
-      color: white !important; /* 强制覆盖 a 标签的默认颜色 */
+      color: white !important;
       padding: 12px 25px;
       border-radius: 8px;
       font-weight: bold;
@@ -523,6 +527,7 @@
       transition: var(--transition);
       box-shadow: 0 4px 10px rgba(94, 114, 228, 0.3);
     }
+
     .download-button:hover {
       background: var(--primary-dark);
       transform: translateY(-2px);
@@ -530,11 +535,11 @@
       text-decoration: none;
       color: white;
     }
+
     .download-button i {
       margin-right: 8px;
     }
 
-    /* 免责声明和友链样式 */
     .disclaimer, .friend-links {
       background: rgba(0, 0, 0, 0.03);
       border-left: 6px solid var(--secondary);
@@ -547,7 +552,7 @@
 
     body.dark-mode .disclaimer, body.dark-mode .friend-links {
       background: rgba(255, 255, 255, 0.05);
-      border-left: 6px solid var(--secondary); /* Still vibrant in dark mode */
+      border-left: 6px solid var(--secondary);
     }
 
     .disclaimer p, .friend-links p {
@@ -563,20 +568,19 @@
 
     .friend-links ul {
       margin-top: 15px;
-      list-style: disc; /* Use default disc for friend links */
+      list-style: disc;
       padding-left: 20px;
     }
 
     .friend-links li {
       margin-bottom: 8px;
-      padding-left: 0; /* Override checkmark padding */
+      padding-left: 0;
     }
 
     .friend-links li::before {
-        content: none; /* Remove checkmark for friend links */
+        content: none;
     }
 
-    /* Payment QR Code section styling */
     .payment-section {
         text-align: center;
         margin: 30px 0;
@@ -624,12 +628,10 @@
         color: #9fa8da;
     }
 
-
     @media (max-width: 768px) {
       .container {
         margin: 20px;
-        /* 增加顶部内边距，为按钮和标题留出空间 */
-        padding: 80px 20px 25px; /* top, right/left, bottom */
+        padding: 80px 20px 25px;
       }
       h1 {
         font-size: 2.2rem;
@@ -638,15 +640,13 @@
         font-size: 1.5rem;
       }
       .opensource-grid {
-        /* Ensure grid items stack on smaller screens if they don't fit */
         grid-template-columns: 1fr;
       }
       iframe {
         height: 400px;
-        /* Adjust iframe height for better mobile viewing */
       }
       .theme-toggle-container {
-        top: 20px; /* 调整位置以适应新的padding */
+        top: 20px;
         right: 20px;
       }
       .theme-toggle {
@@ -655,66 +655,62 @@
         font-size: 1.5rem;
       }
       .bot-icon {
-        top: 20px; /* 调整位置以适应新的padding */
+        top: 20px;
         left: 20px;
         width: 50px;
         height: 50px;
         font-size: 1.5rem;
       }
-
-      /* Specific mobile adjustments */
       .header {
-        margin-bottom: 20px; /* Reduce header margin on mobile */
+        margin-bottom: 20px;
       }
       .subtitle {
-        font-size: 1rem; /* Smaller subtitle on mobile */
+        font-size: 1rem;
       }
       .warning, .tips {
-        padding: 15px; /* Slightly less padding for warnings/tips */
-        margin: 15px 0; /* Adjust margin */
+        padding: 15px;
+        margin: 15px 0;
       }
       .warning i, .tips i {
-        font-size: 1.2em; /* Smaller icons */
+        font-size: 1.2em;
       }
       li {
-        padding-left: 25px; /* Adjust list item padding */
+        padding-left: 25px;
       }
       li::before {
-        font-size: 1em; /* Smaller checkmark */
+        font-size: 1em;
       }
       .download-section {
-        padding: 20px; /* Slightly less padding for download section */
-        margin: 20px 0; /* Adjust margin */
+        padding: 20px;
+        margin: 20px 0;
       }
       .repo-card {
-        padding: 15px; /* Smaller padding for repo cards */
+        padding: 15px;
       }
       .repo-card h3 {
-        font-size: 1.1rem; /* Smaller heading for repo cards */
+        font-size: 1.1rem;
       }
       .repo-card p {
-        font-size: 0.9rem; /* Smaller text for repo cards */
+        font-size: 0.9rem;
       }
       .repo-link {
-        padding: 6px 12px; /* Smaller button padding */
+        padding: 6px 12px;
         font-size: 0.9rem;
       }
       .pdf-fallback {
-        padding: 15px; /* Adjust padding for PDF fallback */
+        padding: 15px;
         margin-bottom: 20px;
       }
       .download-button {
-        padding: 10px 20px; /* Adjust download button size */
+        padding: 10px 20px;
         font-size: 0.95rem;
       }
-      /* Ensure text within elements wraps instead of overflowing */
       p, ul, li, div {
         word-wrap: break-word;
         overflow-wrap: break-word;
       }
     }
 
-    /* --- 动画效果优化 --- */
     .container > * {
       opacity: 0;
       transform: translateY(20px);
@@ -725,7 +721,6 @@
       opacity: 1;
       transform: translateY(0);
     }
-
   </style>
 </head>
 <body>
@@ -748,170 +743,113 @@
     </div>
 
     <div class="warning">
-      <i class="fas fa-exclamation-circle"></i> 
-      <div>使用前请确保已登录至少一次 <strong>库洛区</strong></div>
+        <i class="fas fa-exclamation-circle"></i> 
+        <div>使用前请确保已登录至少一次 <strong>库洛区</strong></div>
     </div>
-
     <div class="warning">
-      <i class="fas fa-exclamation-circle"></i> 
-      <div>请仔细阅读帮助面板指令，<strong>指令错误将无响应！</strong></div>
+        <i class="fas fa-exclamation-circle"></i> 
+        <div>请仔细阅读帮助面板指令，<strong>指令错误将无响应！</strong></div>
     </div>
-
     <h2 class="section-title">支持的游戏查询指令</h2>
     <ul>
-      <li>明日方舟：<code>#方舟帮助</code></li>
-      <li>Steam：<code>#steam帮助</code></li>
-      <li>Phigros：<code>/phi help</code></li>
-      <li>鸣潮：<code>ww帮助</code></li>
-      <li>鸣潮自动签到：<code>rs帮助</code></li>
+        <li>明日方舟：<code>#方舟帮助</code></li>
+        <li>Steam：<code>#steam帮助</code></li>
+        <li>Phigros：<code>/phi help</code></li>
+        <li>鸣潮：<code>ww帮助</code></li>
+        <li>鸣潮自动签到：<code>rs帮助</code></li>
     </ul>
-
     <div class="tips">
-      <i class="fas fa-lightbulb"></i> 
-      <div>想绑定米家游戏？请发送 <code>#扫码登录</code> 一键绑定账号。</div>
+        <i class="fas fa-lightbulb"></i> 
+        <div>想绑定米家游戏？请发送 <code>#扫码登录</code> 一键绑定账号。</div>
     </div>
-
     <h2 class="section-title">支持的米家游戏</h2>
     <ul>
-      <li>崩铁：无帮助列表，直接发送 <code>*绑定</code></li>
-      <li>原神：<code>#帮助</code></li>
-      <li>绝区零：<code>%帮助</code></li>
-      <li>以下所有自动签到功能都需要进行<code>#扫码登录</code>后才能继续使用</li>
-      <li>崩坏3签到：<code>#崩坏3签到</code> (支持崩坏3、原神、崩坏2、未定义事件、绝区零)</li>
-      <li>云原神签到：<code>#云原神签到</code></li>
+        <li>崩铁：无帮助列表，直接发送 <code>*绑定</code></li>
+        <li>原神：<code>#帮助</code></li>
+        <li>绝区零：<code>%帮助</code></li>
+        <li>以下所有自动签到功能都需要进行<code>#扫码登录</code>后才能继续使用</li>
+        <li>崩坏3签到：<code>#崩坏3签到</code> (支持崩坏3、原神、崩坏2、未定义事件、绝区零)</li>
+        <li>云原神签到：<code>#云原神签到</code></li>
     </ul>
-
     <p>所有功能皆为开源项目实现</p>
-
     <h2 class="section-title">相关软件下载</h2>
     <div class="download-section">
-      <p><strong>安卓用户推荐使用：</strong></p>
-      <ul>
-        <li>开源软件 ProxyPin 下载：<a href="https://github.com/wanghongenpin/proxypin/releases" target="_blank" rel="noopener noreferrer">GitHub官方下载</a></li>
-        <li>备用镜像下载：<a href="https://wwwx.lanzoum.com/iDc6g2yuvw7c" target="_blank" rel="noopener noreferrer">蓝奏云镜像</a> (密码:46pb)</li>
-      </ul>
-      
-      <p><strong>苹果用户请使用：</strong></p>
-      <ul>
-        <li>Stream App（App Store下载）：<a href="https://apps.apple.com/cn/app/stream/id1312141691" target="_blank" rel="noopener noreferrer">App Store链接</a>（使用原理相同）</li>
-      </ul>
+        <p><strong>安卓用户推荐使用：</strong></p>
+        <ul>
+            <li>开源软件 ProxyPin 下载：<a href="https://github.com/wanghongenpin/proxypin/releases" target="_blank" rel="noopener noreferrer">GitHub官方下载</a></li>
+            <li>备用镜像下载：<a href="https://wwwx.lanzoum.com/iDc6g2yuvw7c" target="_blank" rel="noopener noreferrer">蓝奏云镜像</a> (密码:46pb)</li>
+        </ul>
+        <p><strong>苹果用户请使用：</strong></p>
+        <ul>
+            <li>Stream App（App Store下载）：<a href="https://apps.apple.com/cn/app/stream/id1312141691" target="_blank" rel="noopener noreferrer">App Store链接</a>（使用原理相同）</li>
+        </ul>
     </div>
-
     <h2 class="section-title">重要提示：登录机制说明</h2>
     <div class="warning">
-      <i class="fas fa-exclamation-triangle"></i> 
-      <div>
-        <strong>网页登录后</strong>，会顶掉手机端的库洛区登录状态。当前仅可选择其一使用。
-        <br>若遇角色数据无法刷新，请确认网页右上角是否为绿色登录状态。
-      </div>
+        <i class="fas fa-exclamation-triangle"></i> 
+        <div>
+            <strong>网页登录后</strong>，会顶掉手机端的库洛区登录状态。当前仅可选择其一使用。
+            <br>若遇角色数据无法刷新，请确认网页右上角是否为绿色登录状态。
+        </div>
     </div>
-
     <div class="tips">
-      <i class="fas fa-check-circle"></i> 
-      <div>
-        若希望<strong>避免互相顶号</strong>，推荐使用 <strong>Cookie 登录</strong>。
-        <br>请查看群文件教程或直接查看以下 PDF。
-      </div>
+        <i class="fas fa-check-circle"></i> 
+        <div>
+            若希望<strong>避免互相顶号</strong>，推荐使用 <strong>Cookie 登录</strong>。
+            <br>请查看群文件教程或直接查看以下 PDF。
+        </div>
     </div>
-
     <h2 class="section-title">Cookie 登录教程文档</h2>
-
     <div class="pdf-fallback">
         <p>如果下方的PDF未能正常显示，请点击按钮直接下载查看。</p>
         <a href="http://fanzysakura.icu/wp-content/uploads/2025/06/Picsew_20250607104111.pdf" class="download-button" download rel="noopener noreferrer">
             <i class="fas fa-download"></i> 下载教程 PDF
         </a>
     </div>
-
-    <iframe src="http://fanzysakura.icu/wp-content/uploads/2025/06/Picsew_20250607104111.pdf" title="Cookie 登录教程 PDF 文档"></iframe>
-
     <h2 class="section-title">开源项目声明</h2>
     <p>青弋Bot基于以下优秀开源项目构建：</p>
-    
     <div class="opensource-grid">
-      <div class="repo-card">
-        <h3>gsuid_core</h3>
-        <p>米家游戏核心框架，提供基础功能和插件支持</p>
-        <a href="https://github.com/Genshin-bots/gsuid_core" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
-      </div>
-      
-      <div class="repo-card">
-        <h3>RoverSign</h3>
-        <p>鸣潮自动签到实现，确保每日奖励获取</p>
-        <a href="https://github.com/tyql688/RoverSign" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
-      </div>
-      
-      <div class="repo-card">
-        <h3>WutheringWavesUID</h3>
-        <p>鸣潮游戏数据查询组件，提供角色信息查询功能</p>
-        <a href="https://github.com/tyql688/WutheringWavesUID" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
-      </div>
-      
-      <div class="repo-card">
-        <h3>TRSS</h3>
-        <p>跨平台机器人框架，支持多种通信协议</p>
-        <a href="https://trss.me/" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
-      </div>
-      
-      <div class="repo-card">
-        <h3>ws-plugin</h3>
-        <p>WebSocket插件，实现实时通信功能</p>
-        <a href="https://gitee.com/xiaoye12123/ws-plugin" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
-      </div>
-      <div class="repo-card">
-        <h3>xiaoyao-cvs-plugin</h3>
-        <p>xiaoyao插件，实现签到登录功能</p>
-        <a href="https://github.com/ctrlcvs/xiaoyao-cvs-plugin" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
-      </div>
-    </div> <div class="thanks">
-      特别感谢所有开源项目作者和社区大佬的帮助与支持！
+        <div class="repo-card"><h3>gsuid_core</h3><p>米家游戏核心框架，提供基础功能和插件支持</p><a href="https://github.com/Genshin-bots/gsuid_core" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
+        <div class="repo-card"><h3>RoverSign</h3><p>鸣潮自动签到实现，确保每日奖励获取</p><a href="https://github.com/tyql688/RoverSign" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
+        <div class="repo-card"><h3>WutheringWavesUID</h3><p>鸣潮游戏数据查询组件，提供角色信息查询功能</p><a href="https://github.com/tyql688/WutheringWavesUID" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
+        <div class="repo-card"><h3>TRSS</h3><p>跨平台机器人框架，支持多种通信协议</p><a href="https://trss.me/" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
+        <div class="repo-card"><h3>ws-plugin</h3><p>WebSocket插件，实现实时通信功能</p><a href="https://gitee.com/xiaoye12123/ws-plugin" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
+        <div class="repo-card"><h3>xiaoyao-cvs-plugin</h3><p>xiaoyao插件，实现签到登录功能</p><a href="https://github.com/ctrlcvs/xiaoyao-cvs-plugin" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
     </div>
-
+    <div class="thanks">特别感谢所有开源项目作者和社区大佬的帮助与支持！</div>
     <h2 class="section-title">机器人拉群服务</h2>
     <div class="tips">
-      <i class="fas fa-info-circle"></i> 
-      <div>
-        <strong>拉群需付费</strong>（2元/100人），赚点窝囊费，望理解。
-        <br>本群免费使用机器人服务，如需自建群部署请联系管理员：<strong>修bug的（QQ：1982975523）</strong>
-      </div>
+        <i class="fas fa-info-circle"></i> 
+        <div><strong>拉群需付费</strong>（2元/100人），赚点窝囊费，望理解。<br>本群免费使用机器人服务，如需自建群部署请联系管理员：<strong>修bug的（QQ：1982975523）</strong></div>
     </div>
-
     <h2 class="section-title">付款码入口</h2>
     <div class="payment-section">
-      <p>如需支持青弋Bot的开发与维护，欢迎扫码支付：</p>
-      <img src="http://fanzysakura.icu/wp-content/uploads/2025/06/IMG_9281.jpg" alt="付款二维码">
-      <p>支付成功后，请联系QQ：<span class="contact-info">1982975523</span> 并出示付款截图，感谢您的支持！</p>
+        <p>如需支持青弋Bot的开发与维护，欢迎扫码支付：</p>
+        <img src="http://fanzysakura.icu/wp-content/uploads/2025/06/IMG_9281.jpg" alt="付款二维码">
+        <p>支付成功后，请联系QQ：<span class="contact-info">1982975523</span> 并出示付款截图，感谢您的支持！</p>
     </div>
-
     <h2 class="section-title">加入支持群聊</h2>
-    <p>
-      <i class="fas fa-users"></i> 欢迎加入我们的交流群获取帮助与交流：
-      <br>
-      <a href="https://qm.qq.com/q/AcK2877qi6" target="_blank" rel="noopener noreferrer">点击链接加入【白海岸保安队】QQ群</a>
-    </p>
-
+    <p><i class="fas fa-users"></i> 欢迎加入我们的交流群获取帮助与交流：<br><a href="https://qm.qq.com/q/AcK2877qi6" target="_blank" rel="noopener noreferrer">点击链接加入【白海岸保安队】QQ群</a></p>
     <h2 class="section-title">重要免责声明</h2>
     <div class="disclaimer">
-      <p><strong>请您在使用本机器人服务前，务必仔细阅读并理解本免责声明的全部内容。一旦您开始使用本机器人，即表示您已充分理解并同意本声明的所有条款：</strong></p>
-      <p>1. 本机器人为个人开发者基于兴趣与技术探索目的而开发，仅用于技术演示、学习交流及娱乐用途。本机器人及其提供的任何信息或服务不代表任何官方机构、游戏厂商或组织（包括但不限于库洛游戏、米哈游等）的立场、观点或授权。</p>
-      <p>2. 本机器人可能涉及用户数据交互，包括但不限于验证码的获取。我们郑重声明，所收集的任何验证码仅用于您明确同意授权的特定平台（如库街区）的登录验证。在登录过程中，请您务必高度警惕并仔细核对短信或邮件中的验证码内容及对应的登录地址，谨防任何形式的网络钓鱼、欺诈或账号劫持行为。因您未能妥善核实信息而导致的任何损失，本开发者概不负责。</p>
-      <p>3. 与本机器人进行对话时，为提供准确且连贯的回复，机器人需要读取并分析对话上下文。我们承诺将采取合理措施保护您的个人信息安全，并不会将您的个人数据用于非必要的目的或向第三方泄露。</p>
-      <p>4. 机器人所提供的回复内容主要由大型语言模型智能生成，其信息可能来源于互联网公开数据。这些回复不代表本开发者或本机器人的任何官方立场、观点或承诺。基于搜索结果，智能体可能提供外部链接，请您在点击任何外部链接前，务必自行判断其安全性与内容真实性，并自行承担访问风险。</p>
-      <p>5. 本机器人所参考和使用的开源插件均已在本页面“开源项目声明”部分明确列出并注明来源。除这些明确声明的开源部分外，本机器人的其他功能均为开发者私有实现，且不公开源代码。</p>
-      <p>6. 本机器人中包含的所有游戏相关内容、名称、图像、商标、版权及其他知识产权，均归其各自的原公司（如库洛游戏、米哈游等）所有。本机器人无意侵犯任何合法权益。如您认为本机器人内容存在任何侵权行为，请立即通过本页提供的联系方式与我们取得联系，我们将在收到通知后尽快核实并采取必要的删除措施。</p>
-      <p>7. 本机器人及其提供的服务均按“现状”（AS IS）提供，不作任何明示或暗示的保证，包括但不限于适销性、特定用途的适用性或非侵权的保证。本开发者不保证机器人服务的连续性、及时性、安全性或无错误性。</p>
-      <p>8. 在任何情况下，本开发者均不对因使用或无法使用本机器人服务而导致的任何直接、间接、附带、特殊、惩罚性或后果性损害（包括但不限于数据丢失、利润损失、业务中断等）承担任何责任，即使本开发者已被告知此类损害的可能性。</p>
-      <p>9. 本机器人在指定QQ群内提供的服务为免费性质。鉴于资源投入和维护需求，本服务可能会不定期暂停以进行系统升级、功能维护或故障排除。对此可能造成的不便，敬请广大用户理解与配合。我们将努力确保服务稳定性，并在恢复后第一时间通知。</p>
-      <p><strong>通过使用本机器人，即表示您已阅读、理解并接受上述所有免责条款。若您不同意本声明的任何内容，请立即停止使用本机器人。</strong></p>
+        <p><strong>请您在使用本机器人服务前，务必仔细阅读并理解本免责声明的全部内容。一旦您开始使用本机器人，即表示您已充分理解并同意本声明的所有条款：</strong></p>
+        <p>1. 本机器人为个人开发者基于兴趣与技术探索目的而开发，仅用于技术演示、学习交流及娱乐用途。本机器人及其提供的任何信息或服务不代表任何官方机构、游戏厂商或组织（包括但不限于库洛游戏、米哈游等）的立场、观点或授权。</p>
+        <p>2. 本机器人可能涉及用户数据交互，包括但不限于验证码的获取。我们郑重声明，所收集的任何验证码仅用于您明确同意授权的特定平台（如库街区）的登录验证。在登录过程中，请您务必高度警惕并仔细核对短信或邮件中的验证码内容及对应的登录地址，谨防任何形式的网络钓鱼、欺诈或账号劫持行为。因您未能妥善核实信息而导致的任何损失，本开发者概不负责。</p>
+        <p>3. 与本机器人进行对话时，为提供准确且连贯的回复，机器人需要读取并分析对话上下文。我们承诺将采取合理措施保护您的个人信息安全，并不会将您的个人数据用于非必要的目的或向第三方泄露。</p>
+        <p>4. 机器人所提供的回复内容主要由大型语言模型智能生成，其信息可能来源于互联网公开数据。这些回复不代表本开发者或本机器人的任何官方立场、观点或承诺。基于搜索结果，智能体可能提供外部链接，请您在点击任何外部链接前，务必自行判断其安全性与内容真实性，并自行承担访问风险。</p>
+        <p>5. 本机器人所参考和使用的开源插件均已在本页面“开源项目声明”部分明确列出并注明来源。除这些明确声明的开源部分外，本机器人的其他功能均为开发者私有实现，且不公开源代码。</p>
+        <p>6. 本机器人中包含的所有游戏相关内容、名称、图像、商标、版权及其他知识产权，均归其各自的原公司（如库洛游戏、米哈游等）所有。本机器人无意侵犯任何合法权益。如您认为本机器人内容存在任何侵权行为，请立即通过本页提供的联系方式与我们取得联系，我们将在收到通知后尽快核实并采取必要的删除措施。</p>
+        <p>7. 本机器人及其提供的服务均按“现状”（AS IS）提供，不作任何明示或暗示的保证，包括但不限于适销性、特定用途的适用性或非侵权的保证。本开发者不保证机器人服务的连续性、及时性、安全性或无错误性。</p>
+        <p>8. 在任何情况下，本开发者均不对因使用或无法使用本机器人服务而导致的任何直接、间接、附带、特殊、惩罚性或后果性损害（包括但不限于数据丢失、利润损失、业务中断等）承担任何责任，即使本开发者已被告知此类损害的可能性。</p>
+        <p>9. 本机器人在指定QQ群内提供的服务为免费性质。鉴于资源投入和维护需求，本服务可能会不定期暂停以进行系统升级、功能维护或故障排除。对此可能造成的不便，敬请广大用户理解与配合。我们将努力确保服务稳定性，并在恢复后第一时间通知。</p>
+        <p><strong>通过使用本机器人，即表示您已阅读、理解并接受上述所有免责条款。若您不同意本声明的任何内容，请立即停止使用本机器人。</strong></p>
     </div>
-
     <h2 class="section-title">友情链接</h2>
     <div class="friend-links">
-      <ul>
-        <li><a href="https://xn--ntsp09fr3m.com/" target="_blank" rel="noopener noreferrer">小维 Bot 鸣潮机器人</a>欢迎使用哦~</li>
+        <ul>
+            <li><a href="https://xn--ntsp09fr3m.com/" target="_blank" rel="noopener noreferrer">小维 Bot 鸣潮机器人</a>欢迎使用哦~</li>
         </ul>
     </div>
-
     <footer>
       感谢使用青弋Bot，愿你游戏愉快 🌟
     </footer>
@@ -921,41 +859,32 @@
     // 动态加载背景图片
     document.addEventListener('DOMContentLoaded', () => {
       const backgroundImageDiv = document.querySelector('.background-image');
-      const botIcon = document.getElementById('botIcon'); // Get the bot icon element (now with ID)
+      const botIcon = document.getElementById('botIcon');
 
       function loadRandomBackgroundImage() {
         const imageUrl = 'https://www.loliapi.com/acg/?type=img';
-        
-        // 使用一个Image对象来预加载图片，确保加载完成后再显示，避免闪烁
         const img = new Image();
         img.onload = () => {
           backgroundImageDiv.style.backgroundImage = `url('${imageUrl}')`;
         };
         img.onerror = () => {
           console.error('Failed to load background image from API. Using fallback.');
-          // Fallback to a default background if API fails
           backgroundImageDiv.style.backgroundImage = `url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3')`;
         };
         img.src = imageUrl;
       }
 
-      loadRandomBackgroundImage(); // Load background image on initial load
+      loadRandomBackgroundImage();
 
-      // Add click event listener to bot icon for the easter egg
-      if (botIcon) { // Ensure botIcon exists before adding event listener
+      if (botIcon) {
         botIcon.addEventListener('click', () => {
-          botIcon.style.transform = 'scale(0.9)'; // Click feedback
+          botIcon.style.transform = 'scale(0.9)';
           setTimeout(() => {
             botIcon.style.transform = '';
           }, 200);
-          loadRandomBackgroundImage(); // Load a new random image
+          loadRandomBackgroundImage();
         });
-      } else {
-        console.error("Bot icon element with ID 'botIcon' not found.");
       }
-
-      // You can add a timer to periodically change the background image, e.g., every 5 minutes
-      // setInterval(loadRandomBackgroundImage, 300000); // 5 minutes
     });
 
     // 暗色模式切换功能
@@ -1007,5 +936,56 @@
       });
     });
   </script>
+
+  <div id="waifu">
+      <div id="waifu-tips"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sakura-js@1.0.2/dist/sakura.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      new Sakura('body', {
+        colors: [
+          {
+            gradientColorStart: 'rgba(255, 183, 197, 0.9)',
+            gradientColorEnd: 'rgba(255, 197, 208, 0.9)',
+            gradientColorDegree: 120
+          }
+        ],
+        delay: 200
+      });
+    });
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
+  <script>
+    L2Dwidget.init({
+        "pluginRootPath": "live2d/",
+        "pluginJsPath": "lib/",
+        "pluginModelPath": "live2d-widget-model-tororo/assets/", // 选择一个模型
+        "tagMode": false,
+        "debug": false,
+        "model": {
+            "jsonPath": "https://cdn.jsdelivr.net/npm/live2d-widget-model-tororo@1.0.5/assets/tororo.model.json" // 使用CDN的模型
+        },
+        "display": {
+            "position": "right",
+            "width": 150,
+            "height": 300,
+            "hOffset": 0,
+            "vOffset": -20
+        },
+        "mobile": {
+            "show": true,
+            "scale": 0.5
+        },
+        "react": {
+            "opacityDefault": 0.7,
+            "opacityOnHover": 0.2
+        },
+        "log": false
+    });
+  </script>
+
 </body>
 </html>
