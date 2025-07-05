@@ -1,995 +1,947 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="青弋Bot 使用教程，提供详细的指令说明、软件下载和配置指南，帮助你轻松使用机器人查询游戏数据和进行自动签到。">
-  <title>青弋多功能Bot发布页面</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura-js@1.0.2/dist/sakura.css">
-  
-  <style>
-    :root {
-      --primary: #5e72e4;
-      --primary-dark: #3a4cc0;
-      --secondary: #ff6b6b;
-      --text: #2d3748;
-      --text-light: #718096;
-      --bg-light: #f8f9fa;
-      --card-bg-light: rgba(255, 255, 255, 0.85);
-      --card-bg-dark: rgba(30, 30, 46, 0.85);
-      --warning-bg-light: #fff3cd;
-      --warning-border-light: #ffca28;
-      --warning-text-light: #856404;
-      --tips-bg-light: #f1f8e9;
-      --tips-border-light: #aed581;
-      --dark-bg: #121212;
-      --dark-text: #e0e0e0;
-      --dark-card: #1e1e2e;
-      --dark-warning-bg: #332d00;
-      --dark-warning-border: #ffd54f;
-      --dark-tips-bg: #1a331a;
-      --dark-tips-border: #64dd17;
-      --transition: all 0.3s ease;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2); /* Fallback background */
-      margin: 0;
-      padding: 0;
-      color: var(--text);
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-      background-attachment: fixed;
-      transition: var(--transition);
-    }
-
-    body.dark-mode {
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Fallback dark mode background */
-      color: var(--dark-text);
-    }
-
-    .background-image {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-size: cover;
-      background-position: center;
-      filter: blur(12px) brightness(0.7);
-      z-index: -1;
-      transition: background-image 1s ease-in-out, filter 0.3s ease;
-    }
-
-    body.dark-mode .background-image {
-      filter: blur(12px) brightness(0.5);
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      background: var(--card-bg-light);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-      padding: 40px;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      transition: var(--transition);
-    }
-
-    body.dark-mode .container {
-      background: var(--card-bg-dark);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 30px;
-      position: relative;
-      padding-bottom: 20px;
-    }
-
-    .header::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 150px;
-      height: 3px;
-      background: linear-gradient(to right, var(--primary), var(--secondary));
-      border-radius: 3px;
-    }
-
-    h1 {
-      color: var(--primary);
-      font-size: 2.8rem;
-      margin-bottom: 10px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      transition: color 0.3s ease;
-    }
-
-    body.dark-mode h1 {
-      color: #7986cb;
-    }
-
-    .subtitle {
-      text-align: center;
-      font-size: 1.2rem;
-      color: var(--text-light);
-      margin-bottom: 10px;
-      transition: color 0.3s ease;
-    }
-
-    body.dark-mode .subtitle {
-      color: #b0b0b0;
-    }
-
-    .theme-toggle-container {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 100;
-    }
-
-    .theme-toggle {
-      background: var(--primary);
-      color: white;
-      border: none;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-      transition: var(--transition);
-      position: relative;
-    }
-
-    .theme-toggle:hover {
-      background: var(--primary-dark);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    }
-
-    .theme-toggle:active {
-      transform: scale(0.95);
-    }
-
-    .theme-toggle::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      box-shadow: 0 0 0 0 rgba(94, 114, 228, 0.7);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(94, 114, 228, 0.7);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="青弋Bot 使用教程，提供详细的指令说明、软件下载和配置指南，帮助你轻松使用机器人查询游戏数据和进行自动签到。">
+    <title>青弋多功能Bot发布页面</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura-js@1.0.2/dist/sakura.css">
+     <style>
+      :root {
+        --primary: #5e72e4;
+        --primary-dark: #3a4cc0;
+        --secondary: #ff6b6b;
+        --text: #2d3748;
+        --text-light: #718096;
+        --bg-light: #f8f9fa;
+        --card-bg-light: rgba(255, 255, 255, 0.85);
+        --card-bg-dark: rgba(30, 30, 46, 0.85);
+        --warning-bg-light: #fff3cd;
+        --warning-border-light: #ffca28;
+        --warning-text-light: #856404;
+        --tips-bg-light: #f1f8e9;
+        --tips-border-light: #aed581;
+        --dark-bg: #121212;
+        --dark-text: #e0e0e0;
+        --dark-card: #1e1e2e;
+        --dark-warning-bg: #332d00;
+        --dark-warning-border: #ffd54f;
+        --dark-tips-bg: #1a331a;
+        --dark-tips-border: #64dd17;
+        --transition: all 0.3s ease;
       }
-      70% {
-        transform: scale(1.05);
-        box-shadow: 0 0 0 15px rgba(94, 114, 228, 0);
+       * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      100% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(94, 114, 228, 0);
-      }
-    }
-
-    .warning {
-      background-color: var(--warning-bg-light);
-      color: var(--warning-text-light);
-      border-left: 6px solid var(--warning-border-light);
-      padding: 18px 25px;
-      margin: 25px 0;
-      border-radius: 12px;
-      font-weight: bold;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-      display: flex;
-      align-items: flex-start;
-      transition: all 0.3s ease;
-    }
-
-    .warning i {
-      margin-right: 12px;
-      font-size: 1.4em;
-      margin-top: 2px;
-    }
-
-    body.dark-mode .warning {
-      background-color: var(--dark-warning-bg);
-      border-left: 6px solid var(--dark-warning-border);
-      color: #ffecb3;
-    }
-
-    .tips {
-      margin: 25px 0;
-      padding: 20px;
-      background-color: var(--tips-bg-light);
-      border-left: 6px solid var(--tips-border-light);
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-      display: flex;
-      align-items: flex-start;
-      transition: all 0.3s ease;
-    }
-
-    .tips i {
-      margin-right: 12px;
-      font-size: 1.4em;
-      margin-top: 2px;
-    }
-
-    body.dark-mode .tips {
-      background-color: var(--dark-tips-bg);
-      border-left: 6px solid var(--dark-tips-border);
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      line-height: 1.8;
-      margin: 15px 0;
-    }
-
-    li {
-      margin-bottom: 12px;
-      padding-left: 30px;
-      position: relative;
-    }
-
-    li::before {
-      content: "✅";
-      position: absolute;
-      left: 0;
-      color: #66bb6a;
-      font-size: 1.2em;
-    }
-
-    body.dark-mode li::before {
-      color: #81c784;
-    }
-
-    a {
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: bold;
-      position: relative;
-      transition: var(--transition);
-    }
-
-    a:hover {
-      color: var(--primary-dark);
-      text-decoration: underline;
-    }
-
-    body.dark-mode a {
-      color: #7986cb;
-    }
-
-    body.dark-mode a:hover {
-      color: #9fa8da;
-    }
-
-    code {
-      background-color: rgba(0,0,0,0.05);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-family: 'Fira Code', 'Courier New', monospace;
-      font-size: 0.95em;
-      color: #d63384;
-      display: inline-block;
-      margin: 2px 0;
-      transition: all 0.3s ease;
-      word-break: break-word;
-      white-space: normal;
-    }
-
-    body.dark-mode code {
-      background-color: rgba(255,255,255,0.1);
-      color: #f48fb1;
-    }
-
-    iframe {
-      width: 100%;
-      height: 600px;
-      border: none;
-      border-radius: 15px;
-      margin-top: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      transition: var(--transition);
-    }
-
-    body.dark-mode iframe {
-      filter: brightness(0.9);
-    }
-
-    footer {
-      text-align: center;
-      color: var(--text-light);
-      margin-top: 40px;
-      font-size: 0.95rem;
-      padding-top: 20px;
-      border-top: 1px solid rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-    }
-
-    body.dark-mode footer {
-      color: #b0b0b0;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .download-section {
-      background: linear-gradient(135deg, #e3f2fd, #fce4ec);
-      padding: 25px;
-      border-radius: 15px;
-      margin: 30px 0;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-      transition: var(--transition);
-    }
-
-    body.dark-mode .download-section {
-      background: linear-gradient(135deg, #1a237e, #4a148c);
-    }
-
-    .section-title {
-      color: var(--primary);
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      position: relative;
-      padding-bottom: 10px;
-      transition: color 0.3s ease;
-    }
-
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 80px;
-      height: 3px;
-      background: var(--primary);
-      border-radius: 3px;
-    }
-
-    body.dark-mode .section-title {
-      color: #7986cb;
-    }
-
-    .opensource-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
-    }
-
-    .repo-card {
-      background: var(--card-bg-light);
-      backdrop-filter: blur(5px);
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-      transition: var(--transition);
-      border: 1px solid rgba(0,0,0,0.05);
-    }
-
-    body.dark-mode .repo-card {
-      background: var(--dark-card);
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .repo-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-    }
-
-    .repo-card h3 {
-      color: var(--primary);
-      margin-bottom: 10px;
-      font-size: 1.2rem;
-      transition: color 0.3s ease;
-    }
-
-    body.dark-mode .repo-card h3 {
-      color: #7986cb;
-    }
-
-    .repo-card p {
-      color: var(--text-light);
-      font-size: 0.95rem;
-      margin-bottom: 15px;
-      transition: color 0.3s ease;
-    }
-
-    body.dark-mode .repo-card p {
-      color: #b0b0b0;
-    }
-
-    .repo-link {
-      display: inline-block;
-      background: var(--primary);
-      color: white;
-      padding: 8px 15px;
-      border-radius: 6px;
-      font-weight: 500;
-      transition: var(--transition);
-      box-shadow: 0 4px 10px rgba(94, 114, 228, 0.3);
-    }
-
-    .repo-link:hover {
-      background: var(--primary-dark);
-      text-decoration: none;
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(94, 114, 228, 0.4);
-    }
-
-    .thanks {
-      text-align: center;
-      margin: 40px 0 20px;
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: var(--text);
-      padding: 15px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 12px;
-      backdrop-filter: blur(5px);
-      transition: all 0.3s ease;
-    }
-
-    body.dark-mode .thanks {
-      color: var(--dark-text);
-      background: rgba(255,255,255,0.05);
-    }
-
-    .bot-icon {
-      position: absolute;
-      top: 25px;
-      left: 25px;
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.8rem;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      z-index: 10;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .bot-icon:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    }
-
-    .bot-icon:active {
-      transform: scale(0.95);
-    }
-
-    .pdf-fallback {
-      text-align: center;
-      margin-top: 10px;
-      margin-bottom: 25px;
-      padding: 20px;
-      background: rgba(0,0,0,0.03);
-      border-radius: 12px;
-      border: 1px dashed var(--tips-border-light);
-    }
-
-    body.dark-mode .pdf-fallback {
-      background: rgba(255,255,255,0.03);
-      border-color: var(--dark-tips-border);
-    }
-
-    .pdf-fallback p {
-      margin: 0;
-      margin-bottom: 15px;
-      font-size: 0.95rem;
-      color: var(--text-light);
-    }
-
-    body.dark-mode .pdf-fallback p {
-      color: #b0b0b0;
-    }
-
-    .download-button {
-      display: inline-block;
-      background: var(--primary);
-      color: white !important;
-      padding: 12px 25px;
-      border-radius: 8px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: var(--transition);
-      box-shadow: 0 4px 10px rgba(94, 114, 228, 0.3);
-    }
-
-    .download-button:hover {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(94, 114, 228, 0.4);
-      text-decoration: none;
-      color: white;
-    }
-
-    .download-button i {
-      margin-right: 8px;
-    }
-
-    .disclaimer, .friend-links {
-      background: rgba(0, 0, 0, 0.03);
-      border-left: 6px solid var(--secondary);
-      padding: 20px;
-      margin: 30px 0;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-      transition: var(--transition);
-    }
-
-    body.dark-mode .disclaimer, body.dark-mode .friend-links {
-      background: rgba(255, 255, 255, 0.05);
-      border-left: 6px solid var(--secondary);
-    }
-
-    .disclaimer p, .friend-links p {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: var(--text-light);
-      margin-bottom: 10px;
-    }
-
-    body.dark-mode .disclaimer p, body.dark-mode .friend-links p {
-      color: #c0c0c0;
-    }
-
-    .friend-links ul {
-      margin-top: 15px;
-      list-style: disc;
-      padding-left: 20px;
-    }
-
-    .friend-links li {
-      margin-bottom: 8px;
-      padding-left: 0;
-    }
-
-    .friend-links li::before {
-        content: none;
-    }
-
-    .payment-section {
-        text-align: center;
-        margin: 30px 0;
-        padding: 25px;
-        background: linear-gradient(135deg, #e0f7fa, #e8f5e9);
-        border-radius: 15px;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-        transition: var(--transition);
-    }
-
-    body.dark-mode .payment-section {
-        background: linear-gradient(135deg, #004d40, #1b5e20);
-    }
-
-    .payment-section img {
-        max-width: 250px;
-        height: auto;
-        border-radius: 10px;
-        border: 2px solid var(--primary);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        margin-bottom: 15px;
-        transition: all 0.3s ease;
-    }
-
-    body.dark-mode .payment-section img {
-        border-color: #7986cb;
-    }
-
-    .payment-section p {
-        font-size: 1rem;
+       body {
+        font-family: "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+        background: linear-gradient(135deg, #667eea, #764ba2); /* Fallback background */
+        margin: 0;
+        padding: 0;
         color: var(--text);
-        margin-bottom: 10px;
-    }
-
-    body.dark-mode .payment-section p {
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+        background-attachment: fixed;
+        transition: var(--transition);
+      }
+       body.dark-mode {
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Fallback dark mode background */
         color: var(--dark-text);
-    }
-
-    .payment-section .contact-info {
-        font-weight: bold;
-        color: var(--primary-dark);
-    }
-
-    body.dark-mode .payment-section .contact-info {
-        color: #9fa8da;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        margin: 20px;
-        padding: 80px 20px 25px;
       }
-      h1 {
-        font-size: 2.2rem;
+       .background-image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: cover;
+        background-position: center;
+        filter: blur(12px) brightness(0.7);
+        z-index: -1;
+        transition: background-image 1s ease-in-out, filter 0.3s ease;
       }
-      .section-title {
-        font-size: 1.5rem;
+       body.dark-mode .background-image {
+        filter: blur(12px) brightness(0.5);
       }
-      .opensource-grid {
-        grid-template-columns: 1fr;
+       .container {
+        max-width: 900px;
+        margin: 40px auto;
+        background: var(--card-bg-light);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        transition: var(--transition);
       }
-      iframe {
-        height: 400px;
+       body.dark-mode .container {
+        background: var(--card-bg-dark);
+        border: 1px solid rgba(255, 255, 255, 0.15);
       }
-      .theme-toggle-container {
+       .header {
+        text-align: center;
+        margin-bottom: 30px;
+        position: relative;
+        padding-bottom: 20px;
+      }
+       .header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        height: 3px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        border-radius: 3px;
+      }
+       h1 {
+        color: var(--primary);
+        font-size: 2.8rem;
+        margin-bottom: 10px;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: color 0.3s ease;
+      }
+       body.dark-mode h1 {
+        color: #7986cb;
+      }
+       .subtitle {
+        text-align: center;
+        font-size: 1.2rem;
+        color: var(--text-light);
+        margin-bottom: 10px;
+        transition: color 0.3s ease;
+      }
+       body.dark-mode .subtitle {
+        color: #b0b0b0;
+      }
+       .theme-toggle-container {
+        position: absolute;
         top: 20px;
         right: 20px;
+        z-index: 100;
       }
-      .theme-toggle {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
+       .theme-toggle {
+        background: var(--primary);
+        color: white;
+        border: none;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        transition: var(--transition);
+        position: relative;
       }
-      .bot-icon {
-        top: 20px;
-        left: 20px;
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
+       .theme-toggle:hover {
+        background: var(--primary-dark);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
       }
-      .header {
-        margin-bottom: 20px;
+       .theme-toggle:active {
+        transform: scale(0.95);
       }
-      .subtitle {
-        font-size: 1rem;
+       .theme-toggle::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        box-shadow: 0 0 0 0 rgba(94, 114, 228, 0.7);
+        animation: pulse 2s infinite;
       }
-      .warning, .tips {
-        padding: 15px;
+       @keyframes pulse {
+        0% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(94, 114, 228, 0.7);
+        }
+        70% {
+          transform: scale(1.05);
+          box-shadow: 0 0 0 15px rgba(94, 114, 228, 0);
+        }
+        100% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(94, 114, 228, 0);
+        }
+      }
+       .warning {
+        background-color: var(--warning-bg-light);
+        color: var(--warning-text-light);
+        border-left: 6px solid var(--warning-border-light);
+        padding: 18px 25px;
+        margin: 25px 0;
+        border-radius: 12px;
+        font-weight: bold;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        display: flex;
+        align-items: flex-start;
+        transition: all 0.3s ease;
+      }
+       .warning i {
+        margin-right: 12px;
+        font-size: 1.4em;
+        margin-top: 2px;
+      }
+       body.dark-mode .warning {
+        background-color: var(--dark-warning-bg);
+        border-left: 6px solid var(--dark-warning-border);
+        color: #ffecb3;
+      }
+       .tips {
+        margin: 25px 0;
+        padding: 20px;
+        background-color: var(--tips-bg-light);
+        border-left: 6px solid var(--tips-border-light);
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        display: flex;
+        align-items: flex-start;
+        transition: all 0.3s ease;
+      }
+       .tips i {
+        margin-right: 12px;
+        font-size: 1.4em;
+        margin-top: 2px;
+      }
+       body.dark-mode .tips {
+        background-color: var(--dark-tips-bg);
+        border-left: 6px solid var(--dark-tips-border);
+      }
+       ul {
+        list-style: none;
+        padding: 0;
+        line-height: 1.8;
         margin: 15px 0;
       }
-      .warning i, .tips i {
+       li {
+        margin-bottom: 12px;
+        padding-left: 30px;
+        position: relative;
+      }
+       li::before {
+        content: "✅";
+        position: absolute;
+        left: 0;
+        color: #66bb6a;
         font-size: 1.2em;
       }
-      li {
-        padding-left: 25px;
+       body.dark-mode li::before {
+        color: #81c784;
       }
-      li::before {
-        font-size: 1em;
+       a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: bold;
+        position: relative;
+        transition: var(--transition);
       }
-      .download-section {
-        padding: 20px;
-        margin: 20px 0;
+       a:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
       }
-      .repo-card {
-        padding: 15px;
+       body.dark-mode a {
+        color: #7986cb;
       }
-      .repo-card h3 {
-        font-size: 1.1rem;
+       body.dark-mode a:hover {
+        color: #9fa8da;
       }
-      .repo-card p {
-        font-size: 0.9rem;
+       code {
+        background-color: rgba(0,0,0,0.05);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-family: 'Fira Code', 'Courier New', monospace;
+        font-size: 0.95em;
+        color: #d63384;
+        display: inline-block;
+        margin: 2px 0;
+        transition: all 0.3s ease;
+        word-break: break-word;
+        white-space: normal;
       }
-      .repo-link {
-        padding: 6px 12px;
-        font-size: 0.9rem;
+       body.dark-mode code {
+        background-color: rgba(255,255,255,0.1);
+        color: #f48fb1;
       }
-      .pdf-fallback {
-        padding: 15px;
-        margin-bottom: 20px;
+       iframe {
+        width: 100%;
+        height: 600px;
+        border: none;
+        border-radius: 15px;
+        margin-top: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        transition: var(--transition);
       }
-      .download-button {
-        padding: 10px 20px;
+       body.dark-mode iframe {
+        filter: brightness(0.9);
+      }
+       footer {
+        text-align: center;
+        color: var(--text-light);
+        margin-top: 40px;
         font-size: 0.95rem;
+        padding-top: 20px;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
       }
-      p, ul, li, div {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
+       body.dark-mode footer {
+        color: #b0b0b0;
+        border-top: 1px solid rgba(255,255,255,0.1);
       }
-    }
-
-    .container > * {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    .container > *.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
+       .download-section {
+        background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+        padding: 25px;
+        border-radius: 15px;
+        margin: 30px 0;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        transition: var(--transition);
+      }
+       body.dark-mode .download-section {
+        background: linear-gradient(135deg, #1a237e, #4a148c);
+      }
+       .section-title {
+        color: var(--primary);
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        position: relative;
+        padding-bottom: 10px;
+        transition: color 0.3s ease;
+      }
+       .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 80px;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 3px;
+      }
+       body.dark-mode .section-title {
+        color: #7986cb;
+      }
+       .opensource-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+      }
+       .repo-card {
+        background: var(--card-bg-light);
+        backdrop-filter: blur(5px);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        transition: var(--transition);
+        border: 1px solid rgba(0,0,0,0.05);
+      }
+       body.dark-mode .repo-card {
+        background: var(--dark-card);
+        border: 1px solid rgba(255,255,255,0.05);
+      }
+       .repo-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      }
+       .repo-card h3 {
+        color: var(--primary);
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+      }
+       body.dark-mode .repo-card h3 {
+        color: #7986cb;
+      }
+       .repo-card p {
+        color: var(--text-light);
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+        transition: color 0.3s ease;
+      }
+       body.dark-mode .repo-card p {
+        color: #b0b0b0;
+      }
+       .repo-link {
+        display: inline-block;
+        background: var(--primary);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: var(--transition);
+        box-shadow: 0 4px 10px rgba(94, 114, 228, 0.3);
+      }
+       .repo-link:hover {
+        background: var(--primary-dark);
+        text-decoration: none;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(94, 114, 228, 0.4);
+      }
+       .thanks {
+        text-align: center;
+        margin: 40px 0 20px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--text);
+        padding: 15px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 12px;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+      }
+       body.dark-mode .thanks {
+        color: var(--dark-text);
+        background: rgba(255,255,255,0.05);
+      }
+       .bot-icon {
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.8rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        z-index: 10;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+       .bot-icon:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      }
+       .bot-icon:active {
+        transform: scale(0.95);
+      }
+       .pdf-fallback {
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 25px;
+        padding: 20px;
+        background: rgba(0,0,0,0.03);
+        border-radius: 12px;
+        border: 1px dashed var(--tips-border-light);
+      }
+       body.dark-mode .pdf-fallback {
+        background: rgba(255,255,255,0.03);
+        border-color: var(--dark-tips-border);
+      }
+       .pdf-fallback p {
+        margin: 0;
+        margin-bottom: 15px;
+        font-size: 0.95rem;
+        color: var(--text-light);
+      }
+       body.dark-mode .pdf-fallback p {
+        color: #b0b0b0;
+      }
+       .download-button {
+        display: inline-block;
+        background: var(--primary);
+        color: white !important;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: var(--transition);
+        box-shadow: 0 4px 10px rgba(94, 114, 228, 0.3);
+      }
+       .download-button:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(94, 114, 228, 0.4);
+        text-decoration: none;
+        color: white;
+      }
+       .download-button i {
+        margin-right: 8px;
+      }
+       .disclaimer, .friend-links {
+        background: rgba(0, 0, 0, 0.03);
+        border-left: 6px solid var(--secondary);
+        padding: 20px;
+        margin: 30px 0;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+      }
+       body.dark-mode .disclaimer, body.dark-mode .friend-links {
+        background: rgba(255, 255, 255, 0.05);
+        border-left: 6px solid var(--secondary);
+      }
+       .disclaimer p, .friend-links p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: var(--text-light);
+        margin-bottom: 10px;
+      }
+       body.dark-mode .disclaimer p, body.dark-mode .friend-links p {
+        color: #c0c0c0;
+      }
+       .friend-links ul {
+        margin-top: 15px;
+        list-style: disc;
+        padding-left: 20px;
+      }
+       .friend-links li {
+        margin-bottom: 8px;
+        padding-left: 0;
+      }
+       .friend-links li::before {
+          content: none;
+      }
+       .payment-section {
+          text-align: center;
+          margin: 30px 0;
+          padding: 25px;
+          background: linear-gradient(135deg, #e0f7fa, #e8f5e9);
+          border-radius: 15px;
+          box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+          transition: var(--transition);
+      }
+       body.dark-mode .payment-section {
+          background: linear-gradient(135deg, #004d40, #1b5e20);
+      }
+       .payment-section img {
+          max-width: 250px;
+          height: auto;
+          border-radius: 10px;
+          border: 2px solid var(--primary);
+          box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+          margin-bottom: 15px;
+          transition: all 0.3s ease;
+      }
+       body.dark-mode .payment-section img {
+          border-color: #7986cb;
+      }
+       .payment-section p {
+          font-size: 1rem;
+          color: var(--text);
+          margin-bottom: 10px;
+      }
+       body.dark-mode .payment-section p {
+          color: var(--dark-text);
+      }
+       .payment-section .contact-info {
+          font-weight: bold;
+          color: var(--primary-dark);
+      }
+       body.dark-mode .payment-section .contact-info {
+          color: #9fa8da;
+      }
+       @media (max-width: 768px) {
+        .container {
+          margin: 20px;
+          padding: 80px 20px 25px;
+        }
+        h1 {
+          font-size: 2.2rem;
+        }
+        .section-title {
+          font-size: 1.5rem;
+        }
+        .opensource-grid {
+          grid-template-columns: 1fr;
+        }
+        iframe {
+          height: 400px;
+        }
+        .theme-toggle-container {
+          top: 20px;
+          right: 20px;
+        }
+        .theme-toggle {
+          width: 50px;
+          height: 50px;
+          font-size: 1.5rem;
+        }
+        .bot-icon {
+          top: 20px;
+          left: 20px;
+          width: 50px;
+          height: 50px;
+          font-size: 1.5rem;
+        }
+        .header {
+          margin-bottom: 20px;
+        }
+        .subtitle {
+          font-size: 1rem;
+        }
+        .warning, .tips {
+          padding: 15px;
+          margin: 15px 0;
+        }
+        .warning i, .tips i {
+          font-size: 1.2em;
+        }
+        li {
+          padding-left: 25px;
+        }
+        li::before {
+          font-size: 1em;
+        }
+        .download-section {
+          padding: 20px;
+          margin: 20px 0;
+        }
+        .repo-card {
+          padding: 15px;
+        }
+        .repo-card h3 {
+          font-size: 1.1rem;
+        }
+        .repo-card p {
+          font-size: 0.9rem;
+        }
+        .repo-link {
+          padding: 6px 12px;
+          font-size: 0.9rem;
+        }
+        .pdf-fallback {
+          padding: 15px;
+          margin-bottom: 20px;
+        }
+        .download-button {
+          padding: 10px 20px;
+          font-size: 0.95rem;
+        }
+        p, ul, li, div {
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+        }
+      }
+       .container > * {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+       .container > *.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+       .site-stats {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 0.95rem;
+        color: var(--text-light);
+      }
+       body.dark-mode .site-stats {
+        color: #b0b0b0;
+      }
+       .site-stats p {
+        margin-bottom: 10px;
+      }
+    </style>
 </head>
 <body>
-  <div class="background-image"></div>
-
-  <div class="container">
-    <div class="bot-icon" id="botIcon">
-      <i class="fas fa-robot"></i>
+    <div class="background-image"></div>
+    <div class="container">
+      <div class="bot-icon" id="botIcon">
+        <i class="fas fa-robot"></i>
+      </div>
+          <div class="theme-toggle-container">
+        <button class="theme-toggle" id="themeToggle">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+          <div class="header">
+        <h1>青弋Bot 使用教程</h1>
+        <p class="subtitle">请按照教程正确使用机器人</p>
+      </div>
+      <div class="warning">
+          <i class="fas fa-exclamation-circle"></i>
+          <div>使用前请确保已登录至少一次 <strong>库洛区</strong></div>
+      </div>
+      <div class="warning">
+          <i class="fas fa-exclamation-circle"></i>
+          <div>请仔细阅读帮助面板指令，<strong>指令错误将无响应！</strong></div>
+      </div>
+      <h2 class="section-title">支持的游戏查询指令</h2>
+      <ul>
+          <li>明日方舟：<code>#方舟帮助</code></li>
+          <li>Steam：<code>#steam帮助</code></li>
+          <li>Phigros：<code>/phigros help</code></li>
+          <li>鸣潮：<code>ww帮助</code></li>
+          <li>鸣潮自动签到：<code>rs帮助</code></li>
+          <li>鸣潮抽卡记录使用：<code>ww抽卡帮助</code></li>
+          <li>视频自动解析发送：<code>发送视频链接即可</code></li>
+          <li>沙雕表情包合成：<code>meme列表</code></li>
+          <li>沙雕表情包使用：<code># meme名称（这里指meme列表中的名称，如#吃）</code></li>
+      </ul>
+      <div class="tips">
+          <i class="fas fa-lightbulb"></i>
+          <div>想绑定米家游戏？请发送 <code>#扫码登录</code> 一键绑定账号。</div>
+      </div>
+      <h2 class="section-title">支持的米家游戏</h2>
+      <ul>
+          <li>崩铁：无帮助列表，直接发送 <code>*绑定+UID(如*绑定114514)（建议直接扫码登录一键绑定！）</code></li>
+          <li>原神：<code>#帮助</code></li>
+          <li>绝区零：<code>%帮助</code></li>
+          <li>以下所有自动签到功能都需要进行<code>#扫码登录</code>后才能继续使用</li>
+          <li>崩坏3签到：<code>#崩坏3签到</code> (支持崩坏3、原神、崩坏2、未定义事件、绝区零)</li>
+          <li>云原神签到：<code>#云原神签到</code></li>
+      </ul>
+      <p>所有功能皆为开源项目实现</p>
+      <h2 class="section-title">相关抓包软件下载</h2>
+      <div class="download-section">
+          <p><strong>安卓用户推荐使用：</strong></p>
+          <ul>
+              <li>开源软件 ProxyPin 下载：<a href="https://github.com/wanghongenpin/proxypin/releases" target="_blank" rel="noopener noreferrer">GitHub官方下载</a></li>
+              <li>备用镜像下载：<a href="https://wwwx.lanzoum.com/iDc6g2yuvw7c" target="_blank" rel="noopener noreferrer">蓝奏云镜像</a> (密码:46pb)</li>
+          </ul>
+          <p><strong>苹果用户请使用：</strong></p>
+          <ul>
+              <li>Stream App（App Store下载）：<a href="https://apps.apple.com/cn/app/stream/id1312141691" target="_blank" rel="noopener noreferrer">App Store链接</a>（使用原理相同）</li>
+          </ul>
+      </div>
+      <h2 class="section-title">重要提示：登录机制说明</h2>
+      <div class="warning">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div>
+              <strong>网页登录后</strong>，会顶掉手机端的库洛区登录状态。当前仅可选择其一使用。
+              <br>若遇角色数据无法刷新，请确认网页右上角是否为绿色登录状态。
+          </div>
+      </div>
+      <div class="tips">
+          <i class="fas fa-check-circle"></i>
+          <div>
+              若希望<strong>避免互相顶号</strong>，推荐使用 <strong>Cookie 登录</strong>。
+              <br>请查看群文件教程或直接查看以下 PDF。
+          </div>
+      </div>
+      <h2 class="section-title">Cookie 登录教程文档</h2>
+      <div class="pdf-fallback">
+          <p>如果下方的PDF未能正常显示，请点击按钮直接下载查看。</p>
+          <a href="http://fanzysakura.icu/wp-content/uploads/2025/06/Picsew_20250607104111.pdf" class="download-button" download rel="noopener noreferrer">
+              <i class="fas fa-download"></i> 下载教程 PDF
+          </a>
+      </div>
+      <h2 class="section-title">开源项目声明</h2>
+      <p>青弋Bot基于以下优秀开源项目构建：</p>
+      <div class="opensource-grid">
+          <div class="repo-card"><h3>gsuid_core</h3><p>米家游戏核心框架，提供基础功能和插件支持</p><a href="https://github.com/Genshin-bots/gsuid_core" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
+          <div class="repo-card"><h3>RoverSign</h3><p>鸣潮自动签到实现，确保每日奖励获取</p><a href="https://github.com/tyql688/RoverSign" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
+          <div class="repo-card"><h3>WutheringWavesUID</h3><p>鸣潮游戏数据查询组件，提供角色信息查询功能</p><a href="https://github.com/tyql688/WutheringWavesUID" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
+          <div class="repo-card"><h3>TRSS</h3><p>跨平台机器人框架，支持多种通信协议</p><a href="https://trss.me/" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
+          <div class="repo-card"><h3>ws-plugin</h3><p>WebSocket插件，实现实时通信功能</p><a href="https://gitee.com/xiaoye12123/ws-plugin" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
+          <div class="repo-card"><h3>xiaoyao-cvs-plugin</h3><p>xiaoyao插件，实现签到登录功能</p><a href="https://github.com/ctrlcvs/xiaoyao-cvs-plugin" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
+      </div>
+      <div class="thanks">特别感谢所有开源项目作者和社区大佬的帮助与支持！</div>
+      <h2 class="section-title">机器人拉群服务</h2>
+      <div class="tips">
+          <i class="fas fa-info-circle"></i>
+          <div><strong>拉群需付费</strong>（由于成本问题，群人数不限，1群/10元/月 买断制80永久，所有功能无限制），赚点窝囊费，望理解。<br>时间过得如此快，转眼间两个500人群都满了，其实我也在思考要不要继续提供免费服务，毕竟目前库洛封IP，开机器人的成本越来越大，况且由于学业问题，也不敢确定后期的机器人维护能否持续下去....但是，就目前情况而言，我会继续提供免费服务的，感谢大家的支持与鼓励，后面大概在7月中旬就暂停增加新用户了，这里说声抱歉，如果您觉得机器人不好用的话，可以联系我，发送以前的支付页面，我将会全额退款！  <strong>修bug的（QQ：1982975523）</strong></div>
+      </div>
+      <h2 class="section-title">付款码入口</h2>
+      <div class="payment-section">
+          <p>如需支持青弋Bot的开发与维护，欢迎扫码支付：</p>
+          <img src="http://fanzysakura.icu/wp-content/uploads/2025/06/IMG_9281.jpg" alt="付款二维码">
+          <p>支付成功后，请联系QQ：<span class="contact-info">1982975523</span> 并出示付款截图，感谢您的支持！</p>
+      </div>
+      <h2 class="section-title">加入支持群聊</h2>
+      <p><i class="fas fa-users"></i> 欢迎加入我们的交流群获取帮助与交流：<br><a href="https://qm.qq.com/q/AcK2877qi6" target="_blank" rel="noopener noreferrer">点击链接加入【白海岸保安队】QQ群</a></p>
+      <h2 class="section-title">重要免责声明</h2>
+      <div class="disclaimer">
+          <p><strong>请您在使用本机器人服务前，务必仔细阅读并理解本免责声明的全部内容。一旦您开始使用本机器人，即表示您已充分理解并同意本声明的所有条款：</strong></p>
+          <p>1. 本机器人为个人开发者基于兴趣与技术探索目的而开发，仅用于技术演示、学习交流及娱乐用途。本机器人及其提供的任何信息或服务不代表任何官方机构、游戏厂商或组织（包括但不限于库洛游戏、米哈游等）的立场、观点或授权。</p>
+          <p>2. 本机器人可能涉及用户数据交互，包括但不限于验证码的获取。我们郑重声明，所收集的任何验证码仅用于您明确同意授权的特定平台（如库街区）的登录验证。在登录过程中，请您务必高度警惕并仔细核对短信或邮件中的验证码内容及对应的登录地址，谨防任何形式的网络钓鱼、欺诈或账号劫持行为。因您未能妥善核实信息而导致的任何损失，本开发者概不负责。</p>
+          <p>3. 与本机器人进行对话时，为提供准确且连贯的回复，机器人需要读取并分析对话上下文。我们承诺将采取合理措施保护您的个人信息安全，并不会将您的个人数据用于非必要的目的或向第三方泄露。</p>
+          <p>4. 机器人所提供的回复内容主要由大型语言模型智能生成，其信息可能来源于互联网公开数据。这些回复不代表本开发者或本机器人的任何官方立场、观点或承诺。基于搜索结果，智能体可能提供外部链接，请您在点击任何外部链接前，务必自行判断其安全性与内容真实性，并自行承担访问风险。</p>
+          <p>5. 本机器人所参考和使用的开源插件均已在本页面“开源项目声明”部分明确列出并注明来源。除这些明确声明的开源部分外，本机器人的其他功能均为开发者私有实现，且不公开源代码。</p>
+          <p>6. 本机器人中包含的所有游戏相关内容、名称、图像、商标、版权及其他知识产权，均归其各自的原公司（如库洛游戏、米哈游等）所有。本机器人无意侵犯任何合法权益。如您认为本机器人内容存在任何侵权行为，请立即通过本页提供的联系方式与我们取得联系，我们将在收到通知后尽快核实并采取必要的删除措施。</p>
+          <p>7. 本机器人及其提供的服务均按“现状”（AS IS）提供，不作任何明示或暗示的保证，包括但不限于适销性、特定用途的适用性或非侵权的保证。本开发者不保证机器人服务的连续性、及时性、安全性或无错误性。</p>
+          <p>8. 在任何情况下，本开发者均不对因使用或无法使用本机器人服务而导致的任何直接、间接、附带、特殊、惩罚性或后果性损害（包括但不限于数据丢失、利润损失、业务中断等）承担任何责任，即使本开发者已被告知此类损害的可能性。</p>
+          <p>9. 本机器人在指定QQ群内提供的服务为免费性质。鉴于资源投入和维护需求，本服务可能会不定期暂停以进行系统升级、功能维护或故障排除。对此可能造成的不便，敬请广大用户理解与配合。我们将努力确保服务稳定性，并在恢复后第一时间通知。</p>
+          <p><strong>通过使用本机器人，即表示您已阅读、理解并接受上述所有免责条款。若您不同意本声明的任何内容，请立即停止使用本机器人。</strong></p>
+      </div>
+      <h2 class="section-title">个人Blog</h2>
+      <div class="friend-links">
+          <ul>
+              <li><a href="http://fanzysakura.icu/" target="_blank" rel="noopener noreferrer">乱发些东西</a>基于WordPress</li>
+          </ul>
+      </div>
+      <footer>
+        这里是青弋Bot教程页面，愿你使用愉快 🌟
+      </footer>
+      <div class="site-stats">
+        <p id="visitor-count">累计访问人数: 正在加载...</p>
+        <p id="website-runtime">网站已运行: 正在计算...</p>
+        <p id="robot-runtime">机器人已运行: 正在计算...</p>
+      </div>
     </div>
-    
-    <div class="theme-toggle-container">
-      <button class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon"></i>
-      </button>
-    </div>
-    
-    <div class="header">
-      <h1>青弋Bot 使用教程</h1>
-      <p class="subtitle">请按照教程正确使用机器人</p>
-    </div>
-
-    <div class="warning">
-        <i class="fas fa-exclamation-circle"></i> 
-        <div>使用前请确保已登录至少一次 <strong>库洛区</strong></div>
-    </div>
-    <div class="warning">
-        <i class="fas fa-exclamation-circle"></i> 
-        <div>请仔细阅读帮助面板指令，<strong>指令错误将无响应！</strong></div>
-    </div>
-    <h2 class="section-title">支持的游戏查询指令</h2>
-    <ul>
-        <li>明日方舟：<code>#方舟帮助</code></li>
-        <li>Steam：<code>#steam帮助</code></li>
-        <li>Phigros：<code>/phigros help</code></li>
-        <li>鸣潮：<code>ww帮助</code></li>
-        <li>鸣潮自动签到：<code>rs帮助</code></li>
-        <li>鸣潮抽卡记录使用：<code>ww抽卡帮助</code></li>
-        <li>视频自动解析发送：<code>发送视频链接即可</code></li>
-        <li>沙雕表情包合成：<code>meme列表</code></li>
-        <li>沙雕表情包使用：<code># meme名称（这里指meme列表中的名称，如#吃）</code></li>
-    </ul>
-    <div class="tips">
-        <i class="fas fa-lightbulb"></i> 
-        <div>想绑定米家游戏？请发送 <code>#扫码登录</code> 一键绑定账号。</div>
-    </div>
-    <h2 class="section-title">支持的米家游戏</h2>
-    <ul>
-        <li>崩铁：无帮助列表，直接发送 <code>*绑定+UID(如*绑定114514)（建议直接扫码登录一键绑定！）</code></li>
-        <li>原神：<code>#帮助</code></li>
-        <li>绝区零：<code>%帮助</code></li>
-        <li>以下所有自动签到功能都需要进行<code>#扫码登录</code>后才能继续使用</li>
-        <li>崩坏3签到：<code>#崩坏3签到</code> (支持崩坏3、原神、崩坏2、未定义事件、绝区零)</li>
-        <li>云原神签到：<code>#云原神签到</code></li>
-    </ul>
-    <p>所有功能皆为开源项目实现</p>
-    <h2 class="section-title">相关抓包软件下载</h2>
-    <div class="download-section">
-        <p><strong>安卓用户推荐使用：</strong></p>
-        <ul>
-            <li>开源软件 ProxyPin 下载：<a href="https://github.com/wanghongenpin/proxypin/releases" target="_blank" rel="noopener noreferrer">GitHub官方下载</a></li>
-            <li>备用镜像下载：<a href="https://wwwx.lanzoum.com/iDc6g2yuvw7c" target="_blank" rel="noopener noreferrer">蓝奏云镜像</a> (密码:46pb)</li>
-        </ul>
-        <p><strong>苹果用户请使用：</strong></p>
-        <ul>
-            <li>Stream App（App Store下载）：<a href="https://apps.apple.com/cn/app/stream/id1312141691" target="_blank" rel="noopener noreferrer">App Store链接</a>（使用原理相同）</li>
-        </ul>
-    </div>
-    <h2 class="section-title">重要提示：登录机制说明</h2>
-    <div class="warning">
-        <i class="fas fa-exclamation-triangle"></i> 
-        <div>
-            <strong>网页登录后</strong>，会顶掉手机端的库洛区登录状态。当前仅可选择其一使用。
-            <br>若遇角色数据无法刷新，请确认网页右上角是否为绿色登录状态。
-        </div>
-    </div>
-    <div class="tips">
-        <i class="fas fa-check-circle"></i> 
-        <div>
-            若希望<strong>避免互相顶号</strong>，推荐使用 <strong>Cookie 登录</strong>。
-            <br>请查看群文件教程或直接查看以下 PDF。
-        </div>
-    </div>
-    <h2 class="section-title">Cookie 登录教程文档</h2>
-    <div class="pdf-fallback">
-        <p>如果下方的PDF未能正常显示，请点击按钮直接下载查看。</p>
-        <a href="http://fanzysakura.icu/wp-content/uploads/2025/06/Picsew_20250607104111.pdf" class="download-button" download rel="noopener noreferrer">
-            <i class="fas fa-download"></i> 下载教程 PDF
-        </a>
-    </div>
-    <h2 class="section-title">开源项目声明</h2>
-    <p>青弋Bot基于以下优秀开源项目构建：</p>
-    <div class="opensource-grid">
-        <div class="repo-card"><h3>gsuid_core</h3><p>米家游戏核心框架，提供基础功能和插件支持</p><a href="https://github.com/Genshin-bots/gsuid_core" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
-        <div class="repo-card"><h3>RoverSign</h3><p>鸣潮自动签到实现，确保每日奖励获取</p><a href="https://github.com/tyql688/RoverSign" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
-        <div class="repo-card"><h3>WutheringWavesUID</h3><p>鸣潮游戏数据查询组件，提供角色信息查询功能</p><a href="https://github.com/tyql688/WutheringWavesUID" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
-        <div class="repo-card"><h3>TRSS</h3><p>跨平台机器人框架，支持多种通信协议</p><a href="https://trss.me/" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
-        <div class="repo-card"><h3>ws-plugin</h3><p>WebSocket插件，实现实时通信功能</p><a href="https://gitee.com/xiaoye12123/ws-plugin" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
-        <div class="repo-card"><h3>xiaoyao-cvs-plugin</h3><p>xiaoyao插件，实现签到登录功能</p><a href="https://github.com/ctrlcvs/xiaoyao-cvs-plugin" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
-    </div>
-    <div class="thanks">特别感谢所有开源项目作者和社区大佬的帮助与支持！</div>
-    <h2 class="section-title">机器人拉群服务</h2>
-    <div class="tips">
-        <i class="fas fa-info-circle"></i> 
-        <div><strong>拉群需付费</strong>（由于成本问题，群人数不限，1群/10元/月 买断制80永久，所有功能无限制），赚点窝囊费，望理解。<br>时间过得如此快，转眼间两个500人群都满了，其实我也在思考要不要继续提供免费服务，毕竟目前库洛封IP，开机器人的成本越来越大，况且由于学业问题，也不敢确定后期的机器人维护能否持续下去....但是，就目前情况而言，我会继续提供免费服务的，感谢大家的支持与鼓励，后面大概在7月中旬就暂停增加新用户了，这里说声抱歉，如果您觉得机器人不好用的话，可以联系我，发送以前的支付页面，我将会全额退款！  <strong>修bug的（QQ：1982975523）</strong></div>
-    </div>
-    <h2 class="section-title">付款码入口</h2>
-    <div class="payment-section">
-        <p>如需支持青弋Bot的开发与维护，欢迎扫码支付：</p>
-        <img src="http://fanzysakura.icu/wp-content/uploads/2025/06/IMG_9281.jpg" alt="付款二维码">
-        <p>支付成功后，请联系QQ：<span class="contact-info">1982975523</span> 并出示付款截图，感谢您的支持！</p>
-    </div>
-    <h2 class="section-title">加入支持群聊</h2>
-    <p><i class="fas fa-users"></i> 欢迎加入我们的交流群获取帮助与交流：<br><a href="https://qm.qq.com/q/AcK2877qi6" target="_blank" rel="noopener noreferrer">点击链接加入【白海岸保安队】QQ群</a></p>
-    <h2 class="section-title">重要免责声明</h2>
-    <div class="disclaimer">
-        <p><strong>请您在使用本机器人服务前，务必仔细阅读并理解本免责声明的全部内容。一旦您开始使用本机器人，即表示您已充分理解并同意本声明的所有条款：</strong></p>
-        <p>1. 本机器人为个人开发者基于兴趣与技术探索目的而开发，仅用于技术演示、学习交流及娱乐用途。本机器人及其提供的任何信息或服务不代表任何官方机构、游戏厂商或组织（包括但不限于库洛游戏、米哈游等）的立场、观点或授权。</p>
-        <p>2. 本机器人可能涉及用户数据交互，包括但不限于验证码的获取。我们郑重声明，所收集的任何验证码仅用于您明确同意授权的特定平台（如库街区）的登录验证。在登录过程中，请您务必高度警惕并仔细核对短信或邮件中的验证码内容及对应的登录地址，谨防任何形式的网络钓鱼、欺诈或账号劫持行为。因您未能妥善核实信息而导致的任何损失，本开发者概不负责。</p>
-        <p>3. 与本机器人进行对话时，为提供准确且连贯的回复，机器人需要读取并分析对话上下文。我们承诺将采取合理措施保护您的个人信息安全，并不会将您的个人数据用于非必要的目的或向第三方泄露。</p>
-        <p>4. 机器人所提供的回复内容主要由大型语言模型智能生成，其信息可能来源于互联网公开数据。这些回复不代表本开发者或本机器人的任何官方立场、观点或承诺。基于搜索结果，智能体可能提供外部链接，请您在点击任何外部链接前，务必自行判断其安全性与内容真实性，并自行承担访问风险。</p>
-        <p>5. 本机器人所参考和使用的开源插件均已在本页面“开源项目声明”部分明确列出并注明来源。除这些明确声明的开源部分外，本机器人的其他功能均为开发者私有实现，且不公开源代码。</p>
-        <p>6. 本机器人中包含的所有游戏相关内容、名称、图像、商标、版权及其他知识产权，均归其各自的原公司（如库洛游戏、米哈游等）所有。本机器人无意侵犯任何合法权益。如您认为本机器人内容存在任何侵权行为，请立即通过本页提供的联系方式与我们取得联系，我们将在收到通知后尽快核实并采取必要的删除措施。</p>
-        <p>7. 本机器人及其提供的服务均按“现状”（AS IS）提供，不作任何明示或暗示的保证，包括但不限于适销性、特定用途的适用性或非侵权的保证。本开发者不保证机器人服务的连续性、及时性、安全性或无错误性。</p>
-        <p>8. 在任何情况下，本开发者均不对因使用或无法使用本机器人服务而导致的任何直接、间接、附带、特殊、惩罚性或后果性损害（包括但不限于数据丢失、利润损失、业务中断等）承担任何责任，即使本开发者已被告知此类损害的可能性。</p>
-        <p>9. 本机器人在指定QQ群内提供的服务为免费性质。鉴于资源投入和维护需求，本服务可能会不定期暂停以进行系统升级、功能维护或故障排除。对此可能造成的不便，敬请广大用户理解与配合。我们将努力确保服务稳定性，并在恢复后第一时间通知。</p>
-        <p><strong>通过使用本机器人，即表示您已阅读、理解并接受上述所有免责条款。若您不同意本声明的任何内容，请立即停止使用本机器人。</strong></p>
-    </div>
-    <h2 class="section-title">个人Blog</h2>
-    <div class="friend-links">
-        <ul>
-            <li><a href="http://fanzysakura.icu/" target="_blank" rel="noopener noreferrer">乱发些东西</a>基于WordPress</li>
-        </ul>
-    </div>
-    <footer>
-      这里是青弋Bot教程页面，愿你使用愉快 🌟
-    </footer>
-  </div>
-
-  <script>
-    // 动态加载背景图片
-    document.addEventListener('DOMContentLoaded', () => {
-      const backgroundImageDiv = document.querySelector('.background-image');
-      const botIcon = document.getElementById('botIcon');
-
-      function loadRandomBackgroundImage() {
-        const imageUrl = 'https://www.loliapi.com/acg/?type=img';
-        const img = new Image();
-        img.onload = () => {
-          backgroundImageDiv.style.backgroundImage = `url('${imageUrl}')`;
-        };
-        img.onerror = () => {
-          console.error('Failed to load background image from API. Using fallback.');
-          backgroundImageDiv.style.backgroundImage = `url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3')`;
-        };
-        img.src = imageUrl;
+    <script>
+      // 动态加载背景图片
+      document.addEventListener('DOMContentLoaded', () => {
+        const backgroundImageDiv = document.querySelector('.background-image');
+        const botIcon = document.getElementById('botIcon');
+         function loadRandomBackgroundImage() {
+          const imageUrl = 'https://www.loliapi.com/acg/?type=img';
+          const img = new Image();
+          img.onload = () => {
+            backgroundImageDiv.style.backgroundImage = `url('${imageUrl}')`;
+          };
+          img.onerror = () => {
+            console.error('Failed to load background image from API. Using fallback.');
+            backgroundImageDiv.style.backgroundImage = `url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3')`;
+          };
+          img.src = imageUrl;
+        }
+         loadRandomBackgroundImage();
+         if (botIcon) {
+          botIcon.addEventListener('click', () => {
+            botIcon.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+              botIcon.style.transform = '';
+            }, 200);
+            loadRandomBackgroundImage();
+          });
+        }
+      });
+       // 暗色模式切换功能
+      const themeToggle = document.getElementById('themeToggle');
+      const body = document.body;
+      const themeIcon = themeToggle.querySelector('i');
+          const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          function applyTheme(theme) {
+        if (theme === 'dark') {
+          body.classList.add('dark-mode');
+          themeIcon.classList.remove('fa-moon');
+          themeIcon.classList.add('fa-sun');
+        } else {
+          body.classList.remove('dark-mode');
+          themeIcon.classList.remove('fa-sun');
+          themeIcon.classList.add('fa-moon');
+        }
       }
-
-      loadRandomBackgroundImage();
-
-      if (botIcon) {
-        botIcon.addEventListener('click', () => {
-          botIcon.style.transform = 'scale(0.9)';
-          setTimeout(() => {
-            botIcon.style.transform = '';
-          }, 200);
-          loadRandomBackgroundImage();
-        });
-      }
-    });
-
-    // 暗色模式切换功能
-    const themeToggle = document.getElementById('themeToggle');
-    const body = document.body;
-    const themeIcon = themeToggle.querySelector('i');
-    
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    function applyTheme(theme) {
-      if (theme === 'dark') {
-        body.classList.add('dark-mode');
-        themeIcon.classList.remove('fa-moon');
-        themeIcon.classList.add('fa-sun');
+       if (savedTheme) {
+        applyTheme(savedTheme);
+      } else if (systemPrefersDark) {
+        applyTheme('dark');
       } else {
-        body.classList.remove('dark-mode');
-        themeIcon.classList.remove('fa-sun');
-        themeIcon.classList.add('fa-moon');
+        applyTheme('light');
       }
-    }
-
-    if (savedTheme) {
-      applyTheme(savedTheme);
-    } else if (systemPrefersDark) {
-      applyTheme('dark');
-    } else {
-      applyTheme('light');
-    }
-    
-    themeToggle.addEventListener('click', () => {
-      themeToggle.style.transform = 'scale(0.9)';
-      setTimeout(() => {
-        themeToggle.style.transform = '';
-      }, 200);
-      
-      const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
-      applyTheme(newTheme);
-      localStorage.setItem('theme', newTheme);
-    });
-    
-    // 入场动画效果
-    document.addEventListener('DOMContentLoaded', () => {
-      const elements = document.querySelectorAll('.container > *');
-      elements.forEach((el, index) => {
+          themeToggle.addEventListener('click', () => {
+        themeToggle.style.transform = 'scale(0.9)';
         setTimeout(() => {
-          el.classList.add('visible');
-        }, 100 * index);
+          themeToggle.style.transform = '';
+        }, 200);
+            const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+        applyTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
       });
-    });
-  </script>
-
-  <div id="waifu">
-      <div id="waifu-tips"></div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/sakura-js@1.0.2/dist/sakura.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      new Sakura('body', {
-        colors: [
-          {
-            gradientColorStart: 'rgba(255, 183, 197, 0.9)',
-            gradientColorEnd: 'rgba(255, 197, 208, 0.9)',
-            gradientColorDegree: 120
-          }
-        ],
-        delay: 200
+          // 入场动画效果
+      document.addEventListener('DOMContentLoaded', () => {
+        const elements = document.querySelectorAll('.container > *');
+        elements.forEach((el, index) => {
+          setTimeout(() => {
+            el.classList.add('visible');
+          }, 100 * index);
+        });
       });
-    });
-  </script>
-  
-  <script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
-  <script>
-    L2Dwidget.init({
-        "pluginRootPath": "live2d/",
-        "pluginJsPath": "lib/",
-        "pluginModelPath": "live2d-widget-model-tororo/assets/", // 选择一个模型
-        "tagMode": false,
-        "debug": false,
-        "model": {
-            "jsonPath": "https://cdn.jsdelivr.net/npm/live2d-widget-model-tororo@1.0.5/assets/tororo.model.json" // 使用CDN的模型
-        },
-        "display": {
-            "position": "right",
-            "width": 150,
-            "height": 300,
-            "hOffset": 0,
-            "vOffset": -20
-        },
-        "mobile": {
-            "show": true,
-            "scale": 0.5
-        },
-        "react": {
-            "opacityDefault": 0.7,
-            "opacityOnHover": 0.2
-        },
-        "log": false
-    });
-  </script>
 
+      // 访客统计和运行时间
+      document.addEventListener('DOMContentLoaded', function() {
+        // 访客统计
+        let visitorCount = localStorage.getItem('visitorCount');
+        if (visitorCount === null) {
+          visitorCount = 1;
+        } else {
+          visitorCount = parseInt(visitorCount) + 1;
+        }
+        localStorage.setItem('visitorCount', visitorCount);
+        document.getElementById('visitor-count').innerText = `累计访问人数: ${visitorCount}`;
+
+        // 网站和机器人运行时间
+        const websiteStartDate = new Date('2025-06-15T00:00:00');
+        const robotStartDate = new Date('2022-01-12T00:00:00');
+
+        function updateRuntime() {
+          const now = new Date();
+          
+          // 网站运行时间
+          const websiteDiff = now - websiteStartDate;
+          const websiteDays = Math.floor(websiteDiff / (1000 * 60 * 60 * 24));
+          const websiteHours = Math.floor((websiteDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const websiteMinutes = Math.floor((websiteDiff % (1000 * 60 * 60)) / (1000 * 60));
+          const websiteSeconds = Math.floor((websiteDiff % (1000 * 60)) / 1000);
+          document.getElementById('website-runtime').innerText = `网站已运行: ${websiteDays}天 ${websiteHours}小时 ${websiteMinutes}分钟 ${websiteSeconds}秒`;
+
+          // 机器人运行时间
+          const robotDiff = now - robotStartDate;
+          const robotDays = Math.floor(robotDiff / (1000 * 60 * 60 * 24));
+          const robotHours = Math.floor((robotDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const robotMinutes = Math.floor((robotDiff % (1000 * 60 * 60)) / (1000 * 60));
+          const robotSeconds = Math.floor((robotDiff % (1000 * 60)) / 1000);
+          document.getElementById('robot-runtime').innerText = `机器人已运行: ${robotDays}天 ${robotHours}小时 ${robotMinutes}分钟 ${robotSeconds}秒`;
+        }
+        
+        setInterval(updateRuntime, 1000);
+        updateRuntime(); // Initial call
+      });
+    </script>
+    <div id="waifu">
+        <div id="waifu-tips"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sakura-js@1.0.2/dist/sakura.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        new Sakura('body', {
+          colors: [
+            {
+              gradientColorStart: 'rgba(255, 183, 197, 0.9)',
+              gradientColorEnd: 'rgba(255, 197, 208, 0.9)',
+              gradientColorDegree: 120
+            }
+          ],
+          delay: 200
+        });
+      });
+    </script>
+     <script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
+    <script>
+      L2Dwidget.init({
+          "pluginRootPath": "live2d/",
+          "pluginJsPath": "lib/",
+          "pluginModelPath": "live2d-widget-model-tororo/assets/", // 选择一个模型
+          "tagMode": false,
+          "debug": false,
+          "model": {
+              "jsonPath": "https://cdn.jsdelivr.net/npm/live2d-widget-model-tororo@1.0.5/assets/tororo.model.json" // 使用CDN的模型
+          },
+          "display": {
+              "position": "right",
+              "width": 150,
+              "height": 300,
+              "hOffset": 0,
+              "vOffset": -20
+          },
+          "mobile": {
+              "show": true,
+              "scale": 0.5
+          },
+          "react": {
+              "opacityDefault": 0.7,
+              "opacityOnHover": 0.2
+          },
+          "log": false
+      });
+    </script>
 </body>
 </html>
