@@ -795,6 +795,39 @@
          .modal-overlay.active .modal-content {
             transform: scale(1);
          }
+        /* 移动端弹窗修复：允许内容滚动，限制最大高度，保证底部按钮可触达并可点击 */
+        @media (max-width: 480px) {
+          .modal-overlay {
+            align-items: flex-start; /* 从顶端开始显示，避免在高度超出时被裁切 */
+            padding: 12px 12px; /* 给上下留白以支持滚动时能看见边距 */
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+          }
+          .modal-content {
+            width: 100%;
+            max-width: 100%;
+            max-height: calc(100vh - 24px); /* 保证弹窗内容不会超出视口太多 */
+            margin: 6px 0;
+            border-radius: 12px;
+            overflow: auto; /* 内部滚动，保证底部按钮可达 */
+            box-sizing: border-box;
+            touch-action: manipulation;
+          }
+          .modal-close-btn {
+            top: 8px;
+            right: 10px;
+            z-index: 3;
+            background: rgba(255,255,255,0.04);
+            padding: 4px 8px;
+            border-radius: 8px;
+          }
+          .modal-close-btn-bottom {
+            position: sticky; /* 当内容可滚动时，底部按钮尽量保持可见 */
+            bottom: 10px;
+            z-index: 3;
+            margin-top: 12px;
+          }
+        }
          body.dark-mode .modal-content {
             background: var(--card-bg-dark);
             color: var(--dark-text);
@@ -1586,29 +1619,33 @@
               }
 
               details.addEventListener('toggle', () => {
-                if (details.open) {
-                  // open -> 设置为当前高度以触发过渡
-                  const height = content.scrollHeight;
-                  content.style.maxHeight = height + 'px';
-                  content.style.opacity = '1';
-                  const onEnd = (e) => {
-                    if (e.propertyName === 'max-height') {
-                      // 解除显式 maxHeight，允许内容自适应
-                      content.style.maxHeight = 'none';
-                      content.removeEventListener('transitionend', onEnd);
-                    }
-                  };
-                  content.addEventListener('transitionend', onEnd);
-                } else {
-                  // close -> 如果当前为 none（未设置），先设为 scrollHeight 再到 0
-                  if (content.style.maxHeight === 'none' || !content.style.maxHeight) {
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                    // 强制重绘以确保过渡
+                // 延迟到下一帧，确保浏览器已完成 native toggle 布局变化
+                requestAnimationFrame(() => {
+                  if (details.open) {
+                    // open -> 从 0 开始到真实高度，确保过渡始终发生
+                    content.style.maxHeight = '0px';
+                    // 强制重绘
                     void content.offsetHeight;
+                    const height = content.scrollHeight;
+                    content.style.opacity = '1';
+                    content.style.maxHeight = height + 'px';
+                    const onEnd = (e) => {
+                      if (e.propertyName === 'max-height') {
+                        content.style.maxHeight = 'none';
+                        content.removeEventListener('transitionend', onEnd);
+                      }
+                    };
+                    content.addEventListener('transitionend', onEnd);
+                  } else {
+                    // close -> 从当前高度到 0，先设置为当前高度以触发过渡
+                    const height = content.scrollHeight;
+                    content.style.maxHeight = height + 'px';
+                    // 强制重绘
+                    void content.offsetHeight;
+                    content.style.maxHeight = '0px';
+                    content.style.opacity = '0';
                   }
-                  content.style.maxHeight = '0px';
-                  content.style.opacity = '0';
-                }
+                });
               });
             });
           })();
