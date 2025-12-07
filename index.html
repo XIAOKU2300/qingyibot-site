@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="青弋Bot V1.1.2 正式发布 | 免费多功能机器人。支持鸣潮、原神、星铁、明日方舟等游戏数据查询与自动签到；内置椰奶群管、东方音乐搜取、娱乐互动（今日老婆）等丰富功能。常态化部署，稳定运行，群聊私聊均可使用。">
+    <meta name="description" content="青弋Bot V1.2.0 正式发布 | 免费多功能机器人。支持鸣潮、原神、星铁、明日方舟等游戏数据查询与自动签到；内置椰奶群管、东方音乐搜取、娱乐互动（今日老婆）等丰富功能。常态化部署，稳定运行，群聊私聊均可使用。">
     <title>青弋Bot | 与你同行 - 官方发布页</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura-js@1.0.2/dist/sakura.css">
@@ -426,10 +426,10 @@
         }
           .bot-icon {
           position: absolute;
-          top: 25px;
-          left: 25px;
-          width: 60px;
-          height: 60px;
+          top: 20px;
+          left: 20px;
+          width: 50px;
+          height: 50px;
           background: linear-gradient(135deg, var(--primary), var(--secondary));
           border-radius: 50%;
           cursor: pointer;
@@ -441,7 +441,6 @@
           box-shadow: 0 5px 15px rgba(0,0,0,0.2);
           z-index: 10;
           transition: transform 0.2s ease, box-shadow 0.2s ease;
-          position: relative; /* For toast positioning */
         }
           .bot-icon:hover {
           transform: translateY(-3px);
@@ -686,8 +685,8 @@
           }
           .bot-icon {
             /* 手机端位置优化，防止太靠上 */
-            top: 25px;
-            left: 25px;
+            top: 20px;
+            left: 20px;
             width: 50px;
             height: 50px;
             font-size: 1.5rem;
@@ -885,21 +884,148 @@
          .dev-note i {
              margin-right: 10px;
          }
+        /* ----------------- 额外 UI 优化（毛玻璃、细微动效、二级菜单动画） ----------------- */
+        :root {
+          --glass-bg: rgba(255,255,255,0.55);
+          --glass-dark-bg: rgba(20,22,30,0.45);
+          --glass-blur: 6px;
+        }
+
+        /* 毛玻璃：仅在支持 backdrop-filter 的浏览器启用 */
+        .container, .repo-card, .download-section, .group-card, .payment-section, .modal-content {
+          background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0.5));
+          backdrop-filter: blur(var(--glass-blur));
+          -webkit-backdrop-filter: blur(var(--glass-blur));
+          border: 1px solid rgba(255,255,255,0.25);
+        }
+        body.dark-mode .container, body.dark-mode .repo-card, body.dark-mode .download-section, body.dark-mode .group-card, body.dark-mode .payment-section, body.dark-mode .modal-content {
+          background: linear-gradient(135deg, rgba(30,30,40,0.6), rgba(30,30,40,0.5));
+          border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        /* 细微交互与对齐微调 */
+        .theme-toggle, .bot-icon {
+          transition: transform 0.22s cubic-bezier(.2,.8,.2,1), box-shadow 0.22s ease, opacity 0.2s ease;
+        }
+        .bot-icon { box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
+        .theme-toggle { box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
+
+        /* details/summary 二级菜单动效（低成本） */
+        details summary {
+          cursor: pointer;
+          list-style: none;
+          outline: none;
+          user-select: none;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+        }
+        details summary::-webkit-details-marker { display: none; }
+        details summary::after {
+          content: '\25BC';
+          display: inline-block;
+          margin-left: 8px;
+          transform-origin: center;
+          transition: transform 0.25s ease;
+          opacity: 0.85;
+          font-size: 0.9rem;
+        }
+        details[open] summary::after { transform: rotate(180deg); }
+        details > ul {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.36s cubic-bezier(.2,.9,.2,1), opacity 0.3s ease;
+          opacity: 0;
+        }
+        details[open] > ul { max-height: 600px; opacity: 1; }
+
+        /* 轻量级樱花（后备方案）：用 CSS 动画实现，低开销 */
+        .sakura-petal {
+          position: fixed;
+          top: -10vh;
+          width: 14px;
+          height: 18px;
+          background: radial-gradient(circle at 40% 30%, rgba(255,200,220,0.95), rgba(255,170,200,0.95));
+          border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+          opacity: 0.95;
+          pointer-events: none;
+          transform-origin: center;
+          animation-name: sakura-fall, sakura-rotate;
+          animation-iteration-count: infinite;
+          animation-timing-function: linear;
+        }
+        @keyframes sakura-fall {
+          0% { transform: translateY(-10vh) translateX(0) rotate(0deg); }
+          100% { transform: translateY(110vh) translateX(30vw) rotate(720deg); }
+        }
+        @keyframes sakura-rotate {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        /* 毛玻璃模糊控制面板样式 */
+        .blur-control {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          margin-left: 10px;
+          position: relative;
+        }
+        .blur-btn {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(255,255,255,0.06);
+          color: white;
+          cursor: pointer;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+          transition: transform 0.18s ease;
+        }
+        .blur-btn:hover { transform: translateY(-3px); }
+        .blur-panel {
+          position: absolute;
+          right: 0;
+          top: 56px;
+          background: var(--card-bg-light);
+          padding: 10px;
+          border-radius: 8px;
+          box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+          z-index: 200;
+          min-width: 160px;
+        }
+        body.dark-mode .blur-panel { background: var(--dark-card); }
+
+        /* 移动端优化：隐藏控制、降低模糊 */
+        @media (max-width: 768px) {
+          .blur-control { display: none; }
+          :root { --glass-blur: 3px; }
+          .sakura-petal { display: none; }
+          .theme-toggle { width: 50px; height: 50px; }
+        }
+
       </style>
 </head>
 <body>
     <!-- 更新日志弹窗 -->
-    <div id="notice-modal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close-btn">&times;</span>
-            <h3>青弋Bot V1.1.2 更新日志</h3>
-            <p style="text-align: center; color: var(--text-light); margin-bottom: 10px;">正式版发布 · 保持热爱</p>
+    <div id="notice-modal" class="modal-overlay" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="notice-title">
+            <span class="modal-close-btn" aria-label="关闭">&times;</span>
+            <h3 id="notice-title">青弋Bot V1.2.0 更新日志</h3>
+            <p style="text-align: center; color: var(--text-light); margin-bottom: 10px;">正式版发布 · 持续优化体验</p>
             <ul>
-                <li>新增 <code>#今日老婆</code> </li>
-                <li>新增 <code>服务状态</code> </li>
-                <li>新增 <code>椰奶帮助</code> & <code>椰奶群管帮助</code> </li>
-                <li>新增 <code>#th帮助</code> </li>
-                <li>调整 视频解析功能状态为 (暂时停用)</li>
+                <li>【新增】娱乐系统二级菜单，功能分类更清晰</li>
+                <li>【新增】<code>#今日运势</code> / <code>#jrys</code> / <code>#孑然一身</code> —— 获取今日运势及相关查询</li>
+                <li>【新增】运势相关指令：<code>#运势统计</code>(#ystj)、<code>#运势帮助</code>(#ysbz)、<code>#运势数据</code>(#yssj)、<code>#运势总数据</code>(#yszsj)、<code>#运势排行榜</code>(#ysphb)、<code>#一言统计</code>(#yytj)</li>
+                <li>【新增】<code>#签到</code> 指令</li>
+                <li>【新增】<code>#sakura帮助</code>（AI 聊天辅助插件）</li>
+                <li>【优化】指令文案与分类展示</li>
+                <li>【移除】Steam 相关功能入口</li>
+                <li>【开源】增加 <a href="https://gitee.com/qingyingxbot/Daily-Attendance-plugin" target="_blank" rel="noopener noreferrer">每日签到插件（Gitee）</a> 与 <a href="https://github.com/suzuka-suzuka/sakura-plugin" target="_blank" rel="noopener noreferrer">@suzuka-suzuka/sakura-plugin</a></li>
             </ul>
             <button class="modal-close-btn-bottom">我已知晓</button>
         </div>
@@ -920,15 +1046,24 @@
         <i class="fas fa-robot"></i>
         <div id="botToast" class="bot-toast">别戳了...</div>
       </div>
-          <div class="theme-toggle-container">
+      <div class="theme-toggle-container">
         <button class="theme-toggle" id="themeToggle">
           <i class="fas fa-moon"></i>
         </button>
+        <!-- 毛玻璃模糊度控制（移动端隐藏） -->
+        <div class="blur-control" id="blurControl" aria-hidden="false">
+          <button class="blur-btn" id="blurToggle" title="调整背景模糊"><i class="fas fa-water"></i></button>
+          <div class="blur-panel" id="blurPanel" role="dialog" aria-hidden="true" style="display:none;">
+            <label for="blurRange" style="font-size:0.85rem;">模糊: <span id="blurValue">6</span>px</label>
+            <input type="range" id="blurRange" min="0" max="20" step="1" value="6" style="width:120px; display:block; margin-top:6px;">
+            <button id="blurReset" class="modal-close-btn-bottom" style="margin-top:8px; padding:6px 12px; font-size:0.8rem;">重置</button>
+          </div>
+        </div>
       </div>
       
       <!-- 头部标题更新 -->
       <div class="header">
-        <h1>青弋Bot | 与你同行<span class="version-badge">V1.1.2</span></h1>
+        <h1>青弋Bot | 与你同行<span class="version-badge">V1.2.0</span></h1>
         <p class="subtitle">青弋是免费Bot，群聊私聊均可使用</p>
         <p class="subtitle">汇集 鸣潮、原神、星铁、方舟、群管与娱乐功能于一体</p>
         <p class="subtitle" style="font-size: 0.9rem; margin-top:5px; opacity: 0.8;">常态部署，持续维护，功能稳定运行中</p>
@@ -953,36 +1088,60 @@
       </div>
 
       <h2 class="section-title">✨ 功能指令列表</h2>
-      <ul>
-          <li><strong>娱乐互动：</strong> <code>#今日老婆</code> </li>
-          <li><strong>服务监控：</strong> <code>服务状态</code> </li>
-          <li><strong>东方音乐：</strong> <code>#th帮助</code> </li>
-          <li><strong>群管系统：</strong> <code>椰奶群管帮助</code> </li>
-          <li><strong>椰奶功能：</strong> <code>椰奶帮助</code> </li>
-          <li><strong>视频解析：</strong> <code>发送视频链接即可</code> <span style="color:#ff6b6b; font-weight:bold;">(暂时停用)</span></li>
-          <li>明日方舟：<code>#方舟帮助</code></li>
-          <li>Steam：<code>#steam帮助</code></li>
-          <li>Phigros：<code>/phigros help</code></li>
-          <li>鸣潮：<code>ww帮助</code></li>
-          <li>鸣潮声骸强化模拟插件：<code>ww梭哈帮助</code></li>
-          <li>鸣潮自动签到：<code>rs帮助</code></li>
-          <li>鸣潮抽卡记录使用：<code>ww抽卡帮助</code></li>
-      </ul>
       
+      <div class="feature-wrapper">
+          <ul>
+              <li>
+                <details>
+                    <summary>娱乐系统（点击展开）</summary>
+                    <ul style="margin-top:10px; margin-left: -15px;">
+                      <li><strong>今日老婆：</strong> <code>#今日老婆</code></li>
+                      <li><strong>运势系统：</strong>
+                        <ul style="margin-top:5px;">
+                          <li><code>#今日运势</code> 或 <code>#jrys</code> 或 <code>#孑然一身</code> —— 获取今日运势</li>
+                          <li><code>#运势统计</code> 或 <code>#ystj</code> —— 查看个人统计信息</li>
+                          <li><code>#运势帮助</code> 或 <code>#ysbz</code> —— 查看本帮助</li>
+                          <li><code>#运势数据</code> 或 <code>#yssj</code> —— 查询当前群聊今日签到情况</li>
+                          <li><code>#运势总数据</code> 或 <code>#yszsj</code> —— 查询总的今日签到情况（仅当日数据）</li>
+                          <li><code>#运势排行榜</code> 或 <code>#ysphb</code> —— 查看全局运势排行榜</li>
+                          <li><code>#一言统计</code> 或 <code>#yytj</code> —— 查看备用一言库统计信息</li>
+                        </ul>
+                      </li>
+                      <li><strong>AI 聊天辅助：</strong> <code>#sakura帮助</code> <span style="color:#ff6b6b; font-weight:bold;">周末自动开启AI功能，工作日关闭</span></li>
+                      <li><strong>签到：</strong> <code>#签到</code></li>
+                    </ul>
+                </details>
+              </li>
+              <li><strong>服务监控：</strong> <code>服务状态</code></li>
+              <li><strong>东方音乐：</strong> <code>#th帮助</code></li>
+              <li><strong>群管系统：</strong> <code>椰奶群管帮助</code></li>
+              <li><strong>椰奶功能：</strong> <code>椰奶帮助</code></li>
+              <li><strong>视频解析：</strong> <code>发送视频链接即可</code> <span style="color:#ff6b6b; font-weight:bold;">(暂时停用)</span></li>
+              <li>明日方舟：<code>#方舟帮助</code></li>
+              <li>Phigros：<code>/phigros help</code></li>
+              <li>鸣潮：<code>ww帮助</code></li>
+              <li>鸣潮声骸强化模拟插件：<code>ww梭哈帮助</code></li>
+              <li>鸣潮自动签到：<code>rs帮助</code></li>
+              <li>鸣潮抽卡记录使用：<code>ww抽卡帮助</code></li>
+          </ul>
+      </div>
+
       <div class="tips">
           <i class="fas fa-lightbulb"></i>
           <div>想绑定米家游戏？请发送 <code>#扫码登录</code> 一键绑定账号。</div>
       </div>
 
       <h2 class="section-title">支持的米家游戏</h2>
-      <ul>
-          <li>崩铁：无帮助列表，直接发送 <code>*绑定+UID(如*绑定114514)（建议直接扫码登录一键绑定！）</code></li>
-          <li>原神：<code>#帮助</code></li>
-          <li>绝区零：<code>%帮助</code></li>
-          <li>以下所有自动签到功能都需要进行<code>#扫码登录</code>后才能继续使用</li>
-          <li>崩坏3签到：<code>#崩坏3签到</code> (支持崩坏3、原神、崩坏2、未定义事件、绝区零)</li>
-          <li>云原神签到：<code>#云原神签到</code></li>
-      </ul>
+      <div class="feature-wrapper">
+          <ul>
+              <li>崩铁：无帮助列表，直接发送 <code>*绑定+UID(如*绑定114514)</code>（建议直接扫码登录一键绑定！）</li>
+              <li>原神：<code>#帮助</code></li>
+              <li>绝区零：<code>%帮助</code></li>
+              <li>以下所有自动签到功能都需要进行<code>#扫码登录</code>后才能继续使用</li>
+              <li>崩坏3签到：<code>#崩坏3签到</code> (支持崩坏3、原神、崩坏2、未定义事件、绝区零)</li>
+              <li>云原神签到：<code>#云原神签到</code></li>
+          </ul>
+      </div>
       <p>所有功能皆为开源项目实现或基于开源项目二次开发</p>
 
       <h2 class="section-title">相关抓包软件下载</h2>
@@ -1022,17 +1181,48 @@
           </a>
       </div>
 
-      <h2 class="section-title">开源项目声明</h2>
-      <p>青弋Bot基于以下优秀开源项目构建：</p>
+      <h2 class="section-title">相关开源项目</h2>
       <div class="opensource-grid">
-          <div class="repo-card"><h3>gsuid_core</h3><p>米家游戏核心框架，提供基础功能和插件支持</p><a href="https://github.com/Genshin-bots/gsuid_core" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
-          <div class="repo-card"><h3>RoverSign</h3><p>鸣潮自动签到实现，确保每日奖励获取</p><a href="https://github.com/tyql688/RoverSign" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
-          <div class="repo-card"><h3>WutheringWavesUID</h3><p>鸣潮游戏数据查询组件，提供角色信息查询功能</p><a href="https://github.com/tyql688/WutheringWavesUID" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
-          <div class="repo-card"><h3>yenai-plugin</h3><p>适用于Yunzai-Botv3的扩展，提供群管与椰奶功能</p><a href="https://github.com/yeyang52/yenai-plugin" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
-          <div class="repo-card"><h3>TouhouMuscFinder</h3><p>东方Project音乐搜取插件</p><a href="https://github.com/XIAOKU2300/TouhouMuscFinder" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
-          <div class="repo-card"><h3>live2d-widget-enhanced</h3><p>加强版 Live2D 看板娘 Web 组件</p><a href="https://github.com/SamuNatsu/live2d-widget-enhanced" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
-          <div class="repo-card"><h3>TRSS</h3><p>跨平台机器人框架，支持多种通信协议</p><a href="https://trss.me/" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
-          <div class="repo-card"><h3>ws-plugin</h3><p>WebSocket插件，实现实时通信功能</p><a href="https://gitee.com/xiaoye12123/ws-plugin" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a></div>
+          <div class="repo-card">
+              <h3>Daily-Attendance-plugin</h3>
+              <p>每日签到功能插件，提供用户日常签到服务</p>
+              <a href="https://gitee.com/qingyingxbot/Daily-Attendance-plugin" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
+          </div>
+          <div class="repo-card">
+              <h3>@suzuka-suzuka/sakura-plugin</h3>
+              <p>AI 聊天辅助插件，机器人双休自动开启AI功能</p>
+              <a href="https://github.com/suzuka-suzuka/sakura-plugin" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
+          </div>
+          <div class="repo-card">
+              <h3>gsuid_core</h3>
+              <p>米家游戏核心框架，提供基础功能和插件支持</p>
+              <a href="https://github.com/Genshin-bots/gsuid_core" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
+          </div>
+          <div class="repo-card">
+              <h3>RoverSign</h3>
+              <p>鸣潮自动签到实现，确保每日奖励获取</p>
+              <a href="https://github.com/tyql688/RoverSign" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
+          </div>
+          <div class="repo-card">
+              <h3>WutheringWavesUID</h3>
+              <p>鸣潮游戏数据查询组件，提供角色信息查询功能</p>
+              <a href="https://github.com/tyql688/WutheringWavesUID" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
+          </div>
+          <div class="repo-card">
+              <h3>yenai-plugin</h3>
+              <p>适用于Yunzai-Botv3的扩展，提供群管与椰奶功能</p>
+              <a href="https://github.com/yeyang52/yenai-plugin" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
+          </div>
+          <div class="repo-card">
+              <h3>TouhouMuscFinder</h3>
+              <p>东方Project音乐搜取插件</p>
+              <a href="https://github.com/XIAOKU2300/TouhouMuscFinder" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
+          </div>
+          <div class="repo-card">
+              <h3>live2d-widget-enhanced</h3>
+              <p>加强版 Live2D 看板娘 Web 组件</p>
+              <a href="https://github.com/SamuNatsu/live2d-widget-enhanced" target="_blank" rel="noopener noreferrer" class="repo-link">访问项目</a>
+          </div>
       </div>
       <div class="thanks">特别感谢所有开源项目作者和社区大佬的帮助与支持！</div>
       
@@ -1319,7 +1509,7 @@
         const modal = document.getElementById('notice-modal');
         const eggModal = document.getElementById('egg-modal');
         const closeBtns = document.querySelectorAll('.modal-close-btn, .modal-close-btn-bottom');
-        const versionKey = 'noticeShown_V1.1.2_Fix2'; 
+        const versionKey = 'noticeShown_V1.2.0_Fix2'; 
 
         // 安全读取 SessionStorage
         let isNoticeShown = false;
@@ -1365,6 +1555,178 @@
                 });
             }
         });
+
+        // 8. 二级菜单动效、毛玻璃控制与樱花初始化（含移动端性能优化）
+        (function initEnhancements() {
+          const isMobile = window.matchMedia('(max-width: 768px)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+          // details 展开/收起动画（平滑过渡高度）
+          (function setupDetailsAnimation() {
+            document.querySelectorAll('details').forEach(details => {
+              const content = details.querySelector('ul');
+              if (!content) return;
+              // 只使用 max-height + opacity 做动画，避免 display:none 阻断过渡
+              content.style.overflow = 'hidden';
+              content.style.transition = 'max-height 0.36s cubic-bezier(.2,.9,.2,1), opacity 0.3s ease';
+              // 初始化高度（open 的情况设为 scrollHeight，否则为 0）
+              if (details.open) {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                content.style.opacity = '1';
+                // 在动画结束后解除 maxHeight 限制以支持内部尺寸变化
+                const onEndInit = (e) => {
+                  if (e.propertyName === 'max-height') {
+                    content.style.maxHeight = 'none';
+                    content.removeEventListener('transitionend', onEndInit);
+                  }
+                };
+                content.addEventListener('transitionend', onEndInit);
+              } else {
+                content.style.maxHeight = '0px';
+                content.style.opacity = '0';
+              }
+
+              details.addEventListener('toggle', () => {
+                if (details.open) {
+                  // open -> 设置为当前高度以触发过渡
+                  const height = content.scrollHeight;
+                  content.style.maxHeight = height + 'px';
+                  content.style.opacity = '1';
+                  const onEnd = (e) => {
+                    if (e.propertyName === 'max-height') {
+                      // 解除显式 maxHeight，允许内容自适应
+                      content.style.maxHeight = 'none';
+                      content.removeEventListener('transitionend', onEnd);
+                    }
+                  };
+                  content.addEventListener('transitionend', onEnd);
+                } else {
+                  // close -> 如果当前为 none（未设置），先设为 scrollHeight 再到 0
+                  if (content.style.maxHeight === 'none' || !content.style.maxHeight) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    // 强制重绘以确保过渡
+                    void content.offsetHeight;
+                  }
+                  content.style.maxHeight = '0px';
+                  content.style.opacity = '0';
+                }
+              });
+            });
+          })();
+
+          // 毛玻璃模糊控制（仅在非移动端显示）
+          (function setupBlurControl() {
+            const blurControl = document.getElementById('blurControl');
+            const blurPanel = document.getElementById('blurPanel');
+            const blurToggle = document.getElementById('blurToggle');
+            const blurRange = document.getElementById('blurRange');
+            const blurValue = document.getElementById('blurValue');
+            const blurReset = document.getElementById('blurReset');
+            const root = document.documentElement;
+            try {
+              const saved = (function(){ try { return localStorage.getItem('glassBlur'); } catch(e){ return null; } })();
+              const containerEl = document.querySelector('.container');
+              if (saved !== null) {
+                root.style.setProperty('--glass-blur', saved + 'px');
+                if (containerEl) {
+                  containerEl.style.backdropFilter = 'blur(' + saved + 'px)';
+                  containerEl.style.webkitBackdropFilter = 'blur(' + saved + 'px)';
+                }
+              }
+              if (isMobile) {
+                if (blurControl) blurControl.style.display = 'none';
+                root.style.setProperty('--glass-blur', '3px');
+                return;
+              }
+              const initVal = saved !== null ? Number(saved) : 6;
+              if (blurRange) { blurRange.value = initVal; }
+              if (blurValue) { blurValue.textContent = initVal; }
+              root.style.setProperty('--glass-blur', initVal + 'px');
+              if (containerEl) {
+                containerEl.style.backdropFilter = 'blur(' + initVal + 'px)';
+                containerEl.style.webkitBackdropFilter = 'blur(' + initVal + 'px)';
+              }
+
+              if (blurToggle) blurToggle.addEventListener('click', () => {
+                const hidden = blurPanel.getAttribute('aria-hidden') === 'true';
+                blurPanel.setAttribute('aria-hidden', hidden ? 'false' : 'true');
+                blurPanel.style.display = hidden ? 'block' : 'none';
+              });
+              if (blurRange) blurRange.addEventListener('input', (e) => {
+                const v = e.target.value;
+                root.style.setProperty('--glass-blur', v + 'px');
+                if (containerEl) {
+                  containerEl.style.backdropFilter = 'blur(' + v + 'px)';
+                  containerEl.style.webkitBackdropFilter = 'blur(' + v + 'px)';
+                }
+                if (blurValue) blurValue.textContent = v;
+                try { localStorage.setItem('glassBlur', v); } catch(e) {}
+              });
+              if (blurReset) blurReset.addEventListener('click', () => {
+                const def = 6;
+                root.style.setProperty('--glass-blur', def + 'px');
+                if (containerEl) {
+                  containerEl.style.backdropFilter = 'blur(' + def + 'px)';
+                  containerEl.style.webkitBackdropFilter = 'blur(' + def + 'px)';
+                }
+                if (blurRange) blurRange.value = def;
+                if (blurValue) blurValue.textContent = def;
+                try { localStorage.removeItem('glassBlur'); } catch(e) {}
+                blurPanel.setAttribute('aria-hidden', 'true');
+                blurPanel.style.display = 'none';
+              });
+            } catch (e) {
+              console.warn('blur control init error', e);
+            }
+          })();
+
+          // 初始化樱花（移动端跳过；优先尝试库，否则启用轻量后备）
+          (function initSakura() {
+            try {
+              if (isMobile) {
+                console.info('Mobile detected: skipping Sakura / heavy effects.');
+                return;
+              }
+              if (window.Sakura && typeof window.Sakura === 'function') {
+                new window.Sakura();
+                console.info('Sakura library initialized (window.Sakura).');
+                return;
+              }
+              if (typeof window.sakura === 'function') {
+                window.sakura();
+                console.info('Sakura library initialized (window.sakura).');
+                return;
+              }
+              if (window.SakuraJS && typeof window.SakuraJS === 'function') {
+                new window.SakuraJS();
+                console.info('Sakura library initialized (window.SakuraJS).');
+                return;
+              }
+              // 轻量后备：少量 CSS 花瓣（性能友好）
+              console.warn('Sakura library not found; activating lightweight fallback.');
+              function createPetal(i) {
+                const petal = document.createElement('div');
+                petal.className = 'sakura-petal';
+                const left = Math.random() * 100; // vw
+                const delay = (Math.random() * 8).toFixed(2); // s
+                const duration = (10 + Math.random() * 8).toFixed(2); // s
+                petal.style.left = left + 'vw';
+                petal.style.width = (10 + Math.random() * 12) + 'px';
+                petal.style.height = (12 + Math.random() * 16) + 'px';
+                petal.style.opacity = (0.7 + Math.random() * 0.3).toFixed(2);
+                petal.style.animationDuration = duration + 's, ' + (4 + Math.random() * 6).toFixed(2) + 's';
+                petal.style.animationDelay = delay + 's, ' + delay + 's';
+                document.body.appendChild(petal);
+                return petal;
+              }
+              const petals = [];
+              for (let i = 0; i < 8; i++) {
+                petals.push(createPetal(i));
+              }
+            } catch (e) {
+              console.warn('Sakura initialization failed and fallback also errored:', e);
+            }
+          })();
+        })();
       });
     </script>
 </body>
