@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="青弋Bot V1.2.0 正式发布 | 免费多功能机器人。支持鸣潮、原神、星铁、明日方舟等游戏数据查询与自动签到；内置椰奶群管、东方音乐搜取、娱乐互动（今日老婆）等丰富功能。常态化部署，稳定运行，群聊私聊均可使用。">
-    <title>青弋Bot | 稍作休整 重新启航！ - 官方发布页</title>
+    <meta name="description" content="青弋Bot 官方公告与服务状态页。当前处于架构调整与官方机器人审核阶段，预计7日内完成。支持鸣潮、原神、星穹铁道、明日方舟等游戏数据查询与自动签到，提供稳定、高性能、多功能的QQ机器人服务。">
+    <meta name="keywords" content="青弋Bot, QQ机器人, 鸣潮签到, 原神查询, 星穹铁道, 明日方舟, Yunzai插件, 游戏机器人, 自动签到">
+    <meta name="author" content="青弋运营团队">
+    <title>青弋Bot | 服务调整中 · 官方公告</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura-js@1.0.2/dist/sakura.css">
+
       <style>
         :root {
           --primary: #5e72e4;
@@ -1044,25 +1047,35 @@
       </style>
 </head>
 <body>
-    <!-- 更新日志弹窗 -->
-    <div id="notice-modal" class="modal-overlay" aria-hidden="true">
-        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="notice-title">
-            <span class="modal-close-btn" aria-label="关闭">&times;</span>
-            <h3 id="notice-title">青弋Bot V1.2.0 更新日志</h3>
-            <p style="text-align: center; color: var(--text-light); margin-bottom: 10px;">正式版发布 · 持续优化体验</p>
-            <ul>
-                <li>【新增】娱乐系统二级菜单，功能分类更清晰</li>
-                <li>【新增】<code>#今日运势</code> / <code>#jrys</code> / <code>#孑然一身</code> —— 获取今日运势及相关查询</li>
-                <li>【新增】运势相关指令：<code>#运势统计</code>(#ystj)、<code>#运势帮助</code>(#ysbz)、<code>#运势数据</code>(#yssj)、<code>#运势总数据</code>(#yszsj)、<code>#运势排行榜</code>(#ysphb)、<code>#一言统计</code>(#yytj)</li>
-                <li>【新增】<code>#签到</code> 指令</li>
-                <li>【新增】<code>#sakura帮助</code>（AI 聊天辅助插件）</li>
-                <li>【优化】指令文案与分类展示</li>
-                <li>【移除】Steam 相关功能入口</li>
-                <li>【开源】增加 <a href="https://gitee.com/qingyingxbot/Daily-Attendance-plugin" target="_blank" rel="noopener noreferrer">每日签到插件（Gitee）</a> 与 <a href="https://github.com/suzuka-suzuka/sakura-plugin" target="_blank" rel="noopener noreferrer">@suzuka-suzuka/sakura-plugin</a></li>
-            </ul>
-            <button class="modal-close-btn-bottom">我已知晓</button>
-        </div>
+    <!-- 公告弹窗 -->
+<div id="notice-modal" class="modal-overlay" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="notice-title">
+    <button class="modal-close-btn" aria-label="关闭">&times;</button>
+
+    <h3 id="notice-title">青弋Bot · 服务调整公告</h3>
+    <p style="text-align:center;color:var(--text-light);margin:6px 0 12px;">
+      官方审核中 · 系统升级中
+    </p>
+
+    <ul class="update-list">
+      <li>官方公益机器人资质审核已进入收尾阶段，预计 <b>7 日内完成</b>。</li>
+      <li>因学业安排、架构调整及账号限制，部分功能暂时暂停使用。</li>
+      <li>审核通过后将启用更稳定、更完善的官方机器人。</li>
+      <li>预计 <b>2 月 8 日后</b> 逐步恢复服务并推进功能升级。</li>
+      <li>鸣潮后台签到与补偿机制持续运行，用户权益不受影响。</li>
+      <li>群聊正常使用，当前建议优先使用 QQ 机器人进行查询。</li>
+      <li>如需退费，可随时联系，不限购买时间。</li>
+    </ul>
+
+    <div style="text-align:right;font-size:12px;color:var(--text-light);margin-top:8px;">
+      青弋运营团队 · 2026.01.25
     </div>
+
+    <button class="modal-close-btn-bottom">我已知晓</button>
+  </div>
+</div>
+
+
 
     <!-- 彩蛋弹窗 (默认隐藏) -->
     <div id="egg-modal" class="modal-overlay">
@@ -1094,13 +1107,27 @@
         </div>
       </div>
       
-      <!-- 头部标题更新 -->
-      <div class="header">
-        <h1>青弋Bot | 稍作休整 重新启航！<span class="version-badge">V1.2.0</span></h1>
-        <p class="subtitle">青弋是免费Bot，群聊私聊均可使用</p>
-        <p class="subtitle">汇集 鸣潮、原神、星铁、方舟、群管与娱乐功能于一体</p>
-        <p class="subtitle" style="font-size: 0.9rem; margin-top:5px; opacity: 0.8;">常态部署，持续维护，功能稳定运行中</p>
-      </div>
+      <!-- 头部标题 -->
+<div class="header">
+  <h1 class="title">
+    青弋Bot
+    <span class="version-badge">版本回退中 · 狗头保命</span>
+  </h1>
+
+  <p class="subtitle main-subtitle">
+    免费多功能 Bot · 支持群聊与私聊
+  </p>
+
+  <p class="subtitle feature-subtitle">
+    鸣潮 · 原神 · 星穹铁道 · 明日方舟 · 群管 · 娱乐
+  </p>
+
+  <p class="subtitle subtitle-muted">
+    常态化部署 · 持续维护 · 稳定运行中
+  </p>
+</div>
+
+
 
       <!-- 开发者公告 -->
 <div class="dev-note">
