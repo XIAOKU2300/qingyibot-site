@@ -1124,6 +1124,120 @@ body.dark-mode .donation-stats-text {
     font-size: 2rem;
   }
 }
+          /* 机器人卡片样式 */
+.bot-card {
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
+  text-align: center;
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(94,114,228,0.1), rgba(130,94,228,0.1));
+  border-radius: 15px;
+  border: 2px solid var(--primary);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+
+body.dark-mode .bot-card {
+  background: linear-gradient(135deg, rgba(121,134,203,0.15), rgba(159,168,218,0.15));
+  border-color: #7986cb;
+}
+
+.bot-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(94,114,228,0.25);
+  border-color: var(--secondary);
+  text-decoration: none;
+}
+
+.bot-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid var(--primary);
+  margin: 0 auto 15px;
+  box-shadow: 0 4px 15px rgba(94,114,228,0.3);
+  object-fit: cover;
+  transition: var(--transition);
+}
+
+body.dark-mode .bot-avatar {
+  border-color: #7986cb;
+}
+
+.bot-card:hover .bot-avatar {
+  transform: scale(1.05) rotate(5deg);
+  box-shadow: 0 6px 20px rgba(94,114,228,0.5);
+}
+
+.bot-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+body.dark-mode .bot-name {
+  color: #7986cb;
+}
+
+.bot-description {
+  color: var(--text-light);
+  margin-bottom: 20px;
+  min-height: 40px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+body.dark-mode .bot-description {
+  color: #b0b0b0;
+}
+
+.bot-add-btn {
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px rgba(94,114,228,0.3);
+  border: none;
+  font-size: 1rem;
+}
+
+.bot-add-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(94,114,228,0.5);
+}
+
+.bot-badge {
+  display: inline-block;
+  background: linear-gradient(45deg, #4caf50, #66bb6a);
+  color: white;
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-top: 10px;
+  box-shadow: 0 2px 5px rgba(76,175,80,0.3);
+}
+
+@media (max-width: 768px) {
+  .bot-avatar {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .bot-name {
+    font-size: 1.3rem;
+  }
+}
 
         /* 毛玻璃模糊控制面板样式 */
         .blur-control {
@@ -1486,32 +1600,62 @@ body.dark-mode .donation-stats-text {
      </div>
 
 <div class="group-join-section">
+  <!-- 左边：机器人添加卡片 -->
+  <a href="https://web.qun.qq.com/qunrobot/data.html?_wv=3&_wwv=130&robot_uin=3889704433" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     class="bot-card">
+    <img src="https://bot-resource-1251316161.file.myqcloud.com/avatar/eb227ab2-d335-44df-81e8-c209c2d18fde8636921614671147395" 
+         alt="青弋机器人" 
+         class="bot-avatar">
+    <div class="bot-name">青弋</div>
+    <div class="bot-description">啥游戏都能查的游戏数据查询机器人喵</div>
+    <span class="bot-add-btn">
+      <i class="fas fa-robot"></i>
+      添加机器人到群聊
+    </span>
+    <div class="bot-badge">官方认证机器人</div>
+  </a>
 
+  <!-- 右边：加群入口 -->
   <div class="group-card">
-    <h3>交流群</h3>
-    <p>欢迎加入我们的交流群获取帮助与交流。</p>
-    <a href="https://qm.qq.com/q/AcK2877qi6" target="_blank" rel="noopener noreferrer" class="download-button" style="text-decoration: none;">
-      <i class="fas fa-users"></i> 加入【白海岸保安队】
-    </a>
-  </div>
-
-  <div class="group-card">
-    <h3>扫码加群</h3>
-    <p>加入免费使用群，使用青弋机器人。</p>
-    <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEBKDBou3hlnbzC4uo3FqOD000-azSNswAC9CkAAi5q4VXOlGXyZFz8HDYE.jpg" alt="免费QQ群二维码" loading="lazy">
+    <h3>加入用户群</h3>
+    <p>扫码或点击链接加入免费体验群</p>
+    <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEBKDBou3hlnbzC4uo3FqOD000-azSNswAC9CkAAi5q4VXOlGXyZFz8HDYE.jpg" 
+         alt="免费QQ群二维码" 
+         loading="lazy"
+         style="margin-bottom: 15px;">
     <div style="margin-top:10px;">
-      <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=iL1PI45hJUuaeBgQ6sP2SLh6m%2Bxu1kIMAwDlsxo22bXsgaOsT4su6uzJ1Dj7CtEa&busi_data=eyJncm91cENvZGUiOiIxMDQ1MDUyOTQwIiwidG9rZW4iOiJkczFwNXg3YWhldXNkME1yeGhodmZ4eW5zTWRUTTNvcHE1RmM5QlRJZ0tCampXMnN1MzFUKzAyRGxxODBrcHB5IiwidWluIjoiMTk4Mjk3NTUyMyJ9&data=iPgXdGHfuDrdmK-UFA6r6b4ji6IW4f3AcCeJa4tpaLLfHuC_vf4C7qzLPiH_BmjbfVC-KGNrzyPZlTYGhbOBZw&svctype=4&tempid=h5_group_info" target="_blank" rel="noopener noreferrer" class="download-button" style="display:block; margin:5px 0; text-decoration:none;">
-        【白海岸保安队①】
+      <a href="https://qm.qq.com/q/AcK2877qi6" 
+         target="_blank" 
+         rel="noopener noreferrer" 
+         class="download-button" 
+         style="display:block; margin:8px 0; text-decoration:none;">
+        <i class="fas fa-users"></i> 【白海岸保安队】交流群
       </a>
-      <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=Gcouqn1zm5ZF9PjaLkXyaGrCLdPxj%2B92RWGEu0u9mZuAPa6CAGt%2BcKwp9Sal%2FGJ5&busi_data=eyJncm91cENvZGUiOiI5MTI2MTk5NTciLCJ0b2tlbiI6InJmTE5XV0NPams2S2R6TkNraFJIUEorQkV4YVMrN291TWNTM1ZncnZnbHo2bjF5R3FKa1FRRmxyMzhvZUdlMEkiLCJ1aW4iOiIxOTgyOTc1NTIzIn0%3D&data=aAPl6pTkXPrgd2VHUcrWcB2ZyTAb0rI7seWbwO1aEzvbJCAip1KqNKYqZSP4L2FvkUQTDbgdbbWxEzu2DAGtQw&svctype=4&tempid=h5_group_info" target="_blank" rel="noopener noreferrer" class="download-button" style="display:block; margin:5px 0; text-decoration:none;">
-        【黑海岸拉拉队②】
+      <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=iL1PI45hJUuaeBgQ6sP2SLh6m%2Bxu1kIMAwDlsxo22bXsgaOsT4su6uzJ1Dj7CtEa&busi_data=eyJncm91cENvZGUiOiIxMDQ1MDUyOTQwIiwidG9rZW4iOiJkczFwNXg3YWhldXNkME1yeGhodmZ4eW5zTWRUTTNvcHE1RmM5QlRJZ0tCampXMnN1MzFUKzAyRGxxODBrcHB5IiwidWluIjoiMTk4Mjk3NTUyMyJ9&data=iPgXdGHfuDrdmK-UFA6r6b4ji6IW4f3AcCeJa4tpaLLfHuC_vf4C7qzLPiH_BmjbfVC-KGNrzyPZlTYGhbOBZw&svctype=4&tempid=h5_group_info" 
+         target="_blank" 
+         rel="noopener noreferrer" 
+         class="download-button" 
+         style="display:block; margin:8px 0; text-decoration:none; background: linear-gradient(45deg, #667eea, #764ba2);">
+        <i class="fas fa-fish"></i> 【白海岸保安队①】
       </a>
-      <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=IuacRoEeQXG42mVgWrn%2B7h%2B63iRb3jI9vK8NGczpAK7WVLNOsFA%2F39b%2FTD10Rpm5&busi_data=eyJncm91cENvZGUiOiIxMDUwOTU3MjQzIiwidG9rZW4iOiIraytUTjcxVEVIMzBzOVpnenRHRzBtM3N4bDM0R0ljeFROZU1XN0tkZzZTT2R6SlZROE9uSGFvYy9KL2wrM1htIiwidWluIjoiMTk4Mjk3NTUyMyJ9&data=GTaDVkDb0LVgTuUjWlGgalhOEE_DMxWGnhKIouMVT5JYfz4pQxOR-wCS69LzCXzKPAz0OIBjNiKu1xZx7uHK0Q&svctype=4&tempid=h5_group_info" target="_blank" rel="noopener noreferrer" class="download-button" style="display:block; margin:5px 0; text-decoration:none;">
-        【西海岸保安队③】
+      <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=Gcouqn1zm5ZF9PjaLkXyaGrCLdPxj%2B92RWGEu0u9mZuAPa6CAGt%2BcKwp9Sal%2FGJ5&busi_data=eyJncm91cENvZGUiOiI5MTI2MTk5NTciLCJ0b2tlbiI6InJmTE5XV0NPams2S2R6TkNraFJIUEorQkV4YVMrN291TWNTM1ZncnZnbHo2bjF5R3FKa1FRRmxyMzhvZUdlMEkiLCJ1aW4iOiIxOTgyOTc1NTIzIn0%3D&data=aAPl6pTkXPrgd2VHUcrWcB2ZyTAb0rI7seWbwO1aEzvbJCAip1KqNKYqZSP4L2FvkUQTDbgdbbWxEzu2DAGtQw&svctype=4&tempid=h5_group_info" 
+         target="_blank" 
+         rel="noopener noreferrer" 
+         class="download-button" 
+         style="display:block; margin:8px 0; text-decoration:none; background: linear-gradient(45deg, #2c3e50, #34495e);">
+        <i class="fas fa-flag"></i> 【黑海岸拉拉队②】
+      </a>
+      <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=IuacRoEeQXG42mVgWrn%2B7h%2B63iRb3jI9vK8NGczpAK7WVLNOsFA%2F39b%2FTD10Rpm5&busi_data=eyJncm91cENvZGUiOiIxMDUwOTU3MjQzIiwidG9rZW4iOiIraytUTjcxVEVIMzBzOVpnenRHRzBtM3N4bDM0R0ljeFROZU1XN0tkZzZTT2R6SlZROE9uSGFvYy9KL2wrM1htIiwidWluIjoiMTk4Mjk3NTUyMyJ9&data=GTaDVkDb0LVgTuUjWlGgalhOEE_DMxWGnhKIouMVT5JYfz4pQxOR-wCS69LzCXzKPAz0OIBjNiKu1xZx7uHK0Q&svctype=4&tempid=h5_group_info" 
+         target="_blank" 
+         rel="noopener noreferrer" 
+         class="download-button" 
+         style="display:block; margin:8px 0; text-decoration:none; background: linear-gradient(45deg, #e74c3c, #c0392b);">
+        <i class="fas fa-shield-alt"></i> 【西海岸保安队③】
       </a>
     </div>
   </div>
-
 </div>
 
 
