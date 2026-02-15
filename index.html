@@ -999,6 +999,131 @@
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
         }
+          /* 捐赠名单样式 */
+.donation-section {
+  background: rgba(0, 0, 0, 0.03);
+  border-left: 6px solid #ffd700;
+  padding: 25px;
+  margin: 30px 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: var(--transition);
+}
+
+body.dark-mode .donation-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 6px solid #ffd700;
+}
+
+.donation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.donation-item {
+  background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0.5));
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255,215,0,0.3);
+  border-radius: 10px;
+  padding: 12px 15px;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+body.dark-mode .donation-item {
+  background: linear-gradient(135deg, rgba(30,30,40,0.6), rgba(30,30,40,0.5));
+  border: 1px solid rgba(255,215,0,0.2);
+}
+
+.donation-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255,215,0,0.25);
+  border-color: rgba(255,215,0,0.6);
+}
+
+.donation-number {
+  font-size: 0.75rem;
+  color: #ffd700;
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+.donation-date {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+body.dark-mode .donation-date {
+  color: #b0b0b0;
+}
+
+.donation-name {
+  font-size: 1rem;
+  color: var(--text);
+  font-weight: 600;
+  text-align: center;
+  padding: 5px 0;
+}
+
+body.dark-mode .donation-name {
+  color: var(--dark-text);
+}
+
+.donation-stats {
+  text-align: center;
+  margin: 20px 0;
+  padding: 15px;
+  background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,193,7,0.1));
+  border-radius: 10px;
+  border: 1px solid rgba(255,215,0,0.3);
+}
+
+body.dark-mode .donation-stats {
+  background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,193,7,0.08));
+}
+
+.donation-stats-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #ffd700, #ffb300);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 5px;
+}
+
+.donation-stats-text {
+  font-size: 1rem;
+  color: var(--text-light);
+}
+
+body.dark-mode .donation-stats-text {
+  color: #b0b0b0;
+}
+
+@media (max-width: 768px) {
+  .donation-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  
+  .donation-item {
+    padding: 10px 12px;
+  }
+  
+  .donation-stats-number {
+    font-size: 2rem;
+  }
+}
 
         /* 毛玻璃模糊控制面板样式 */
         .blur-control {
@@ -1414,17 +1539,597 @@
       </div>
       
       <h2 class="section-title">💖 用户支持与特别鸣谢</h2>
-        <div class="supporters-section">
-            <p>感谢以下用户对青弋Bot的长期支持与陪伴（排名不分前后）：</p>
-            <ul style="margin-top:10px; padding-left:20px;">
-                <li>小维</li>
-                <li>维拉</li>
-                <li>莱姆</li>
-                <li>妄殊玉胥</li>
-                <li>各位青弋Bot使用者</li>
-                <li>吹水群群友</li>
-            </ul>
+        <h2 class="section-title">💰 捐赠荣誉榜</h2>
+      <div class="donation-section">
+        <div class="donation-stats">
+          <div class="donation-stats-number">114</div>
+          <div class="donation-stats-text">位爱心用户支持了青弋Bot的发展</div>
         </div>
+        
+        <p style="text-align:center; margin-bottom:20px; color:var(--text-light);">
+          <i class="fas fa-heart" style="color:#ff6b6b; margin-right:5px;"></i>
+          感谢以下用户的慷慨捐赠，你们的支持是我们前进的动力！
+        </p>
+        
+        <div class="donation-grid">
+          <div class="donation-item">
+            <span class="donation-number">#1</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年9月6日</span>
+            <span class="donation-name">**卿</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#2</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年9月6日</span>
+            <span class="donation-name">**文</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#3</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年9月6日</span>
+            <span class="donation-name">**文</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#4</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年9月6日</span>
+            <span class="donation-name">**显</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#5</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年9月6日</span>
+            <span class="donation-name">**杰</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#6</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年9月6日</span>
+            <span class="donation-name">**城</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#7</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年9月6日</span>
+            <span class="donation-name">**君</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#8</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年9月6日</span>
+            <span class="donation-name">**涛</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#9</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年9月6日</span>
+            <span class="donation-name">**祥</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#10</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年9月6日</span>
+            <span class="donation-name">**晓</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#11</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年9月6日</span>
+            <span class="donation-name">**晓</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#12</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年9月6日</span>
+            <span class="donation-name">**海</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#13</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*稽</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#14</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*d</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#15</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*登</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#16</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*染</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#17</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*笔</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#18</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*语</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#19</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*初</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#20</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*仔</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#21</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*鱼</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#22</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*晚</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#23</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">Z^C</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#24</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*嵩</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#25</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*台</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#26</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*怒</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#27</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*11</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#28</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">P^r</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#29</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">D^n</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#30</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*骨</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#31</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">L^g</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#32</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*明</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#33</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*胥</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#34</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">*彻</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#35</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">**慧</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#36</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">**晓</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#37</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">**宇</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#38</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">**远</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#39</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月6日</span>
+            <span class="donation-name">**鸿</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#40</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年10月7日</span>
+            <span class="donation-name">D^A</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#41</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">K*N</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#42</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*钾</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#43</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*语</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#44</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*眠</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#45</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*眠</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#46</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">F*n</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#47</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*器</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#48</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*.</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#49</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*。</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#50</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*胥</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#51</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*Y</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#52</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*糖</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#53</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*V</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#54</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*年</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#55</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*年</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#56</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">**祥</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#57</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">**云</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#58</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">*凯</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#59</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">**远</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#60</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月9日</span>
+            <span class="donation-name">**炜</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#61</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月10日</span>
+            <span class="donation-name">*妖</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#62</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月10日</span>
+            <span class="donation-name">*✨</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#63</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月10日</span>
+            <span class="donation-name">**琪</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#64</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年11月25日</span>
+            <span class="donation-name">*瓜</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#65</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*戈</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#66</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*Y</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#67</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*?</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#68</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*舟</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#69</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*人</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#70</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">~*~</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#71</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*小</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#72</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*家</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#73</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*卿</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#74</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*峑</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#75</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*名</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#76</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*竹</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#77</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">N*e</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#78</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*翎</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#79</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*☀️</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#80</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*!</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#81</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*胥</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#82</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">*望</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#83</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">**军</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#84</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">**辉</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#85</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">**杰</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#86</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">**涵</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#87</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2025年12月13日</span>
+            <span class="donation-name">**正</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#88</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年1月31日</span>
+            <span class="donation-name">N*e</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#89</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">*语</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#90</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">*鸭</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#91</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">*望</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#92</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">(*)</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#93</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">*钾</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#94</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">*易</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#95</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">*埃</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#96</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">*仙</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#97</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">*宇</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#98</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">*易</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#99</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">*仔</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#100</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">*见</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#101</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">*糖</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#102</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">*妖</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#103</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">F*n</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#104</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">**晓</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#105</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">**璠</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#106</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">**东</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#107</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">**中</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#108</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">**坤</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#109</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月13日</span>
+            <span class="donation-name">**川</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#110</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月14日</span>
+            <span class="donation-name">**凡</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#111</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月14日</span>
+            <span class="donation-name">*🥣</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#112</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月15日</span>
+            <span class="donation-name">*超</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#113</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月15日</span>
+            <span class="donation-name">**儒</span>
+          </div>
+          <div class="donation-item">
+            <span class="donation-number">#114</span>
+            <span class="donation-date"><i class="far fa-calendar-alt"></i> 2026年2月15日</span>
+            <span class="donation-name">**琪</span>
+          </div>
+        </div>
+        
+        <p style="text-align:center; margin-top:25px; font-size:0.9rem; color:var(--text-light); font-style:italic;">
+          <i class="fas fa-quote-left" style="margin-right:5px; opacity:0.5;"></i>
+          每一份支持都将用于青弋Bot的服务器维护与功能开发
+          <i class="fas fa-quote-right" style="margin-left:5px; opacity:0.5;"></i>
+        </p>
+      </div>
 
       <footer>
         <p>这里是青弋Bot教程页面，愿你使用愉快 🌟</p>
