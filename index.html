@@ -861,137 +861,171 @@
           .site-stats p {
           margin-bottom: 10px;
         }
-         /* --- 弹窗样式 --- */
-         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-         }
-         .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-         }
-         .modal-content {
-            background: var(--card-bg-light);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-         }
-         .modal-overlay.active .modal-content {
-            transform: scale(1);
-         }
-        /* 移动端弹窗修复：允许内容滚动，限制最大高度，保证底部按钮可触达并可点击 */
-        @media (max-width: 480px) {
-          .modal-overlay {
-            align-items: flex-start; /* 从顶端开始显示，避免在高度超出时被裁切 */
-            padding: 12px 12px; /* 给上下留白以支持滚动时能看见边距 */
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-          }
-          .modal-content {
-            width: 100%;
-            max-width: 100%;
-            max-height: calc(100vh - 24px); /* 保证弹窗内容不会超出视口太多 */
-            margin: 6px 0;
-            border-radius: 12px;
-            overflow: auto; /* 内部滚动，保证底部按钮可达 */
-            box-sizing: border-box;
-            touch-action: manipulation;
-          }
-          .modal-close-btn {
-            top: 8px;
-            right: 10px;
-            z-index: 3;
-            background: rgba(255,255,255,0.04);
-            padding: 4px 8px;
-            border-radius: 8px;
-          }
-          .modal-close-btn-bottom {
-            position: sticky; /* 当内容可滚动时，底部按钮尽量保持可见 */
-            bottom: 10px;
-            z-index: 3;
-            margin-top: 12px;
-          }
-        }
-         body.dark-mode .modal-content {
-            background: var(--card-bg-dark);
-            color: var(--dark-text);
-         }
-         .modal-content h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-            text-align: center;
-         }
-         body.dark-mode .modal-content h3 {
-            color: #7986cb;
-         }
-         .modal-content ul {
-            text-align: left;
-            margin: 15px 0 25px;
-         }
-         .modal-content li {
-            margin-bottom: 8px;
-         }
-         .modal-close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 2rem;
-            color: var(--text-light);
-            cursor: pointer;
-            transition: color 0.2s ease;
-         }
-         .modal-close-btn:hover {
-            color: var(--text);
-         }
-         body.dark-mode .modal-close-btn {
-            color: #b0b0b0;
-         }
-         body.dark-mode .modal-close-btn:hover {
-            color: var(--dark-text);
-         }
-         /* 新颖的弹窗按钮设计 */
-         .modal-close-btn-bottom {
-            background: linear-gradient(45deg, #5e72e4, #825ee4, #5e72e4);
-            background-size: 200% auto;
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            display: block;
-            margin: 0 auto;
-            box-shadow: 0 5px 15px rgba(94, 114, 228, 0.4);
-            animation: gradientMove 3s infinite linear;
-         }
-         @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-         }
-         .modal-close-btn-bottom:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(94, 114, 228, 0.6);
-         }
+         /* --- 弹窗样式优化 --- */
+.modal-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(0, 0, 0, 0.6);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   z-index: 1000;
+   opacity: 0;
+   visibility: hidden;
+   transition: opacity 0.3s ease, visibility 0.3s ease;
+   padding: 20px;
+   overflow-y: auto;
+}
+
+.modal-overlay.active {
+   opacity: 1;
+   visibility: visible;
+}
+
+.modal-content {
+   background: var(--card-bg-light);
+   padding: 30px;
+   border-radius: 15px;
+   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+   max-width: 600px;
+   width: 100%;
+   max-height: 85vh;
+   overflow-y: auto;
+   position: relative;
+   transform: scale(0.9);
+   transition: transform 0.3s ease;
+   margin: auto;
+}
+
+.modal-overlay.active .modal-content {
+   transform: scale(1);
+}
+
+/* 移动端弹窗优化 */
+@media (max-width: 768px) {
+  .modal-overlay {
+    align-items: flex-start;
+    padding: 10px;
+  }
+  
+  .modal-content {
+    width: 100%;
+    max-width: 100%;
+    max-height: 90vh;
+    padding: 20px 15px;
+    margin: 10px auto;
+  }
+  
+  .modal-close-btn {
+    top: 8px;
+    right: 10px;
+    font-size: 1.8rem;
+    z-index: 10;
+    background: rgba(0,0,0,0.1);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-close-btn-bottom {
+    position: sticky;
+    bottom: 0;
+    margin-top: 15px;
+    padding: 10px 25px;
+    font-size: 0.95rem;
+  }
+}
+
+body.dark-mode .modal-content {
+   background: var(--card-bg-dark);
+   color: var(--dark-text);
+}
+
+.modal-content h3 {
+   color: var(--primary);
+   margin-bottom: 10px;
+   font-size: 1.5rem;
+   text-align: center;
+}
+
+body.dark-mode .modal-content h3 {
+   color: #7986cb;
+}
+
+.modal-content ul {
+   text-align: left;
+   margin: 10px 0 15px;
+   padding-left: 5px;
+}
+
+.modal-content li {
+   margin-bottom: 10px;
+   padding-left: 0;
+   list-style: none;
+}
+
+.modal-content li::before {
+   content: '';
+}
+
+.modal-close-btn {
+   position: absolute;
+   top: 10px;
+   right: 15px;
+   font-size: 2rem;
+   color: var(--text-light);
+   cursor: pointer;
+   transition: color 0.2s ease;
+   background: none;
+   border: none;
+   line-height: 1;
+}
+
+.modal-close-btn:hover {
+   color: var(--text);
+}
+
+body.dark-mode .modal-close-btn {
+   color: #b0b0b0;
+}
+
+body.dark-mode .modal-close-btn:hover {
+   color: var(--dark-text);
+}
+
+.modal-close-btn-bottom {
+   background: linear-gradient(45deg, #5e72e4, #825ee4, #5e72e4);
+   background-size: 200% auto;
+   color: white;
+   border: none;
+   padding: 12px 40px;
+   border-radius: 30px;
+   cursor: pointer;
+   font-size: 1rem;
+   font-weight: bold;
+   transition: all 0.3s ease;
+   display: block;
+   margin: 0 auto;
+   box-shadow: 0 5px 15px rgba(94, 114, 228, 0.4);
+   animation: gradientMove 3s infinite linear;
+}
+
+@keyframes gradientMove {
+   0% { background-position: 0% 50%; }
+   50% { background-position: 100% 50%; }
+   100% { background-position: 0% 50%; }
+}
+
+.modal-close-btn-bottom:hover {
+   transform: scale(1.05);
+   box-shadow: 0 8px 20px rgba(94, 114, 228, 0.6);
+}
          
          /* 作者说 */
          .dev-note {
@@ -1389,61 +1423,73 @@ body.dark-mode .bot-description {
     <button class="modal-close-btn" aria-label="关闭">&times;</button>
 
     <h3 id="notice-title">
-      <span style="font-size: 1.8rem;">🎉</span> 
-      青弋Bot v2.1.1 
-      <span style="font-size: 1.8rem;">🎉</span>
+      🎉 青弋Bot v2.1.1 🎉
     </h3>
-    <p style="text-align:center;color:var(--text-light);margin:6px 0 8px;font-size:1.1rem;font-weight:bold;">
+    <p style="text-align:center;color:var(--text-light);margin:3px 0 5px;font-size:1rem;font-weight:bold;">
       ✨ 官方机器人闪亮登场！✨
     </p>
-    <p style="text-align:center;color:var(--secondary);margin:0 0 15px;font-size:0.9rem;font-style:italic;">
-      （咱终于转正啦！撒花~🌸）
+    <p style="text-align:center;color:var(--secondary);margin:0 0 12px;font-size:0.85rem;font-style:italic;">
+      咱终于转正啦！撒花~🌸
     </p>
 
-    <div style="background: linear-gradient(135deg, rgba(94,114,228,0.15), rgba(130,94,228,0.15)); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 2px dashed var(--primary);">
-      <p style="text-align:center; margin:0; font-size:1rem; font-weight:bold; color:var(--primary);">
+    <div style="background: linear-gradient(135deg, rgba(94,114,228,0.15), rgba(130,94,228,0.15)); padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 2px dashed var(--primary);">
+      <p style="text-align:center; margin:0; font-size:0.95rem; font-weight:bold; color:var(--primary);">
         🚀 重！大！升！级！🚀
       </p>
     </div>
 
-    <ul class="update-list" style="text-align: left;">
-      <li style="margin-bottom: 10px;">
+    <ul class="update-list" style="font-size: 0.9rem; line-height: 1.5;">
+      <li style="margin-bottom: 8px;">
         <strong style="color: var(--primary);">🎊 喜大普奔：</strong>
-        成功晋升为<strong>官方认证机器人</strong>！不会再莫名其妙掉线啦（撒花转圈圈~
+        成功晋升<strong>官方认证机器人</strong>！稳定性up↑
       </li>
-      <li style="margin-bottom: 10px;">
+      <li style="margin-bottom: 8px;">
         <strong style="color: var(--secondary);">🆓 白嫖福音：</strong>
-        官方版<strong>完全免费</strong>，自由拉群，想拉就拉！（穷鬼狂喜.jpg
+        官方版<strong>完全免费</strong>，自由拉群！（穷鬼狂喜
       </li>
-      <li style="margin-bottom: 10px;">
-        <strong style="color: #4caf50;">⚠️ 敲黑板！</strong>
-        官方机器人需要<strong style="color: #e74c3c;">@我</strong>才能听到你说话哦！
-        <br>
-        <span style="font-size: 0.85rem; color: var(--text-light); margin-left: 20px;">
-          （就像呼唤式神一样：<code style="font-size: 0.8rem;">@青弋 #帮助</code> ✨）
+      <li style="margin-bottom: 8px;">
+        <strong style="color: #e74c3c;">⚠️ 敲黑板：</strong>
+        需要<strong>@机器人</strong>才能响应！
+        <span style="font-size: 0.8rem; color: var(--text-light); display: block; margin-top: 3px;">
+          格式：<code style="font-size: 0.75rem; padding: 1px 4px;">@青弋 #帮助</code> 
+          <strong style="color: #e74c3c;">（手动@，不能复制！）</strong>
         </span>
       </li>
-      <li style="margin-bottom: 10px;">
-        <strong style="color: #ff9800;">🔔 特别提醒：</strong>
-        <strong>不！能！复！制！@！</strong>必须手动输入@然后选择我！
-        <br>
-        <span style="font-size: 0.85rem; color: var(--text-light); margin-left: 20px;">
-          （复制的@我收不到，会让你怀疑人生的那种...
-        </span>
+      <li style="margin-bottom: 8px;">
+        <strong style="color: #9c27b0;">💎 付费专享：</strong>
+        第三方机器人免@触发（10元/月 或 80元永久）
       </li>
-      <li style="margin-bottom: 10px;">
-        <strong style="color: #9c27b0;">💎 VIP专享：</strong>
-        第三方机器人转为付费服务（10元/月 或 80元永久）
-        <br>
-        <span style="font-size: 0.85rem; color: var(--text-light); margin-left: 20px;">
-          免@触发，响应贼快，适合懒人和强迫症患者~
-        </span>
-      </li>
-      <li style="margin-bottom: 10px;">
+      <li style="margin-bottom: 8px;">
         <strong style="color: #00bcd4;">📦 新功能：</strong>
-        这次更新塞了一堆新东西进去，<code>@青弋 #帮助</code> 看看有啥好玩的！
+        发送 <code style="font-size: 0.75rem; padding: 1px 4px;">@青弋 #帮助</code> 查看更新内容
       </li>
     </ul>
+
+    <div style="background: linear-gradient(135deg, rgba(255,193,7,0.2), rgba(255,152,0,0.2)); padding: 10px; border-radius: 8px; margin: 12px 0; border-left: 4px solid #ffa726;">
+      <p style="margin: 0; font-size: 0.85rem; line-height: 1.5;">
+        <strong style="color: #f57c00;">🎯 快速上手：</strong><br>
+        ① 添加机器人到群聊<br>
+        ② 输入 <code style="background: rgba(0,0,0,0.1); padding: 1px 4px; border-radius: 3px; font-size: 0.75rem;">@</code> 选择青弋<br>
+        ③ 输入 <code style="background: rgba(0,0,0,0.1); padding: 1px 4px; border-radius: 3px; font-size: 0.75rem;">#帮助</code> 查看功能<br>
+        ④ 开始快乐时光！٩(๑❛ᴗ❛๑)۶
+      </p>
+    </div>
+
+    <div style="text-align:center; margin: 10px 0;">
+      <p style="font-size: 0.85rem; color: var(--text-light); margin: 5px 0;">
+        感谢各位小可爱的支持！(〃'▽'〃)
+      </p>
+    </div>
+
+    <div style="text-align:right;font-size:10px;color:var(--text-light);margin-top:10px;opacity:0.6;">
+      青弋运营团队 · 2026.02.15
+    </div>
+
+    <button class="modal-close-btn-bottom">
+      👌 收到！让我康康 →
+    </button>
+  </div>
+</div>
 
     <div style="background: linear-gradient(135deg, rgba(255,193,7,0.2), rgba(255,152,0,0.2)); padding: 12px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ffa726;">
       <p style="margin: 0; font-size: 0.95rem; line-height: 1.6;">
