@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>感谢名单 · 爱心捐赠</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Cinzel:wght@400;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #e8c97e;
+    --gold-light: #f5dfa0;
+    --gold-dim: #b89a50;
+    --deep: #0a0c12;
+    --surface: rgba(255,255,255,0.04);
+    --glass: rgba(255,255,255,0.07);
+    --glass-border: rgba(255,255,255,0.12);
+    --text-main: #f0ece4;
+    --text-dim: rgba(240,236,228,0.55);
+    --accent: #7eb8e8;
+    --accent2: #a07ee8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--deep);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── Background Orbs ─── */
+  .bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    overflow: hidden;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.18;
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  .orb1 { width: 600px; height: 600px; background: radial-gradient(circle, #6b4fbb, transparent); top: -150px; left: -100px; animation-duration: 20s; }
+  .orb2 { width: 500px; height: 500px; background: radial-gradient(circle, #2a6bbf, transparent); bottom: -100px; right: -80px; animation-duration: 25s; animation-delay: -8s; }
+  .orb3 { width: 350px; height: 350px; background: radial-gradient(circle, #bf7a2a, transparent); top: 40%; left: 50%; animation-duration: 30s; animation-delay: -5s; }
+
+  @keyframes drift {
+    0%   { transform: translate(0,0) scale(1); }
+    50%  { transform: translate(40px,30px) scale(1.08); }
+    100% { transform: translate(-20px,50px) scale(0.95); }
+  }
+
+  /* ─── Noise Overlay ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 180px;
+  }
+
+  /* ─── Main Layout ─── */
+  .wrap { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 60px 24px 100px; }
+
+  /* ─── Hero ─── */
+  .hero {
+    text-align: center;
+    padding: 80px 0 60px;
+    animation: fadeDown 1s ease both;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero-badge::before { content: '✦'; font-size: 10px; }
+
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(2rem, 6vw, 3.6rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dim));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .hero-sub {
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    color: var(--text-dim);
+    max-width: 440px;
+    margin: 0 auto 36px;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+  }
+  .stat-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 18px;
+    padding: 20px 32px;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  .stat-card:hover { transform: translateY(-3px); border-color: var(--gold-dim); }
+  .stat-num {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 0.75rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ─── Divider ─── */
+  .divider {
+    display: flex; align-items: center; gap: 16px;
+    margin: 0 0 40px;
+    color: var(--text-dim);
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+  }
+
+  /* ─── Search / Filter ─── */
+  .controls {
+    display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+  .search-wrap {
+    flex: 1; min-width: 200px;
+    position: relative;
+  }
+  .search-wrap svg {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    opacity: 0.4; pointer-events: none;
+  }
+  .search-input {
+    width: 100%;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 11px 16px 11px 40px;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    font-family: inherit;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .search-input::placeholder { color: var(--text-dim); }
+  .search-input:focus { border-color: var(--gold-dim); box-shadow: 0 0 0 3px rgba(232,201,126,0.1); }
+
+  .filter-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-btn {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 10px 16px;
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: rgba(232,201,126,0.12);
+    border-color: var(--gold-dim);
+    color: var(--gold);
+  }
+
+  /* ─── Count Line ─── */
+  .count-line {
+    font-size: 0.8rem; color: var(--text-dim); margin-bottom: 20px; letter-spacing: 0.05em;
+  }
+  .count-line span { color: var(--gold); font-weight: 600; }
+
+  /* ─── Timeline Groups ─── */
+  .timeline { position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 16px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--glass-border) 10%, var(--glass-border) 90%, transparent);
+  }
+
+  .date-group { margin-bottom: 36px; }
+
+  .date-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 14px;
+    padding-left: 8px;
+  }
+  .date-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+    flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(232,201,126,0.4);
+    position: relative; z-index: 1;
+  }
+  .date-label {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.85rem;
+    color: var(--gold-dim);
+    letter-spacing: 0.08em;
+  }
+  .date-count {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    padding: 2px 10px;
+  }
+
+  /* ─── Donor Grid ─── */
+  .donor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    padding-left: 32px;
+  }
+
+  @media (max-width: 480px) {
+    .donor-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; padding-left: 24px; }
+  }
+
+  .donor-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 14px 12px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: default;
+    transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), border-color 0.25s, box-shadow 0.25s;
+    animation: cardIn 0.5s ease both;
+    will-change: transform;
+  }
+  .donor-card:hover {
+    transform: translateY(-4px) scale(1.03);
+    border-color: rgba(232,201,126,0.3);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.35), 0 0 0 1px rgba(232,201,126,0.1);
+  }
+
+  .donor-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .donor-avatar::after {
+    content: '';
+    position: absolute; inset: -2px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dim), transparent, var(--accent));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .donor-card:hover .donor-avatar::after { opacity: 1; }
+
+  .donor-name {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-main);
+    text-align: center;
+    word-break: break-all;
+    line-height: 1.3;
+  }
+  .donor-num {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-family: 'Cinzel', serif;
+  }
+
+  /* ─── No results ─── */
+  .no-results {
+    text-align: center; padding: 60px 20px;
+    color: var(--text-dim); font-size: 0.9rem; display: none;
+  }
+  .no-results.show { display: block; }
+
+  /* ─── Footer ─── */
+  .footer {
+    text-align: center;
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid var(--glass-border);
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    animation: fadeUp 1s ease 0.8s both;
+  }
+  .footer-heart { color: var(--gold); animation: pulse 2s ease infinite; display: inline-block; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
+
+  /* ─── Keyframes ─── */
+  @keyframes fadeDown { from { opacity:0; transform: translateY(-30px); } to { opacity:1; transform: none; } }
+  @keyframes fadeUp   { from { opacity:0; transform: translateY(25px);  } to { opacity:1; transform: none; } }
+  @keyframes cardIn   { from { opacity:0; transform: translateY(12px) scale(0.97); } to { opacity:1; transform:none; } }
+
+  /* ─── Scroll reveal ─── */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ─── Tablet adjustments ─── */
+  @media (min-width: 600px) and (max-width: 900px) {
+    .donor-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+  }
+  @media (min-width: 900px) {
+    .donor-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  }
+
+  /* ─── Color variants for avatars ─── */
+  .av0 { background: linear-gradient(135deg, #7b61ff, #4a90d9); }
+  .av1 { background: linear-gradient(135deg, #d97a4a, #d94a7a); }
+  .av2 { background: linear-gradient(135deg, #4ad97a, #4aaed9); }
+  .av3 { background: linear-gradient(135deg, #d9c44a, #d9834a); }
+  .av4 { background: linear-gradient(135deg, #9b4ad9, #4a80d9); }
+  .av5 { background: linear-gradient(135deg, #4ad9c4, #4a60d9); }
+  .av6 { background: linear-gradient(135deg, #d94a9b, #9b4ad9); }
+  .av7 { background: linear-gradient(135deg, #60d94a, #4ad9b5); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+</style>
+</head>
+<body>
+
+<div class="bg">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<div class="wrap">
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-badge">Love & Gratitude</div>
+    <h1>感谢每一位捐赠者</h1>
+    <p class="hero-sub">你们的每一份心意，都是前行路上最温暖的力量。感谢有你。</p>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num" id="totalCount">0</div>
+        <div class="stat-label">爱心捐赠</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="dateCount">0</div>
+        <div class="stat-label">捐赠日期</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="uniqueCount">0</div>
+        <div class="stat-label">独立捐赠者</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input" type="text" placeholder="搜索捐赠者..." id="searchInput">
+    </div>
+    <div class="filter-btns" id="filterBtns"></div>
+  </div>
+
+  <div class="count-line" id="countLine"></div>
+
+  <!-- Timeline -->
+  <div class="timeline" id="timeline"></div>
+  <div class="no-results" id="noResults">未找到匹配的捐赠者 ✦</div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>以爱之名 <span class="footer-heart">♥</span> 感恩同行</p>
+    <p style="margin-top:8px;opacity:0.5;">共 147 条记录 · 数据已脱敏处理</p>
+  </div>
+</div>
+
+<script>
+const RAW = [
+  {id:1,  date:"2025-09-06", name:"**卿"},
+  {id:2,  date:"2026-03-28", name:"**卿"},
+  {id:3,  date:"2025-09-06", name:"**文"},
+  {id:4,  date:"2025-09-06", name:"**文"},
+  {id:5,  date:"2025-09-06", name:"**显"},
+  {id:6,  date:"2025-09-06", name:"**杰"},
+  {id:7,  date:"2025-09-06", name:"**城"},
+  {id:8,  date:"2025-09-06", name:"**君"},
+  {id:9,  date:"2025-09-06", name:"**涛"},
+  {id:10, date:"2025-09-06", name:"**祥"},
+  {id:11, date:"2025-09-06", name:"**晓"},
+  {id:12, date:"2025-09-06", name:"**晓"},
+  {id:13, date:"2025-09-06", name:"**海"},
+  {id:14, date:"2025-10-06", name:"*稽"},
+  {id:15, date:"2025-10-06", name:"*d"},
+  {id:16, date:"2025-10-06", name:"*登"},
+  {id:17, date:"2026-03-28", name:"*登"},
+  {id:18, date:"2025-10-06", name:"*染"},
+  {id:19, date:"2025-10-06", name:"*笔"},
+  {id:20, date:"2025-10-06", name:"*语"},
+  {id:21, date:"2025-10-06", name:"*初"},
+  {id:22, date:"2025-10-06", name:"*仔"},
+  {id:23, date:"2025-10-06", name:"*鱼"},
+  {id:24, date:"2025-10-06", name:"*晚"},
+  {id:25, date:"2025-10-06", name:"Z^C"},
+  {id:26, date:"2025-10-06", name:"*嵩"},
+  {id:27, date:"2025-10-06", name:"*台"},
+  {id:28, date:"2025-10-06", name:"*怒"},
+  {id:29, date:"2025-10-06", name:"*11"},
+  {id:30, date:"2025-10-06", name:"P^r"},
+  {id:31, date:"2025-10-06", name:"D^n"},
+  {id:32, date:"2025-10-06", name:"*骨"},
+  {id:33, date:"2025-10-06", name:"L^g"},
+  {id:34, date:"2025-10-06", name:"*明"},
+  {id:35, date:"2025-10-06", name:"*胥"},
+  {id:36, date:"2026-03-28", name:"*胥"},
+  {id:37, date:"2025-10-06", name:"*彻"},
+  {id:38, date:"2025-10-06", name:"**慧"},
+  {id:39, date:"2026-03-28", name:"**慧"},
+  {id:40, date:"2025-10-06", name:"**晓"},
+  {id:41, date:"2025-10-06", name:"**宇"},
+  {id:42, date:"2025-10-06", name:"**远"},
+  {id:43, date:"2025-10-06", name:"**鸿"},
+  {id:44, date:"2026-03-28", name:"**鸿"},
+  {id:45, date:"2025-10-07", name:"D^A"},
+  {id:46, date:"2025-11-09", name:"K*N"},
+  {id:47, date:"2025-11-09", name:"*钾"},
+  {id:48, date:"2025-11-09", name:"*语"},
+  {id:49, date:"2025-11-09", name:"*眠"},
+  {id:50, date:"2025-11-09", name:"*眠"},
+  {id:51, date:"2025-11-09", name:"F*n"},
+  {id:52, date:"2025-11-09", name:"*器"},
+  {id:53, date:"2025-11-09", name:"*."},
+  {id:54, date:"2026-03-28", name:"*."},
+  {id:55, date:"2025-11-09", name:"*。"},
+  {id:56, date:"2025-11-09", name:"*胥"},
+  {id:57, date:"2025-11-09", name:"*Y"},
+  {id:58, date:"2025-11-09", name:"*糖"},
+  {id:59, date:"2025-11-09", name:"*V"},
+  {id:60, date:"2025-11-09", name:"*年"},
+  {id:61, date:"2025-11-09", name:"*年"},
+  {id:62, date:"2025-11-09", name:"**祥"},
+  {id:63, date:"2025-11-09", name:"**云"},
+  {id:64, date:"2025-11-09", name:"*凯"},
+  {id:65, date:"2025-11-09", name:"**远"},
+  {id:66, date:"2025-11-09", name:"**炜"},
+  {id:67, date:"2025-11-10", name:"*妖"},
+  {id:68, date:"2025-11-10", name:"*✨"},
+  {id:69, date:"2025-11-10", name:"**琪"},
+  {id:70, date:"2025-11-25", name:"*瓜"},
+  {id:71, date:"2025-12-13", name:"*戈"},
+  {id:72, date:"2025-12-13", name:"*Y"},
+  {id:73, date:"2025-12-13", name:"*?"},
+  {id:74, date:"2025-12-13", name:"*舟"},
+  {id:75, date:"2025-12-13", name:"*人"},
+  {id:76, date:"2025-12-13", name:"~*~"},
+  {id:77, date:"2025-12-13", name:"*小"},
+  {id:78, date:"2025-12-13", name:"*家"},
+  {id:79, date:"2025-12-13", name:"*卿"},
+  {id:80, date:"2025-12-13", name:"*峑"},
+  {id:81, date:"2025-12-13", name:"*名"},
+  {id:82, date:"2025-12-13", name:"*竹"},
+  {id:83, date:"2025-12-13", name:"N*e"},
+  {id:84, date:"2025-12-13", name:"*翎"},
+  {id:85, date:"2025-12-13", name:"*☀️"},
+  {id:86, date:"2025-12-13", name:"*!"},
+  {id:87, date:"2025-12-13", name:"*胥"},
+  {id:88, date:"2025-12-13", name:"*望"},
+  {id:89, date:"2025-12-13", name:"**军"},
+  {id:90, date:"2025-12-13", name:"**辉"},
+  {id:91, date:"2025-12-13", name:"**杰"},
+  {id:92, date:"2025-12-13", name:"**涵"},
+  {id:93, date:"2025-12-13", name:"**正"},
+  {id:94, date:"2026-01-31", name:"N*e"},
+  {id:95, date:"2026-02-13", name:"*语"},
+  {id:96, date:"2026-02-13", name:"*鸭"},
+  {id:97, date:"2026-02-13", name:"*望"},
+  {id:98, date:"2026-02-13", name:"(*)"},
+  {id:99, date:"2026-02-13", name:"*钾"},
+  {id:100,date:"2026-02-13", name:"*易"},
+  {id:101,date:"2026-02-13", name:"*埃"},
+  {id:102,date:"2026-02-13", name:"*仙"},
+  {id:103,date:"2026-02-13", name:"*宇"},
+  {id:104,date:"2026-02-13", name:"*易"},
+  {id:105,date:"2026-02-13", name:"*仔"},
+  {id:106,date:"2026-02-13", name:"*见"},
+  {id:107,date:"2026-02-13", name:"*糖"},
+  {id:108,date:"2026-02-13", name:"*妖"},
+  {id:109,date:"2026-02-13", name:"F*n"},
+  {id:110,date:"2026-02-13", name:"**晓"},
+  {id:111,date:"2026-02-13", name:"**璠"},
+  {id:112,date:"2026-02-13", name:"**东"},
+  {id:113,date:"2026-02-13", name:"**中"},
+  {id:114,date:"2026-02-13", name:"**坤"},
+  {id:115,date:"2026-02-13", name:"**川"},
+  {id:116,date:"2026-02-14", name:"**凡"},
+  {id:117,date:"2026-02-14", name:"*🥣（匿名）"},
+  {id:118,date:"2026-03-28", name:"*🥣"},
+  {id:119,date:"2026-02-15", name:"*超"},
+  {id:120,date:"2026-02-15", name:"**儒"},
+  {id:121,date:"2026-03-28", name:"**儒"},
+  {id:122,date:"2026-02-15", name:"**琪"},
+  {id:123,date:"2026-03-28", name:"**琪"},
+  {id:124,date:"2026-03-28", name:"*,"},
+  {id:125,date:"2026-03-28", name:"*"},
+  {id:126,date:"2026-03-28", name:"A*n"},
+  {id:127,date:"2026-03-28", name:"*生"},
+  {id:128,date:"2026-03-28", name:"塔*a"},
+  {id:129,date:"2026-03-28", name:"*風"},
+  {id:130,date:"2026-03-28", name:"*心"},
+  {id:131,date:"2026-03-28", name:"*烟"},
+  {id:132,date:"2026-03-28", name:"*海"},
+  {id:133,date:"2026-03-28", name:"E*a"},
+  {id:134,date:"2026-03-28", name:"2*2"},
+  {id:135,date:"2026-03-28", name:"*冰"},
+  {id:136,date:"2026-03-28", name:"*文"},
+  {id:137,date:"2026-03-28", name:"*琦"},
+  {id:138,date:"2026-03-28", name:"*武"},
+  {id:139,date:"2026-03-28", name:"*天"},
+  {id:140,date:"2026-03-28", name:"*谢"},
+  {id:141,date:"2026-03-28", name:"***柯"},
+  {id:142,date:"2026-03-28", name:"*豪"},
+  {id:143,date:"2026-03-28", name:"*琛"},
+  {id:144,date:"2026-03-28", name:"**崎"},
+  {id:145,date:"2026-03-28", name:"**宣"},
+  {id:146,date:"2026-03-28", name:"**万"},
+  {id:147,date:"2026-03-28", name:"*梓"},
+];
+
+// Precompute
+const dateLabels = {
+  "2025-09-06":"2025年9月6日","2025-10-06":"2025年10月6日","2025-10-07":"2025年10月7日",
+  "2025-11-09":"2025年11月9日","2025-11-10":"2025年11月10日","2025-11-25":"2025年11月25日",
+  "2025-12-13":"2025年12月13日","2026-01-31":"2026年1月31日","2026-02-13":"2026年2月13日",
+  "2026-02-14":"2026年2月14日","2026-02-15":"2026年2月15日","2026-03-28":"2026年3月28日"
+};
+
+function getAvatar(name, id) {
+  const cls = 'av' + (id % 8);
+  const ch = name.replace(/[*^~()（）？?!！.\s]/g,'').charAt(0) || '♥';
+  return `<div class="donor-avatar ${cls}">${ch}</div>`;
+}
+
+function formatDate(d) { return dateLabels[d] || d; }
+
+let currentFilter = 'all';
+let searchQuery = '';
+
+function getFilteredData() {
+  let data = RAW;
+  if (currentFilter !== 'all') data = data.filter(d => d.date === currentFilter);
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    data = data.filter(d => d.name.toLowerCase().includes(q) || d.date.includes(q));
+  }
+  return data;
+}
+
+function render() {
+  const data = getFilteredData();
+  const timeline = document.getElementById('timeline');
+  const noResults = document.getElementById('noResults');
+  const countLine = document.getElementById('countLine');
+
+  countLine.innerHTML = `显示 <span>${data.length}</span> / ${RAW.length} 条记录`;
+
+  if (!data.length) {
+    timeline.innerHTML = '';
+    noResults.classList.add('show');
+    return;
+  }
+  noResults.classList.remove('show');
+
+  // Group by date
+  const groups = {};
+  data.forEach(d => {
+    if (!groups[d.date]) groups[d.date] = [];
+    groups[d.date].push(d);
+  });
+
+  const sortedDates = Object.keys(groups).sort();
+  let html = '';
+  sortedDates.forEach((date, gi) => {
+    const items = groups[date];
+    const delay = gi * 0.05;
+    html += `<div class="date-group reveal" style="animation-delay:${delay}s">
+      <div class="date-header">
+        <div class="date-dot"></div>
+        <span class="date-label">${formatDate(date)}</span>
+        <span class="date-count">${items.length} 人</span>
+      </div>
+      <div class="donor-grid">`;
+    items.forEach((d, i) => {
+      const cardDelay = (gi * 0.05 + i * 0.02).toFixed(2);
+      html += `<div class="donor-card" style="animation-delay:${cardDelay}s" title="编号 #${d.id}">
+        ${getAvatar(d.name, d.id)}
+        <div class="donor-name">${d.name}</div>
+        <div class="donor-num">#${String(d.id).padStart(3,'0')}</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+
+  timeline.innerHTML = html;
+
+  // Reveal observer
+  const reveals = timeline.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+  reveals.forEach(r => obs.observe(r));
+}
+
+// Build filter buttons
+function buildFilters() {
+  const dates = [...new Set(RAW.map(d => d.date))].sort();
+  const container = document.getElementById('filterBtns');
+  let html = `<button class="filter-btn active" data-filter="all">全部</button>`;
+  dates.forEach(d => {
+    html += `<button class="filter-btn" data-filter="${d}">${formatDate(d).replace('年','·').replace('月','·').replace('日','')}</button>`;
+  });
+  container.innerHTML = html;
+  container.addEventListener('click', e => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    currentFilter = btn.dataset.filter;
+    container.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+    render();
+    window.scrollTo({ top: document.querySelector('.controls').offsetTop - 20, behavior: 'smooth' });
+  });
+}
+
+// Stats counter animation
+function animateCount(el, target, duration=1400) {
+  let start = null;
+  function step(ts) {
+    if (!start) start = ts;
+    const prog = Math.min((ts - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - prog, 3);
+    el.textContent = Math.round(ease * target);
+    if (prog < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// Search
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value.trim();
+  render();
+});
+
+// Init
+buildFilters();
+render();
+
+// Stats
+const uniqueNames = new Set(RAW.map(d => d.name)).size;
+const uniqueDates = new Set(RAW.map(d => d.date)).size;
+setTimeout(() => {
+  animateCount(document.getElementById('totalCount'), RAW.length, 1200);
+  animateCount(document.getElementById('dateCount'), uniqueDates, 1000);
+  animateCount(document.getElementById('uniqueCount'), uniqueNames, 1100);
+}, 300);
+</script>
+</body>
+</html>
