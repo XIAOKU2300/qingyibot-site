@@ -1,723 +1,429 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>感谢名单 · 爱心捐赠</title>
+<title>爱心捐赠名单 · 青弋Bot</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Cinzel:wght@400;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Cinzel:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --gold: #e8c97e;
-    --gold-light: #f5dfa0;
-    --gold-dim: #b89a50;
-    --deep: #0a0c12;
-    --surface: rgba(255,255,255,0.04);
-    --glass: rgba(255,255,255,0.07);
-    --glass-border: rgba(255,255,255,0.12);
-    --text-main: #f0ece4;
-    --text-dim: rgba(240,236,228,0.55);
-    --accent: #7eb8e8;
-    --accent2: #a07ee8;
-  }
+:root { --dur:.6s; }
+[data-theme="dark"] {
+  --bg:#080b14; --bg2:#0d1120;
+  --surface:rgba(255,255,255,.035); --glass:rgba(255,255,255,.06); --glass-b:rgba(255,255,255,.10);
+  --text:#eeeae2; --text-dim:rgba(238,234,226,.50); --text-muted:rgba(238,234,226,.28);
+  --gold:#e8c97e; --gold-l:#f5e0a0; --gold-d:#b89a50;
+  --accent:#6ea8de; --accent2:#9c72e0; --accent3:#58c4a0;
+  --border:rgba(255,255,255,.08); --shadow:rgba(0,0,0,.5);
+  --chb:rgba(232,201,126,.25); --orb:.16; --dot:rgba(232,201,126,.45);
+}
+[data-theme="light"] {
+  --bg:#f4f1eb; --bg2:#ece9e3;
+  --surface:rgba(0,0,0,.03); --glass:rgba(255,255,255,.72); --glass-b:rgba(255,255,255,.90);
+  --text:#1c1a16; --text-dim:rgba(28,26,22,.55); --text-muted:rgba(28,26,22,.32);
+  --gold:#a07820; --gold-l:#c49530; --gold-d:#7a5a10;
+  --accent:#2860b0; --accent2:#6830c0; --accent3:#208060;
+  --border:rgba(0,0,0,.09); --shadow:rgba(0,0,0,.12);
+  --chb:rgba(160,120,32,.35); --orb:.08; --dot:rgba(160,120,32,.30);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans SC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background var(--dur),color var(--dur)}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px}
+.bg-layer{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(110px);opacity:var(--orb);animation:drift 22s ease-in-out infinite alternate;transition:opacity var(--dur)}
+.orb1{width:700px;height:700px;background:radial-gradient(circle,#5535bb,transparent);top:-200px;left:-150px;animation-duration:24s}
+.orb2{width:550px;height:550px;background:radial-gradient(circle,#1a4db0,transparent);bottom:-120px;right:-100px;animation-duration:28s;animation-delay:-10s}
+.orb3{width:420px;height:420px;background:radial-gradient(circle,#c06015,transparent);top:40%;left:42%;animation-duration:33s;animation-delay:-6s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(50px,35px) scale(1.1)}100%{transform:translate(-30px,55px) scale(.92)}}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Theme btn */
+.theme-btn{position:fixed;top:18px;right:18px;z-index:200;width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--border);background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  transition:all .3s;box-shadow:0 4px 20px var(--shadow)}
+.theme-btn:hover{transform:scale(1.12) rotate(18deg)}
 
-  html { scroll-behavior: smooth; }
+/* Layout */
+.wrap{position:relative;z-index:2;max-width:940px;margin:0 auto;padding:0 20px 100px}
 
-  body {
-    font-family: 'Noto Sans SC', sans-serif;
-    background: var(--deep);
-    color: var(--text-main);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+/* Hero */
+.hero{text-align:center;padding:70px 0 44px;animation:fadeDown .9s ease both}
+.hero-icon{font-size:3rem;margin-bottom:14px;display:block;animation:floatIcon 4s ease-in-out infinite;filter:drop-shadow(0 4px 18px var(--dot))}
+@keyframes floatIcon{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--glass-b);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:100px;
+  padding:5px 18px;font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:20px}
+h1{font-family:'Noto Serif SC',serif;font-size:clamp(1.9rem,5.5vw,3.4rem);font-weight:700;
+  background:linear-gradient(135deg,var(--gold-l),var(--gold),var(--gold-d));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;margin-bottom:12px}
+.hero-sub{font-size:clamp(.84rem,2vw,.98rem);color:var(--text-dim);max-width:460px;margin:0 auto 8px;line-height:1.9;font-weight:300}
 
-  /* ─── Background Orbs ─── */
-  .bg {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    overflow: hidden;
-  }
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.18;
-    animation: drift 18s ease-in-out infinite alternate;
-  }
-  .orb1 { width: 600px; height: 600px; background: radial-gradient(circle, #6b4fbb, transparent); top: -150px; left: -100px; animation-duration: 20s; }
-  .orb2 { width: 500px; height: 500px; background: radial-gradient(circle, #2a6bbf, transparent); bottom: -100px; right: -80px; animation-duration: 25s; animation-delay: -8s; }
-  .orb3 { width: 350px; height: 350px; background: radial-gradient(circle, #bf7a2a, transparent); top: 40%; left: 50%; animation-duration: 30s; animation-delay: -5s; }
+/* Notice */
+.notice{max-width:640px;margin:22px auto 40px;background:var(--glass);border:1px solid var(--border);
+  border-left:3px solid var(--gold);border-radius:16px;padding:18px 22px;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);text-align:left;
+  font-size:.83rem;line-height:1.88;color:var(--text-dim);animation:fadeUp .8s ease .2s both}
+.notice-title{font-family:'Noto Serif SC',serif;font-size:.9rem;font-weight:600;color:var(--text);
+  margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.notice-title::before{content:'📢'}
+.notice strong{color:var(--gold);font-weight:600}
 
-  @keyframes drift {
-    0%   { transform: translate(0,0) scale(1); }
-    50%  { transform: translate(40px,30px) scale(1.08); }
-    100% { transform: translate(-20px,50px) scale(0.95); }
-  }
+/* Stats */
+.stats-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:50px;animation:fadeUp .8s ease .1s both}
+.stat-card{background:var(--glass);border:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-radius:20px;padding:20px 34px;text-align:center;
+  transition:transform .3s,border-color .3s,box-shadow .3s;min-width:108px}
+.stat-card:hover{transform:translateY(-4px);border-color:var(--chb);box-shadow:0 16px 40px var(--shadow)}
+/* Fixed height container → no border jump */
+.stat-num-wrap{height:2.8rem;display:flex;align-items:center;justify-content:center;margin-bottom:5px}
+.stat-num{font-family:'Cinzel',serif;font-size:2rem;font-weight:600;color:var(--gold);line-height:1;min-width:3ch;text-align:center}
+.stat-label{font-size:.71rem;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase}
 
-  /* ─── Noise Overlay ─── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 1;
-    pointer-events: none;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-    background-size: 180px;
-  }
+/* Section divider */
+.sec-div{display:flex;align-items:center;gap:14px;margin:0 0 26px;color:var(--text-muted);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.sec-div::before,.sec-div::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
 
-  /* ─── Main Layout ─── */
-  .wrap { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 60px 24px 100px; }
+/* Controls */
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;animation:fadeUp .8s ease .3s both}
+.search-wrap{flex:1;min-width:180px;position:relative}
+.search-wrap svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text-dim);pointer-events:none}
+.search-input{width:100%;background:var(--glass);border:1px solid var(--border);border-radius:12px;
+  padding:11px 14px 11px 38px;color:var(--text);font-size:.88rem;font-family:inherit;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);outline:none;
+  transition:border-color .25s,box-shadow .25s,background .3s}
+.search-input::placeholder{color:var(--text-dim)}
+.search-input:focus{border-color:var(--gold-d);box-shadow:0 0 0 3px rgba(184,154,80,.12)}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filter-btn{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:9px 14px;
+  color:var(--text-dim);font-size:.79rem;font-family:inherit;cursor:pointer;
+  transition:all .2s;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);letter-spacing:.03em;white-space:nowrap}
+.filter-btn:hover{background:rgba(232,201,126,.08);border-color:var(--gold-d);color:var(--gold)}
+.filter-btn.active{background:rgba(232,201,126,.13);border-color:var(--gold-d);color:var(--gold)}
+.count-line{font-size:.77rem;color:var(--text-muted);margin-bottom:22px;letter-spacing:.04em}
+.count-line em{color:var(--gold);font-style:normal;font-weight:600}
 
-  /* ─── Hero ─── */
-  .hero {
-    text-align: center;
-    padding: 80px 0 60px;
-    animation: fadeDown 1s ease both;
-  }
+/* Timeline */
+.timeline{position:relative}
+.timeline::before{content:'';position:absolute;left:16px;top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,transparent,var(--border) 8%,var(--border) 92%,transparent)}
+.date-group{margin-bottom:38px}
+.date-header{display:flex;align-items:center;gap:14px;margin-bottom:13px;padding-left:8px}
+.date-dot{width:18px;height:18px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold-l),var(--gold-d));
+  box-shadow:0 0 14px var(--dot);position:relative;z-index:1;transition:box-shadow .3s}
+.date-group:hover .date-dot{box-shadow:0 0 24px var(--dot)}
+.date-label{font-family:'Noto Serif SC',serif;font-size:.87rem;color:var(--gold-d);letter-spacing:.08em}
+.date-count{margin-left:auto;font-size:.71rem;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:2px 10px}
 
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 100px;
-    padding: 6px 18px;
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 28px;
-  }
-  .hero-badge::before { content: '✦'; font-size: 10px; }
+/* Donor grid */
+.donor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px;padding-left:34px}
+@media(max-width:480px){.donor-grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px;padding-left:26px}}
+@media(min-width:900px){.donor-grid{grid-template-columns:repeat(auto-fill,minmax(148px,1fr))}}
 
-  .hero h1 {
-    font-family: 'Noto Serif SC', serif;
-    font-size: clamp(2rem, 6vw, 3.6rem);
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dim));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.2;
-    margin-bottom: 16px;
-  }
+.donor-card{background:var(--glass);border:1px solid var(--border);border-radius:16px;
+  padding:16px 12px 14px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  display:flex;flex-direction:column;align-items:center;gap:9px;cursor:default;
+  transition:transform .28s cubic-bezier(.34,1.56,.64,1),border-color .25s,box-shadow .25s;
+  will-change:transform;animation:cardIn .45s ease both}
+.donor-card:hover{transform:translateY(-5px) scale(1.03);border-color:var(--chb);box-shadow:0 14px 36px var(--shadow),0 0 0 1px var(--chb)}
+.donor-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:600;color:#fff;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.av0{background:linear-gradient(135deg,#7b55ff,#4a90d9)}
+.av1{background:linear-gradient(135deg,#e07040,#d94070)}
+.av2{background:linear-gradient(135deg,#38c870,#38a0d8)}
+.av3{background:linear-gradient(135deg,#d8c038,#d87030)}
+.av4{background:linear-gradient(135deg,#9038d8,#3870d8)}
+.av5{background:linear-gradient(135deg,#38d8b8,#3848d8)}
+.av6{background:linear-gradient(135deg,#d83888,#9038d8)}
+.av7{background:linear-gradient(135deg,#50d838,#38d8a0)}
+.donor-name{font-size:.82rem;font-weight:500;color:var(--text);text-align:center;word-break:break-all;line-height:1.3}
+.donor-num{font-size:.67rem;color:var(--text-muted);font-family:'Cinzel',serif;letter-spacing:.05em}
 
-  .hero-sub {
-    font-size: clamp(0.9rem, 2vw, 1.05rem);
-    color: var(--text-dim);
-    max-width: 440px;
-    margin: 0 auto 36px;
-    line-height: 1.8;
-    font-weight: 300;
-  }
+.no-results{text-align:center;padding:60px 20px;color:var(--text-dim);font-size:.9rem;display:none}
+.no-results.show{display:block}
 
-  .stats-row {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 50px;
-  }
-  .stat-card {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 18px;
-    padding: 20px 32px;
-    text-align: center;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-  }
-  .stat-card:hover { transform: translateY(-3px); border-color: var(--gold-dim); }
-  .stat-num {
-    font-family: 'Cinzel', serif;
-    font-size: 2.2rem;
-    font-weight: 600;
-    color: var(--gold);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-  .stat-label { font-size: 0.75rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; }
+/* Footer */
+.footer-section{margin-top:78px;border-top:1px solid var(--border);padding-top:48px;animation:fadeUp 1s ease .8s both}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:36px}
+.footer-card{background:var(--glass);border:1px solid var(--border);border-radius:16px;
+  padding:22px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.footer-card h3{font-family:'Noto Serif SC',serif;font-size:.9rem;color:var(--gold);margin-bottom:11px;display:flex;align-items:center;gap:8px}
+.footer-card p{font-size:.79rem;color:var(--text-dim);line-height:1.9;font-weight:300}
+.footer-card a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+.footer-card a:hover{border-color:var(--accent)}
+.footer-card strong{color:var(--gold)}
+.footer-bottom{text-align:center;font-size:.74rem;color:var(--text-muted);letter-spacing:.06em;line-height:2.1}
+.heart{color:var(--gold);animation:pulse 2.2s ease infinite;display:inline-block}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
 
-  /* ─── Divider ─── */
-  .divider {
-    display: flex; align-items: center; gap: 16px;
-    margin: 0 0 40px;
-    color: var(--text-dim);
-    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-  }
-  .divider::before, .divider::after {
-    content: ''; flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
-  }
+/* Animations */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-28px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+.reveal.vis{opacity:1;transform:none}
 
-  /* ─── Search / Filter ─── */
-  .controls {
-    display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px;
-    animation: fadeUp 0.8s ease 0.3s both;
-  }
-  .search-wrap {
-    flex: 1; min-width: 200px;
-    position: relative;
-  }
-  .search-wrap svg {
-    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-    opacity: 0.4; pointer-events: none;
-  }
-  .search-input {
-    width: 100%;
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
-    padding: 11px 16px 11px 40px;
-    color: var(--text-main);
-    font-size: 0.9rem;
-    font-family: inherit;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    outline: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
-  .search-input::placeholder { color: var(--text-dim); }
-  .search-input:focus { border-color: var(--gold-dim); box-shadow: 0 0 0 3px rgba(232,201,126,0.1); }
-
-  .filter-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-  .filter-btn {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    border-radius: 10px;
-    padding: 10px 16px;
-    color: var(--text-dim);
-    font-size: 0.82rem;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.2s;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-  }
-  .filter-btn:hover, .filter-btn.active {
-    background: rgba(232,201,126,0.12);
-    border-color: var(--gold-dim);
-    color: var(--gold);
-  }
-
-  /* ─── Count Line ─── */
-  .count-line {
-    font-size: 0.8rem; color: var(--text-dim); margin-bottom: 20px; letter-spacing: 0.05em;
-  }
-  .count-line span { color: var(--gold); font-weight: 600; }
-
-  /* ─── Timeline Groups ─── */
-  .timeline { position: relative; }
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 16px;
-    top: 0; bottom: 0;
-    width: 1px;
-    background: linear-gradient(180deg, transparent, var(--glass-border) 10%, var(--glass-border) 90%, transparent);
-  }
-
-  .date-group { margin-bottom: 36px; }
-
-  .date-header {
-    display: flex; align-items: center; gap: 14px;
-    margin-bottom: 14px;
-    padding-left: 8px;
-  }
-  .date-dot {
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold), var(--gold-dim));
-    flex-shrink: 0;
-    box-shadow: 0 0 12px rgba(232,201,126,0.4);
-    position: relative; z-index: 1;
-  }
-  .date-label {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 0.85rem;
-    color: var(--gold-dim);
-    letter-spacing: 0.08em;
-  }
-  .date-count {
-    margin-left: auto;
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    background: var(--surface);
-    border: 1px solid var(--glass-border);
-    border-radius: 100px;
-    padding: 2px 10px;
-  }
-
-  /* ─── Donor Grid ─── */
-  .donor-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 10px;
-    padding-left: 32px;
-  }
-
-  @media (max-width: 480px) {
-    .donor-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; padding-left: 24px; }
-  }
-
-  .donor-card {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    border-radius: 14px;
-    padding: 14px 12px;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    cursor: default;
-    transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), border-color 0.25s, box-shadow 0.25s;
-    animation: cardIn 0.5s ease both;
-    will-change: transform;
-  }
-  .donor-card:hover {
-    transform: translateY(-4px) scale(1.03);
-    border-color: rgba(232,201,126,0.3);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.35), 0 0 0 1px rgba(232,201,126,0.1);
-  }
-
-  .donor-avatar {
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent2), var(--accent));
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Noto Serif SC', serif;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #fff;
-    flex-shrink: 0;
-    position: relative;
-  }
-  .donor-avatar::after {
-    content: '';
-    position: absolute; inset: -2px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold-dim), transparent, var(--accent));
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .donor-card:hover .donor-avatar::after { opacity: 1; }
-
-  .donor-name {
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--text-main);
-    text-align: center;
-    word-break: break-all;
-    line-height: 1.3;
-  }
-  .donor-num {
-    font-size: 0.7rem;
-    color: var(--text-dim);
-    font-family: 'Cinzel', serif;
-  }
-
-  /* ─── No results ─── */
-  .no-results {
-    text-align: center; padding: 60px 20px;
-    color: var(--text-dim); font-size: 0.9rem; display: none;
-  }
-  .no-results.show { display: block; }
-
-  /* ─── Footer ─── */
-  .footer {
-    text-align: center;
-    margin-top: 80px;
-    padding-top: 40px;
-    border-top: 1px solid var(--glass-border);
-    color: var(--text-dim);
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
-    animation: fadeUp 1s ease 0.8s both;
-  }
-  .footer-heart { color: var(--gold); animation: pulse 2s ease infinite; display: inline-block; }
-  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
-
-  /* ─── Keyframes ─── */
-  @keyframes fadeDown { from { opacity:0; transform: translateY(-30px); } to { opacity:1; transform: none; } }
-  @keyframes fadeUp   { from { opacity:0; transform: translateY(25px);  } to { opacity:1; transform: none; } }
-  @keyframes cardIn   { from { opacity:0; transform: translateY(12px) scale(0.97); } to { opacity:1; transform:none; } }
-
-  /* ─── Scroll reveal ─── */
-  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .reveal.visible { opacity: 1; transform: none; }
-
-  /* ─── Tablet adjustments ─── */
-  @media (min-width: 600px) and (max-width: 900px) {
-    .donor-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
-  }
-  @media (min-width: 900px) {
-    .donor-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-  }
-
-  /* ─── Color variants for avatars ─── */
-  .av0 { background: linear-gradient(135deg, #7b61ff, #4a90d9); }
-  .av1 { background: linear-gradient(135deg, #d97a4a, #d94a7a); }
-  .av2 { background: linear-gradient(135deg, #4ad97a, #4aaed9); }
-  .av3 { background: linear-gradient(135deg, #d9c44a, #d9834a); }
-  .av4 { background: linear-gradient(135deg, #9b4ad9, #4a80d9); }
-  .av5 { background: linear-gradient(135deg, #4ad9c4, #4a60d9); }
-  .av6 { background: linear-gradient(135deg, #d94a9b, #9b4ad9); }
-  .av7 { background: linear-gradient(135deg, #60d94a, #4ad9b5); }
-
-  /* scrollbar */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold-d)}
 </style>
 </head>
 <body>
-
-<div class="bg">
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
+<div class="bg-layer">
+  <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
 </div>
+<button class="theme-btn" id="themeBtn" title="切换主题" aria-label="切换明暗主题">🌙</button>
 
 <div class="wrap">
-  <!-- Hero -->
   <div class="hero">
-    <div class="hero-badge">Love & Gratitude</div>
-    <h1>感谢每一位捐赠者</h1>
-    <p class="hero-sub">你们的每一份心意，都是前行路上最温暖的力量。感谢有你。</p>
+    <span class="hero-icon">🤖</span>
+    <div class="eyebrow">✦ 青弋 Bot · 爱心捐赠名单 ✦</div>
+    <h1>感谢每一份支持</h1>
+    <p class="hero-sub">青弋Bot已陪伴大家走过三年，感谢每一位捐赠者的心意，你们是机器人持续运行的最大动力。</p>
+
+    <div class="notice">
+      <div class="notice-title">本次筹款公告</div>
+      各位好！青弋Bot已陪伴大家整整<strong>三年</strong>，感谢一路相伴与见证。<br>
+      「鸣潮自动签到流量」即将耗尽，加之服务器、电费成本上涨，用户量增多流量消耗加大，运营压力较大。<br>
+      本次计划筹款 <strong>100元</strong>，金额随便，所有款项将<strong>全部用于流量充值</strong>，保障机器人正常运行。我们会坚持维护运营，不负大家的支持与陪伴！
+    </div>
+
     <div class="stats-row">
       <div class="stat-card">
-        <div class="stat-num" id="totalCount">0</div>
+        <div class="stat-num-wrap"><div class="stat-num" id="sTotal">0</div></div>
         <div class="stat-label">爱心捐赠</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num" id="dateCount">0</div>
+        <div class="stat-num-wrap"><div class="stat-num" id="sDates">0</div></div>
         <div class="stat-label">捐赠日期</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num" id="uniqueCount">0</div>
+        <div class="stat-num-wrap"><div class="stat-num" id="sUnique">0</div></div>
         <div class="stat-label">独立捐赠者</div>
       </div>
     </div>
   </div>
 
-  <!-- Controls -->
+  <div class="sec-div">捐赠名单</div>
   <div class="controls">
     <div class="search-wrap">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-      </svg>
-      <input class="search-input" type="text" placeholder="搜索捐赠者..." id="searchInput">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="search-input" type="search" placeholder="搜索捐赠者…" id="searchInput" autocomplete="off">
     </div>
-    <div class="filter-btns" id="filterBtns"></div>
   </div>
-
+  <div class="filter-row" id="filterRow"></div>
   <div class="count-line" id="countLine"></div>
-
-  <!-- Timeline -->
   <div class="timeline" id="timeline"></div>
-  <div class="no-results" id="noResults">未找到匹配的捐赠者 ✦</div>
+  <div class="no-results" id="noResults">✦ 未找到匹配的捐赠者</div>
 
-  <!-- Footer -->
-  <div class="footer">
-    <p>以爱之名 <span class="footer-heart">♥</span> 感恩同行</p>
-    <p style="margin-top:8px;opacity:0.5;">共 147 条记录 · 数据已脱敏处理</p>
+  <div class="footer-section">
+    <div class="sec-div" style="margin-bottom:26px;">关于青弋Bot</div>
+    <div class="footer-grid">
+      <div class="footer-card">
+        <h3>🤖 关于机器人</h3>
+        <p>青弋Bot 是免费多功能 QQ 机器人，支持鸣潮、原神、星铁、明日方舟等游戏数据查询与自动签到，内置群管、东方音乐搜取、娱乐互动等功能。常态化部署，稳定运行三年。</p>
+      </div>
+      <div class="footer-card">
+        <h3>💰 捐赠用途</h3>
+        <p>本页面记录所有爱心捐赠，所有款项<strong>全部用于</strong>流量充值与服务器运营费用，绝不挪作他用。感谢每一位支持者让机器人继续陪伴大家。</p>
+      </div>
+      <div class="footer-card">
+        <h3>🔗 官方链接</h3>
+        <p>官方网站：<a href="https://fannet.asia" target="_blank" rel="noopener">fannet.asia</a><br><br>本机器人为个人开发项目，仅用于技术演示与娱乐用途，不代表任何官方立场。</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>以爱之名 <span class="heart">♥</span> 感恩同行 · 共 147 条爱心记录</p>
+      <p>数据已脱敏处理 · 由近至远排列 · <a href="https://fannet.asia" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none">fannet.asia</a></p>
+    </div>
   </div>
 </div>
 
 <script>
-const RAW = [
-  {id:1,  date:"2025-09-06", name:"**卿"},
-  {id:2,  date:"2026-03-28", name:"**卿"},
-  {id:3,  date:"2025-09-06", name:"**文"},
-  {id:4,  date:"2025-09-06", name:"**文"},
-  {id:5,  date:"2025-09-06", name:"**显"},
-  {id:6,  date:"2025-09-06", name:"**杰"},
-  {id:7,  date:"2025-09-06", name:"**城"},
-  {id:8,  date:"2025-09-06", name:"**君"},
-  {id:9,  date:"2025-09-06", name:"**涛"},
-  {id:10, date:"2025-09-06", name:"**祥"},
-  {id:11, date:"2025-09-06", name:"**晓"},
-  {id:12, date:"2025-09-06", name:"**晓"},
-  {id:13, date:"2025-09-06", name:"**海"},
-  {id:14, date:"2025-10-06", name:"*稽"},
-  {id:15, date:"2025-10-06", name:"*d"},
-  {id:16, date:"2025-10-06", name:"*登"},
-  {id:17, date:"2026-03-28", name:"*登"},
-  {id:18, date:"2025-10-06", name:"*染"},
-  {id:19, date:"2025-10-06", name:"*笔"},
-  {id:20, date:"2025-10-06", name:"*语"},
-  {id:21, date:"2025-10-06", name:"*初"},
-  {id:22, date:"2025-10-06", name:"*仔"},
-  {id:23, date:"2025-10-06", name:"*鱼"},
-  {id:24, date:"2025-10-06", name:"*晚"},
-  {id:25, date:"2025-10-06", name:"Z^C"},
-  {id:26, date:"2025-10-06", name:"*嵩"},
-  {id:27, date:"2025-10-06", name:"*台"},
-  {id:28, date:"2025-10-06", name:"*怒"},
-  {id:29, date:"2025-10-06", name:"*11"},
-  {id:30, date:"2025-10-06", name:"P^r"},
-  {id:31, date:"2025-10-06", name:"D^n"},
-  {id:32, date:"2025-10-06", name:"*骨"},
-  {id:33, date:"2025-10-06", name:"L^g"},
-  {id:34, date:"2025-10-06", name:"*明"},
-  {id:35, date:"2025-10-06", name:"*胥"},
-  {id:36, date:"2026-03-28", name:"*胥"},
-  {id:37, date:"2025-10-06", name:"*彻"},
-  {id:38, date:"2025-10-06", name:"**慧"},
-  {id:39, date:"2026-03-28", name:"**慧"},
-  {id:40, date:"2025-10-06", name:"**晓"},
-  {id:41, date:"2025-10-06", name:"**宇"},
-  {id:42, date:"2025-10-06", name:"**远"},
-  {id:43, date:"2025-10-06", name:"**鸿"},
-  {id:44, date:"2026-03-28", name:"**鸿"},
-  {id:45, date:"2025-10-07", name:"D^A"},
-  {id:46, date:"2025-11-09", name:"K*N"},
-  {id:47, date:"2025-11-09", name:"*钾"},
-  {id:48, date:"2025-11-09", name:"*语"},
-  {id:49, date:"2025-11-09", name:"*眠"},
-  {id:50, date:"2025-11-09", name:"*眠"},
-  {id:51, date:"2025-11-09", name:"F*n"},
-  {id:52, date:"2025-11-09", name:"*器"},
-  {id:53, date:"2025-11-09", name:"*."},
-  {id:54, date:"2026-03-28", name:"*."},
-  {id:55, date:"2025-11-09", name:"*。"},
-  {id:56, date:"2025-11-09", name:"*胥"},
-  {id:57, date:"2025-11-09", name:"*Y"},
-  {id:58, date:"2025-11-09", name:"*糖"},
-  {id:59, date:"2025-11-09", name:"*V"},
-  {id:60, date:"2025-11-09", name:"*年"},
-  {id:61, date:"2025-11-09", name:"*年"},
-  {id:62, date:"2025-11-09", name:"**祥"},
-  {id:63, date:"2025-11-09", name:"**云"},
-  {id:64, date:"2025-11-09", name:"*凯"},
-  {id:65, date:"2025-11-09", name:"**远"},
-  {id:66, date:"2025-11-09", name:"**炜"},
-  {id:67, date:"2025-11-10", name:"*妖"},
-  {id:68, date:"2025-11-10", name:"*✨"},
-  {id:69, date:"2025-11-10", name:"**琪"},
-  {id:70, date:"2025-11-25", name:"*瓜"},
-  {id:71, date:"2025-12-13", name:"*戈"},
-  {id:72, date:"2025-12-13", name:"*Y"},
-  {id:73, date:"2025-12-13", name:"*?"},
-  {id:74, date:"2025-12-13", name:"*舟"},
-  {id:75, date:"2025-12-13", name:"*人"},
-  {id:76, date:"2025-12-13", name:"~*~"},
-  {id:77, date:"2025-12-13", name:"*小"},
-  {id:78, date:"2025-12-13", name:"*家"},
-  {id:79, date:"2025-12-13", name:"*卿"},
-  {id:80, date:"2025-12-13", name:"*峑"},
-  {id:81, date:"2025-12-13", name:"*名"},
-  {id:82, date:"2025-12-13", name:"*竹"},
-  {id:83, date:"2025-12-13", name:"N*e"},
-  {id:84, date:"2025-12-13", name:"*翎"},
-  {id:85, date:"2025-12-13", name:"*☀️"},
-  {id:86, date:"2025-12-13", name:"*!"},
-  {id:87, date:"2025-12-13", name:"*胥"},
-  {id:88, date:"2025-12-13", name:"*望"},
-  {id:89, date:"2025-12-13", name:"**军"},
-  {id:90, date:"2025-12-13", name:"**辉"},
-  {id:91, date:"2025-12-13", name:"**杰"},
-  {id:92, date:"2025-12-13", name:"**涵"},
-  {id:93, date:"2025-12-13", name:"**正"},
-  {id:94, date:"2026-01-31", name:"N*e"},
-  {id:95, date:"2026-02-13", name:"*语"},
-  {id:96, date:"2026-02-13", name:"*鸭"},
-  {id:97, date:"2026-02-13", name:"*望"},
-  {id:98, date:"2026-02-13", name:"(*)"},
-  {id:99, date:"2026-02-13", name:"*钾"},
-  {id:100,date:"2026-02-13", name:"*易"},
-  {id:101,date:"2026-02-13", name:"*埃"},
-  {id:102,date:"2026-02-13", name:"*仙"},
-  {id:103,date:"2026-02-13", name:"*宇"},
-  {id:104,date:"2026-02-13", name:"*易"},
-  {id:105,date:"2026-02-13", name:"*仔"},
-  {id:106,date:"2026-02-13", name:"*见"},
-  {id:107,date:"2026-02-13", name:"*糖"},
-  {id:108,date:"2026-02-13", name:"*妖"},
-  {id:109,date:"2026-02-13", name:"F*n"},
-  {id:110,date:"2026-02-13", name:"**晓"},
-  {id:111,date:"2026-02-13", name:"**璠"},
-  {id:112,date:"2026-02-13", name:"**东"},
-  {id:113,date:"2026-02-13", name:"**中"},
-  {id:114,date:"2026-02-13", name:"**坤"},
-  {id:115,date:"2026-02-13", name:"**川"},
-  {id:116,date:"2026-02-14", name:"**凡"},
-  {id:117,date:"2026-02-14", name:"*🥣（匿名）"},
-  {id:118,date:"2026-03-28", name:"*🥣"},
-  {id:119,date:"2026-02-15", name:"*超"},
-  {id:120,date:"2026-02-15", name:"**儒"},
-  {id:121,date:"2026-03-28", name:"**儒"},
-  {id:122,date:"2026-02-15", name:"**琪"},
-  {id:123,date:"2026-03-28", name:"**琪"},
-  {id:124,date:"2026-03-28", name:"*,"},
-  {id:125,date:"2026-03-28", name:"*"},
-  {id:126,date:"2026-03-28", name:"A*n"},
-  {id:127,date:"2026-03-28", name:"*生"},
-  {id:128,date:"2026-03-28", name:"塔*a"},
-  {id:129,date:"2026-03-28", name:"*風"},
-  {id:130,date:"2026-03-28", name:"*心"},
-  {id:131,date:"2026-03-28", name:"*烟"},
-  {id:132,date:"2026-03-28", name:"*海"},
-  {id:133,date:"2026-03-28", name:"E*a"},
-  {id:134,date:"2026-03-28", name:"2*2"},
-  {id:135,date:"2026-03-28", name:"*冰"},
-  {id:136,date:"2026-03-28", name:"*文"},
-  {id:137,date:"2026-03-28", name:"*琦"},
-  {id:138,date:"2026-03-28", name:"*武"},
-  {id:139,date:"2026-03-28", name:"*天"},
-  {id:140,date:"2026-03-28", name:"*谢"},
-  {id:141,date:"2026-03-28", name:"***柯"},
-  {id:142,date:"2026-03-28", name:"*豪"},
-  {id:143,date:"2026-03-28", name:"*琛"},
-  {id:144,date:"2026-03-28", name:"**崎"},
-  {id:145,date:"2026-03-28", name:"**宣"},
-  {id:146,date:"2026-03-28", name:"**万"},
-  {id:147,date:"2026-03-28", name:"*梓"},
+const RAW=[
+  {id:2,date:"2026-03-28",name:"**卿"},{id:17,date:"2026-03-28",name:"*登"},
+  {id:36,date:"2026-03-28",name:"*胥"},{id:39,date:"2026-03-28",name:"**慧"},
+  {id:44,date:"2026-03-28",name:"**鸿"},{id:54,date:"2026-03-28",name:"*."},
+  {id:118,date:"2026-03-28",name:"*🥣"},{id:121,date:"2026-03-28",name:"**儒"},
+  {id:123,date:"2026-03-28",name:"**琪"},{id:124,date:"2026-03-28",name:"*,"},
+  {id:125,date:"2026-03-28",name:"*"},{id:126,date:"2026-03-28",name:"A*n"},
+  {id:127,date:"2026-03-28",name:"*生"},{id:128,date:"2026-03-28",name:"塔*a"},
+  {id:129,date:"2026-03-28",name:"*風"},{id:130,date:"2026-03-28",name:"*心"},
+  {id:131,date:"2026-03-28",name:"*烟"},{id:132,date:"2026-03-28",name:"*海"},
+  {id:133,date:"2026-03-28",name:"E*a"},{id:134,date:"2026-03-28",name:"2*2"},
+  {id:135,date:"2026-03-28",name:"*冰"},{id:136,date:"2026-03-28",name:"*文"},
+  {id:137,date:"2026-03-28",name:"*琦"},{id:138,date:"2026-03-28",name:"*武"},
+  {id:139,date:"2026-03-28",name:"*天"},{id:140,date:"2026-03-28",name:"*谢"},
+  {id:141,date:"2026-03-28",name:"***柯"},{id:142,date:"2026-03-28",name:"*豪"},
+  {id:143,date:"2026-03-28",name:"*琛"},{id:144,date:"2026-03-28",name:"**崎"},
+  {id:145,date:"2026-03-28",name:"**宣"},{id:146,date:"2026-03-28",name:"**万"},
+  {id:147,date:"2026-03-28",name:"*梓"},
+  {id:119,date:"2026-02-15",name:"*超"},{id:120,date:"2026-02-15",name:"**儒"},
+  {id:122,date:"2026-02-15",name:"**琪"},
+  {id:116,date:"2026-02-14",name:"**凡"},{id:117,date:"2026-02-14",name:"*🥣（匿名）"},
+  {id:95,date:"2026-02-13",name:"*语"},{id:96,date:"2026-02-13",name:"*鸭"},
+  {id:97,date:"2026-02-13",name:"*望"},{id:98,date:"2026-02-13",name:"(*)"},
+  {id:99,date:"2026-02-13",name:"*钾"},{id:100,date:"2026-02-13",name:"*易"},
+  {id:101,date:"2026-02-13",name:"*埃"},{id:102,date:"2026-02-13",name:"*仙"},
+  {id:103,date:"2026-02-13",name:"*宇"},{id:104,date:"2026-02-13",name:"*易"},
+  {id:105,date:"2026-02-13",name:"*仔"},{id:106,date:"2026-02-13",name:"*见"},
+  {id:107,date:"2026-02-13",name:"*糖"},{id:108,date:"2026-02-13",name:"*妖"},
+  {id:109,date:"2026-02-13",name:"F*n"},{id:110,date:"2026-02-13",name:"**晓"},
+  {id:111,date:"2026-02-13",name:"**璠"},{id:112,date:"2026-02-13",name:"**东"},
+  {id:113,date:"2026-02-13",name:"**中"},{id:114,date:"2026-02-13",name:"**坤"},
+  {id:115,date:"2026-02-13",name:"**川"},
+  {id:94,date:"2026-01-31",name:"N*e"},
+  {id:71,date:"2025-12-13",name:"*戈"},{id:72,date:"2025-12-13",name:"*Y"},
+  {id:73,date:"2025-12-13",name:"*?"},{id:74,date:"2025-12-13",name:"*舟"},
+  {id:75,date:"2025-12-13",name:"*人"},{id:76,date:"2025-12-13",name:"~*~"},
+  {id:77,date:"2025-12-13",name:"*小"},{id:78,date:"2025-12-13",name:"*家"},
+  {id:79,date:"2025-12-13",name:"*卿"},{id:80,date:"2025-12-13",name:"*峑"},
+  {id:81,date:"2025-12-13",name:"*名"},{id:82,date:"2025-12-13",name:"*竹"},
+  {id:83,date:"2025-12-13",name:"N*e"},{id:84,date:"2025-12-13",name:"*翎"},
+  {id:85,date:"2025-12-13",name:"*☀️"},{id:86,date:"2025-12-13",name:"*!"},
+  {id:87,date:"2025-12-13",name:"*胥"},{id:88,date:"2025-12-13",name:"*望"},
+  {id:89,date:"2025-12-13",name:"**军"},{id:90,date:"2025-12-13",name:"**辉"},
+  {id:91,date:"2025-12-13",name:"**杰"},{id:92,date:"2025-12-13",name:"**涵"},
+  {id:93,date:"2025-12-13",name:"**正"},
+  {id:70,date:"2025-11-25",name:"*瓜"},
+  {id:67,date:"2025-11-10",name:"*妖"},{id:68,date:"2025-11-10",name:"*✨"},
+  {id:69,date:"2025-11-10",name:"**琪"},
+  {id:46,date:"2025-11-09",name:"K*N"},{id:47,date:"2025-11-09",name:"*钾"},
+  {id:48,date:"2025-11-09",name:"*语"},{id:49,date:"2025-11-09",name:"*眠"},
+  {id:50,date:"2025-11-09",name:"*眠"},{id:51,date:"2025-11-09",name:"F*n"},
+  {id:52,date:"2025-11-09",name:"*器"},{id:53,date:"2025-11-09",name:"*."},
+  {id:55,date:"2025-11-09",name:"*。"},{id:56,date:"2025-11-09",name:"*胥"},
+  {id:57,date:"2025-11-09",name:"*Y"},{id:58,date:"2025-11-09",name:"*糖"},
+  {id:59,date:"2025-11-09",name:"*V"},{id:60,date:"2025-11-09",name:"*年"},
+  {id:61,date:"2025-11-09",name:"*年"},{id:62,date:"2025-11-09",name:"**祥"},
+  {id:63,date:"2025-11-09",name:"**云"},{id:64,date:"2025-11-09",name:"*凯"},
+  {id:65,date:"2025-11-09",name:"**远"},{id:66,date:"2025-11-09",name:"**炜"},
+  {id:45,date:"2025-10-07",name:"D^A"},
+  {id:14,date:"2025-10-06",name:"*稽"},{id:15,date:"2025-10-06",name:"*d"},
+  {id:16,date:"2025-10-06",name:"*登"},{id:18,date:"2025-10-06",name:"*染"},
+  {id:19,date:"2025-10-06",name:"*笔"},{id:20,date:"2025-10-06",name:"*语"},
+  {id:21,date:"2025-10-06",name:"*初"},{id:22,date:"2025-10-06",name:"*仔"},
+  {id:23,date:"2025-10-06",name:"*鱼"},{id:24,date:"2025-10-06",name:"*晚"},
+  {id:25,date:"2025-10-06",name:"Z^C"},{id:26,date:"2025-10-06",name:"*嵩"},
+  {id:27,date:"2025-10-06",name:"*台"},{id:28,date:"2025-10-06",name:"*怒"},
+  {id:29,date:"2025-10-06",name:"*11"},{id:30,date:"2025-10-06",name:"P^r"},
+  {id:31,date:"2025-10-06",name:"D^n"},{id:32,date:"2025-10-06",name:"*骨"},
+  {id:33,date:"2025-10-06",name:"L^g"},{id:34,date:"2025-10-06",name:"*明"},
+  {id:35,date:"2025-10-06",name:"*胥"},{id:37,date:"2025-10-06",name:"*彻"},
+  {id:38,date:"2025-10-06",name:"**慧"},{id:40,date:"2025-10-06",name:"**晓"},
+  {id:41,date:"2025-10-06",name:"**宇"},{id:42,date:"2025-10-06",name:"**远"},
+  {id:43,date:"2025-10-06",name:"**鸿"},
+  {id:1,date:"2025-09-06",name:"**卿"},{id:3,date:"2025-09-06",name:"**文"},
+  {id:4,date:"2025-09-06",name:"**文"},{id:5,date:"2025-09-06",name:"**显"},
+  {id:6,date:"2025-09-06",name:"**杰"},{id:7,date:"2025-09-06",name:"**城"},
+  {id:8,date:"2025-09-06",name:"**君"},{id:9,date:"2025-09-06",name:"**涛"},
+  {id:10,date:"2025-09-06",name:"**祥"},{id:11,date:"2025-09-06",name:"**晓"},
+  {id:12,date:"2025-09-06",name:"**晓"},{id:13,date:"2025-09-06",name:"**海"},
 ];
 
-// Precompute
-const dateLabels = {
-  "2025-09-06":"2025年9月6日","2025-10-06":"2025年10月6日","2025-10-07":"2025年10月7日",
-  "2025-11-09":"2025年11月9日","2025-11-10":"2025年11月10日","2025-11-25":"2025年11月25日",
-  "2025-12-13":"2025年12月13日","2026-01-31":"2026年1月31日","2026-02-13":"2026年2月13日",
-  "2026-02-14":"2026年2月14日","2026-02-15":"2026年2月15日","2026-03-28":"2026年3月28日"
+const DL={
+  "2026-03-28":"2026年3月28日","2026-02-15":"2026年2月15日",
+  "2026-02-14":"2026年2月14日","2026-02-13":"2026年2月13日",
+  "2026-01-31":"2026年1月31日","2025-12-13":"2025年12月13日",
+  "2025-11-25":"2025年11月25日","2025-11-10":"2025年11月10日",
+  "2025-11-09":"2025年11月9日","2025-10-07":"2025年10月7日",
+  "2025-10-06":"2025年10月6日","2025-09-06":"2025年9月6日",
 };
 
-function getAvatar(name, id) {
-  const cls = 'av' + (id % 8);
-  const ch = name.replace(/[*^~()（）？?!！.\s]/g,'').charAt(0) || '♥';
-  return `<div class="donor-avatar ${cls}">${ch}</div>`;
+// Theme
+function autoTheme(){const h=new Date().getHours();return(h>=7&&h<19)?'light':'dark';}
+let cTheme=autoTheme();
+function applyTheme(t){
+  cTheme=t;
+  document.documentElement.setAttribute('data-theme',t);
+  document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';
 }
+applyTheme(cTheme);
+document.getElementById('themeBtn').addEventListener('click',()=>applyTheme(cTheme==='dark'?'light':'dark'));
 
-function formatDate(d) { return dateLabels[d] || d; }
-
-let currentFilter = 'all';
-let searchQuery = '';
-
-function getFilteredData() {
-  let data = RAW;
-  if (currentFilter !== 'all') data = data.filter(d => d.date === currentFilter);
-  if (searchQuery) {
-    const q = searchQuery.toLowerCase();
-    data = data.filter(d => d.name.toLowerCase().includes(q) || d.date.includes(q));
-  }
-  return data;
+// State
+let fDate='all', fQ='';
+function getData(){
+  let d=RAW;
+  if(fDate!=='all') d=d.filter(x=>x.date===fDate);
+  if(fQ){const q=fQ.toLowerCase();d=d.filter(x=>x.name.toLowerCase().includes(q));}
+  return d;
 }
+function avCh(name){return name.replace(/[*^~()（）？?!！.\s,，。]/g,'').charAt(0)||'♥';}
 
-function render() {
-  const data = getFilteredData();
-  const timeline = document.getElementById('timeline');
-  const noResults = document.getElementById('noResults');
-  const countLine = document.getElementById('countLine');
-
-  countLine.innerHTML = `显示 <span>${data.length}</span> / ${RAW.length} 条记录`;
-
-  if (!data.length) {
-    timeline.innerHTML = '';
-    noResults.classList.add('show');
-    return;
-  }
-  noResults.classList.remove('show');
-
-  // Group by date
-  const groups = {};
-  data.forEach(d => {
-    if (!groups[d.date]) groups[d.date] = [];
-    groups[d.date].push(d);
-  });
-
-  const sortedDates = Object.keys(groups).sort();
-  let html = '';
-  sortedDates.forEach((date, gi) => {
-    const items = groups[date];
-    const delay = gi * 0.05;
-    html += `<div class="date-group reveal" style="animation-delay:${delay}s">
-      <div class="date-header">
-        <div class="date-dot"></div>
-        <span class="date-label">${formatDate(date)}</span>
-        <span class="date-count">${items.length} 人</span>
-      </div>
-      <div class="donor-grid">`;
-    items.forEach((d, i) => {
-      const cardDelay = (gi * 0.05 + i * 0.02).toFixed(2);
-      html += `<div class="donor-card" style="animation-delay:${cardDelay}s" title="编号 #${d.id}">
-        ${getAvatar(d.name, d.id)}
-        <div class="donor-name">${d.name}</div>
-        <div class="donor-num">#${String(d.id).padStart(3,'0')}</div>
-      </div>`;
+function render(){
+  const data=getData();
+  const tl=document.getElementById('timeline');
+  const nr=document.getElementById('noResults');
+  document.getElementById('countLine').innerHTML=`显示 <em>${data.length}</em> / ${RAW.length} 条记录`;
+  if(!data.length){tl.innerHTML='';nr.classList.add('show');return;}
+  nr.classList.remove('show');
+  const g={};
+  data.forEach(d=>{if(!g[d.date])g[d.date]=[];g[d.date].push(d);});
+  const dates=Object.keys(g).sort((a,b)=>b.localeCompare(a));
+  let html='';
+  dates.forEach((date,gi)=>{
+    const items=g[date];
+    html+=`<div class="date-group reveal"><div class="date-header"><div class="date-dot"></div><span class="date-label">${DL[date]||date}</span><span class="date-count">${items.length} 人</span></div><div class="donor-grid">`;
+    items.forEach((d,i)=>{
+      const delay=(gi*.04+i*.018).toFixed(2);
+      html+=`<div class="donor-card" style="animation-delay:${delay}s"><div class="donor-avatar av${d.id%8}">${avCh(d.name)}</div><div class="donor-name">${d.name}</div><div class="donor-num">#${String(d.id).padStart(3,'0')}</div></div>`;
     });
-    html += `</div></div>`;
+    html+=`</div></div>`;
   });
-
-  timeline.innerHTML = html;
-
-  // Reveal observer
-  const reveals = timeline.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
-  reveals.forEach(r => obs.observe(r));
+  tl.innerHTML=html;
+  const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');io.unobserve(x.target);}});},{threshold:.04,rootMargin:'0px 0px -24px 0px'});
+  tl.querySelectorAll('.reveal').forEach(r=>io.observe(r));
 }
 
-// Build filter buttons
-function buildFilters() {
-  const dates = [...new Set(RAW.map(d => d.date))].sort();
-  const container = document.getElementById('filterBtns');
-  let html = `<button class="filter-btn active" data-filter="all">全部</button>`;
-  dates.forEach(d => {
-    html += `<button class="filter-btn" data-filter="${d}">${formatDate(d).replace('年','·').replace('月','·').replace('日','')}</button>`;
+// Filters
+function buildFilters(){
+  const dates=[...new Set(RAW.map(d=>d.date))].sort((a,b)=>b.localeCompare(a));
+  const row=document.getElementById('filterRow');
+  let html=`<button class="filter-btn active" data-f="all">全部</button>`;
+  dates.forEach(d=>{
+    const lbl=(DL[d]||d).replace('年','·').replace('月','·').replace('日','');
+    html+=`<button class="filter-btn" data-f="${d}">${lbl}</button>`;
   });
-  container.innerHTML = html;
-  container.addEventListener('click', e => {
-    const btn = e.target.closest('.filter-btn');
-    if (!btn) return;
-    currentFilter = btn.dataset.filter;
-    container.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+  row.innerHTML=html;
+  row.addEventListener('click',e=>{
+    const btn=e.target.closest('.filter-btn');
+    if(!btn)return;
+    fDate=btn.dataset.f;
+    row.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b===btn));
     render();
-    window.scrollTo({ top: document.querySelector('.controls').offsetTop - 20, behavior: 'smooth' });
+    window.scrollTo({top:document.querySelector('.controls').offsetTop-60,behavior:'smooth'});
   });
 }
 
-// Stats counter animation
-function animateCount(el, target, duration=1400) {
-  let start = null;
-  function step(ts) {
-    if (!start) start = ts;
-    const prog = Math.min((ts - start) / duration, 1);
-    const ease = 1 - Math.pow(1 - prog, 3);
-    el.textContent = Math.round(ease * target);
-    if (prog < 1) requestAnimationFrame(step);
-  }
+document.getElementById('searchInput').addEventListener('input',e=>{fQ=e.target.value.trim();render();});
+
+// Counter
+function countUp(el,to,ms=1300){
+  let s=null;
+  const step=ts=>{
+    if(!s)s=ts;
+    const p=Math.min((ts-s)/ms,1);
+    const ease=1-Math.pow(1-p,3);
+    el.textContent=Math.round(ease*to);
+    if(p<1)requestAnimationFrame(step);else el.textContent=to;
+  };
   requestAnimationFrame(step);
 }
 
-// Search
-document.getElementById('searchInput').addEventListener('input', e => {
-  searchQuery = e.target.value.trim();
-  render();
-});
-
-// Init
 buildFilters();
 render();
-
-// Stats
-const uniqueNames = new Set(RAW.map(d => d.name)).size;
-const uniqueDates = new Set(RAW.map(d => d.date)).size;
-setTimeout(() => {
-  animateCount(document.getElementById('totalCount'), RAW.length, 1200);
-  animateCount(document.getElementById('dateCount'), uniqueDates, 1000);
-  animateCount(document.getElementById('uniqueCount'), uniqueNames, 1100);
-}, 300);
+const uNames=new Set(RAW.map(d=>d.name)).size;
+const uDates=new Set(RAW.map(d=>d.date)).size;
+setTimeout(()=>{
+  countUp(document.getElementById('sTotal'),RAW.length,1200);
+  countUp(document.getElementById('sDates'),uDates,1000);
+  countUp(document.getElementById('sUnique'),uNames,1100);
+},260);
 </script>
 </body>
 </html>
